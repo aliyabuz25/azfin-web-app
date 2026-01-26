@@ -202,13 +202,18 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const syncWithServer = async (updatedData: any) => {
         try {
-            await fetch('/api/data', {
+            const response = await fetch('/api/data', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedData)
             });
-        } catch (error) {
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Server xətası');
+            }
+        } catch (error: any) {
             console.error('Error syncing with server:', error);
+            alert('Məlumat yadda saxlanılmadı: ' + error.message);
         }
     };
 

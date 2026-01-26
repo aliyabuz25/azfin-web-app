@@ -40,9 +40,9 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addApplication(serviceType === 'audit' ? 'audit' : 'service', {
+    addApplication('service', {
       ...formData,
-      serviceTitle
+      serviceTitle: serviceType === 'audit' ? 'Audit Qiymət Təklifi' : serviceTitle
     });
     setSubmitted(true);
   };
