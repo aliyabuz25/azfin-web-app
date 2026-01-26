@@ -26,20 +26,28 @@ if (!fs.existsSync(uploadDir)) {
 app.use('/uploads', express.static(uploadDir));
 
 // Data Management Endpoints
-app.get('/api/data', (req, res) => {
-    if (fs.existsSync(DATA_FILE)) {
-        const data = fs.readFileSync(DATA_FILE, 'utf8');
-        res.json(JSON.parse(data));
-    } else {
-        res.json({});
+app.get('/api/data', async (req, res) => {
+    try {
+        if (fs.existsSync(DATA_FILE)) {
+            const data = await fs.promises.readFile(DATA_FILE, 'utf8');
+            res.json(JSON.parse(data));
+        } else {
+            console.log('Data file not found at:', DATA_FILE);
+            res.json({});
+        }
+    } catch (error) {
+        console.error('Error reading data file:', error);
+        res.status(500).json({ error: 'Server data error' });
     }
 });
 
-app.post('/api/data', (req, res) => {
+app.post('/api/data', async (req, res) => {
     try {
-        fs.writeFileSync(DATA_FILE, JSON.stringify(req.body, null, 2));
+        await fs.promises.writeFile(DATA_FILE, JSON.stringify(req.body, null, 2));
+        console.log('Data saved successfully to:', DATA_FILE);
         res.json({ success: true });
     } catch (error) {
+        console.error('Error writing data file:', error);
         res.status(500).json({ error: 'Fayl yazıla bilmədi' });
     }
 });

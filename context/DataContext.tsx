@@ -45,6 +45,7 @@ interface DataContextType {
 
     updateSiteSettings: (settings: SiteSettings) => void;
     updateAboutData: (data: AboutData) => void;
+    refreshData: () => Promise<void>;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -111,73 +112,79 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [applications, setApplications] = useState<Application[]>([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    useEffect(() => {
-        const fetchAllData = async () => {
-            try {
-                const response = await fetch('/api/data');
-                const serverData = await response.json();
+    const fetchAllData = async () => {
+        try {
+            const response = await fetch('/api/data');
+            const serverData = await response.json();
 
-                if (serverData.services) setServices(enrichServices(serverData.services));
-                else {
-                    const initialServices = SERVICES.map(s => ({ ...s, iconName: 'Briefcase' }));
-                    setServices(initialServices);
-                }
+            if (serverData.services) setServices(enrichServices(serverData.services));
+            else {
+                const initialServices = SERVICES.map(s => ({ ...s, iconName: 'Briefcase' }));
+                setServices(initialServices);
+            }
 
-                if (serverData.statistics) setStatistics(enrichStats(serverData.statistics));
-                else {
-                    const initialStats = STATISTICS.map(s => ({ ...s, iconName: 'Award' }));
-                    setStatistics(initialStats);
-                }
+            if (serverData.statistics) setStatistics(enrichStats(serverData.statistics));
+            else {
+                const initialStats = STATISTICS.map(s => ({ ...s, iconName: 'Award' }));
+                setStatistics(initialStats);
+            }
 
-                if (serverData.blogs) setBlogs(serverData.blogs);
-                else setBlogs(BLOG_POSTS);
+            if (serverData.blogs) setBlogs(serverData.blogs);
+            else setBlogs(BLOG_POSTS);
 
-                if (serverData.trainings) setTrainings(serverData.trainings);
-                else setTrainings(TRAININGS);
+            if (serverData.trainings) setTrainings(serverData.trainings);
+            else setTrainings(TRAININGS);
 
-                if (serverData.sectors) setSectors(serverData.sectors);
-                else {
-                    const initialSectors = [
-                        { id: '1', iconName: 'Building2', title: "Sənaye", description: "İstehsalat və ağır sənaye müəssisələri üçün maliyyə nəzarəti." },
-                        { id: '2', iconName: 'Users', title: "Xidmət", description: "Restoran, otel və digər xidmət sahələrinin uçotu." },
-                        { id: '3', iconName: 'TrendingUp', title: "Ticarət", description: "Pərakəndə və topdansatış dövriyyəsinin analizi." }
-                    ];
-                    setSectors(initialSectors);
-                }
+            if (serverData.sectors) setSectors(serverData.sectors);
+            else {
+                const initialSectors = [
+                    { id: '1', iconName: 'Building2', title: "Sənaye", description: "İstehsalat və ağır sənaye müəssisələri üçün maliyyə nəzarəti." },
+                    { id: '2', iconName: 'Users', title: "Xidmət", description: "Restoran, otel və digər xidmət sahələrinin uçotu." },
+                    { id: '3', iconName: 'TrendingUp', title: "Ticarət", description: "Pərakəndə və topdansatış dövriyyəsinin analizi." }
+                ];
+                setSectors(initialSectors);
+            }
 
-                if (serverData.processSteps) setProcessSteps(serverData.processSteps);
-                else {
-                    const initialProcess = [
-                        { id: '1', stepNumber: '01', iconName: 'Search', title: "Diaqnostika", description: "Biznesin cari vəziyyətinin dərindən analizi." },
-                        { id: '2', stepNumber: '02', iconName: 'Lightbulb', title: "Strategiya", description: "Mümkün risklərin və həll yollarının planlanması." },
-                        { id: '3', stepNumber: '03', iconName: 'Rocket', title: "İcraat", description: "Müasir texnoloji alətlərlə auditin həyata keçirilməsi." },
-                        { id: '4', stepNumber: '04', iconName: 'ShieldCheck', title: "Təsdiqləmə", description: "Yekun rəy və gələcək inkişaf tövsiyələri." }
-                    ];
-                    setProcessSteps(initialProcess);
-                }
+            if (serverData.processSteps) setProcessSteps(serverData.processSteps);
+            else {
+                const initialProcess = [
+                    { id: '1', stepNumber: '01', iconName: 'Search', title: "Diaqnostika", description: "Biznesin cari vəziyyətinin dərindən analizi." },
+                    { id: '2', stepNumber: '02', iconName: 'Lightbulb', title: "Strategiya", description: "Mümkün risklərin və həll yollarının planlanması." },
+                    { id: '3', stepNumber: '03', iconName: 'Rocket', title: "İcraat", description: "Müasir texnoloji alətlərlə auditin həyata keçirilməsi." },
+                    { id: '4', stepNumber: '04', iconName: 'ShieldCheck', title: "Təsdiqləmə", description: "Yekun rəy və gələcək inkişaf tövsiyələri." }
+                ];
+                setProcessSteps(initialProcess);
+            }
 
-                if (serverData.siteSettings) setSiteSettings(serverData.siteSettings);
-                else setSiteSettings(DEFAULT_SETTINGS);
+            if (serverData.siteSettings) setSiteSettings(serverData.siteSettings);
+            else setSiteSettings(DEFAULT_SETTINGS);
 
-                if (serverData.aboutData) setAboutData(serverData.aboutData);
-                else setAboutData(DEFAULT_ABOUT);
+            if (serverData.aboutData) setAboutData(serverData.aboutData);
+            else setAboutData(DEFAULT_ABOUT);
 
-                if (serverData.applications) setApplications(serverData.applications);
+            if (serverData.applications) setApplications(serverData.applications);
 
-                setIsLoaded(true);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                // Fallback to local constants if server is down initially
+            setIsLoaded(true);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            // Fallback to local constants if server is down initially
+            if (!isLoaded) {
                 setServices(enrichServices(SERVICES));
                 setStatistics(enrichStats(STATISTICS));
                 setBlogs(BLOG_POSTS);
                 setTrainings(TRAININGS);
                 setIsLoaded(true);
             }
-        };
+        }
+    };
 
+    useEffect(() => {
         fetchAllData();
     }, []);
+
+    const refreshData = async () => {
+        await fetchAllData();
+    };
 
     const enrichServices = (data: any[]): ServiceItem[] => {
         return data.map(item => ({
@@ -380,7 +387,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
             addProcessStep, updateProcessStep, deleteProcessStep,
             addStatistic, updateStatistic, deleteStatistic,
             applications, addApplication, deleteApplication, updateApplicationStatus,
-            updateSiteSettings, updateAboutData
+            updateSiteSettings, updateAboutData, refreshData
         }}>
             {children}
         </DataContext.Provider>

@@ -6,8 +6,15 @@ import { Trash2, CheckCircle, Clock, Mail, Phone, User, MessageSquare, Briefcase
 import { Application } from '../../types';
 
 const ApplicationsManager: React.FC = () => {
-    const { applications, deleteApplication, updateApplicationStatus } = useData();
+    const { applications, deleteApplication, updateApplicationStatus, refreshData } = useData();
     const [filter, setFilter] = useState<Application['type'] | 'all'>('all');
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
+    const handleRefresh = async () => {
+        setIsRefreshing(true);
+        await refreshData();
+        setTimeout(() => setIsRefreshing(false), 500);
+    };
 
     const filteredApps = filter === 'all'
         ? applications
@@ -40,7 +47,19 @@ const ApplicationsManager: React.FC = () => {
     };
 
     return (
-        <AdminLayout title="Müraciətlər">
+        <AdminLayout
+            title="Müraciətlər"
+            actions={
+                <button
+                    onClick={handleRefresh}
+                    disabled={isRefreshing}
+                    className="bg-white border border-slate-200 text-slate-600 px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 hover:bg-slate-50 transition-all disabled:opacity-50"
+                >
+                    <Clock className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+                    {isRefreshing ? 'Yenilənir...' : 'Yenilə'}
+                </button>
+            }
+        >
             <div className="space-y-8">
                 {/* Filters */}
                 <div className="flex flex-wrap gap-4">
