@@ -14,16 +14,22 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const scrollPos = window.scrollY;
+      // Add hysteresis to prevent flickering
+      if (scrollPos > 80) {
+        setIsScrolled(true);
+      } else if (scrollPos < 10) {
+        setIsScrolled(false);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <div className="flex flex-col w-full sticky top-0 z-50 transition-all duration-300">
+    <div className="flex flex-col w-full sticky top-0 z-50 shadow-sm">
       {/* Top Utility Bar */}
-      <div className={`bg-primary text-slate-300 px-4 sm:px-6 lg:px-8 hidden md:block border-b border-white/5 transition-all duration-300 overflow-hidden ${isScrolled ? 'h-0 py-0 opacity-0' : 'h-10 py-2 opacity-100'}`}>
+      <div className={`bg-primary text-slate-300 px-4 sm:px-6 lg:px-8 hidden md:block border-b border-white/5 transition-all duration-500 ease-in-out overflow-hidden ${isScrolled ? 'max-h-0 py-0 opacity-0' : 'max-h-10 py-2 opacity-100'}`}>
         <div className="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.15em]">
           <div className="flex gap-10">
             <div className="flex items-center gap-2">
@@ -45,7 +51,7 @@ const Navbar: React.FC = () => {
       </div>
 
       {/* Main Navigation Bar */}
-      <nav className={`bg-white border-b border-slate-100 transition-all duration-300 ${isScrolled ? 'h-16 md:h-20' : 'h-20 md:h-32'}`}>
+      <nav className={`bg-white border-b border-slate-100 transition-all duration-500 ease-in-out ${isScrolled ? 'py-2' : 'py-4 md:py-8'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
           <div className="flex justify-between items-center h-full">
             <Link to="/" className="flex items-center gap-3 flex-shrink-0">
@@ -117,7 +123,7 @@ const Navbar: React.FC = () => {
             <div className="flex items-center h-full">
               <Link
                 to={SETTINGS.navbarButtonLink}
-                className={`bg-accent text-white font-bold text-[11px] uppercase tracking-wider hover:bg-[#2d8c73] transition-all shadow-sm text-center flex items-center justify-center ${isScrolled ? 'px-6 py-2 rounded-sm h-10' : 'px-8 py-4 rounded-sm h-16'}`}
+                className={`bg-accent text-white font-bold text-[11px] uppercase tracking-wider hover:bg-[#2d8c73] transition-all shadow-sm text-center flex items-center justify-center ${isScrolled ? 'px-6 py-2.5 rounded-sm' : 'px-8 py-4 rounded-sm'}`}
               >
                 {SETTINGS.navbarButtonText}
               </Link>
