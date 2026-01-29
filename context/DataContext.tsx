@@ -80,7 +80,57 @@ const DEFAULT_SETTINGS: SiteSettings = {
     homeProcessSubtitle: 'Hər bir layihəyə elmi əsaslarla və beynəlxalq audit metodologiyası ilə yanaşırıq.',
     homeClientsTitle: 'BİZƏ GÜVƏNƏN MÜŞTƏRİLƏRİMİZ',
     contactTitle: 'Bizimlə Əlaqə',
-    contactSubtitle: 'Suallarınız var? Bizə yazın və peşəkar komandamız sizə ən qısa zamanda cavab versin.'
+    contactSubtitle: 'Suallarınız var? Bizə yazın və peşəkar komandamız sizə ən qısa zamanda cavab versin.',
+    uiAbout: 'Haqqımızda',
+    uiServices: 'Xidmətlər',
+    uiAcademy: 'Akademiya',
+    uiBlog: 'Bloq və Xəbərlər',
+    uiContact: 'Əlaqə',
+    uiAuditTV: 'AuditTV',
+    uiHome: 'Ana Səhifə',
+    uiNavigation: 'Naviqasiya',
+    uiReadMore: 'Ətraflı',
+    uiGetOffer: 'Təklif Alın',
+    uiAllTrainings: 'Bütün Təlimlər',
+    uiCopyright: 'Bütün hüquqlar qorunur',
+    uiSocialMedia: 'Sosial Media',
+    uiOurExperience: 'Təcrübəmiz',
+    uiCompetentService: 'Səriştəli Xidmət',
+    uiSuccessAudit: 'Uğurlu Audit',
+    uiCorporateClient: 'Korporativ Müştəri',
+    uiYearsExperience: 'İllik Təcrübə',
+    uiProfessionalExpert: 'Peşəkar Ekspert',
+    uiOurMission: 'Missiyamız',
+    uiServiceAreas: 'Xidmət Sahələrimiz',
+    uiTeam: 'Əməkdaşlar',
+    uiTestimonials: 'Müştəri rəyləri',
+    uiJoinTeam: 'Peşəkar komandamıza qoşulun',
+    uiKaryeraText: 'Karyeranızı Azfin ilə birlikdə inkişaf etdirin',
+    uiViewVacancies: 'Vakansiyalara Bax',
+    uiTrustText: 'Sizin güvəniniz, bizim uğurumuzdur',
+    uiClientTrustSub: 'Bizimlə əməkdaşlıq edən 300-dən çox korporativ müştəri sırasına siz də qoşulun.',
+    uiServiceCatalogue: 'Xidmət Kataloqumuz',
+    uiServiceHeader1: 'Biznesiniz üçün',
+    uiServiceHeader2: 'İxtisaslaşmış Həllər',
+    uiServiceSub: 'Azfin Consulting hər bir müəssisəyə fərdi yanaşaraq, maliyyə dayanıqlığını təmin edən dəqiq strategiyalar hazırlayır.',
+    uiAcademyHeader1: 'Bilik və',
+    uiAcademyHeader2: 'Karyera Mərkəzi',
+    uiAcademySub: 'Peşəkar inkişafınız üçün maliyyə və mühasibatlıq sahəsində ən son yenilikləri öyrənin.',
+    uiBlogHeader1: 'Bloq və',
+    uiBlogHeader2: 'Xəbərlər',
+    uiBlogSub: 'Maliyyə və vergi dünyasındakı mühüm yeniliklərdən anında xəbərdar olun.',
+    uiFullName: 'Ad Soyad',
+    uiPhone: 'Telefon',
+    uiEmail: 'Email',
+    uiActivityType: 'Fəaliyyət növü',
+    uiTaxType: 'Vergi növü',
+    uiCustomerStatus: 'Müştəri statusu',
+    uiSubmit: 'Sorğunu Göndər',
+    uiApply: 'Müraciət Et',
+    uiSelect: 'Seçin',
+    uiThanks: 'Təşəkkür edirik!',
+    uiContactSoon: 'Ən qısa zamanda sizinlə əlaqə saxlanılacaq.',
+    uiClose: 'Tamam'
 };
 
 const DEFAULT_ABOUT: AboutData = {
@@ -156,8 +206,11 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setProcessSteps(initialProcess);
             }
 
-            if (serverData.siteSettings) setSiteSettings(serverData.siteSettings);
-            else setSiteSettings(DEFAULT_SETTINGS);
+            if (serverData.siteSettings) {
+                setSiteSettings({ ...DEFAULT_SETTINGS, ...serverData.siteSettings });
+            } else {
+                setSiteSettings(DEFAULT_SETTINGS);
+            }
 
             if (serverData.aboutData) setAboutData(serverData.aboutData);
             else setAboutData(DEFAULT_ABOUT);

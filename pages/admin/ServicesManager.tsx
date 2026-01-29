@@ -88,35 +88,55 @@ const ServicesManager: React.FC = () => {
         <AdminLayout
             title="Xidmətlər"
             actions={
-                <button onClick={handleAddNew} className="bg-accent hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 transition-all shadow-lg shadow-accent/20">
-                    <Plus className="h-4 w-4" /> Yeni Xidmət
+                <button onClick={handleAddNew} className="btn btn-primary btn-sm">
+                    <i className="fas fa-plus mr-1"></i> Yeni Xidmət
                 </button>
             }
         >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {services.map((service) => {
-                    const Icon = service.icon;
-                    return (
-                        <div key={service.id} className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all flex flex-col h-full group">
-                            <div className="flex items-start justify-between mb-4">
-                                <div className="p-3 bg-slate-50 rounded-lg text-accent group-hover:bg-accent group-hover:text-white transition-colors">
-                                    <Icon className="h-6 w-6" />
-                                </div>
-                                <div className="flex gap-2">
-                                    <button onClick={() => handleEdit(service)} className="p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-all">
-                                        <Edit2 className="h-4 w-4" />
-                                    </button>
-                                    <button onClick={() => handleDelete(service.id)} className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all">
-                                        <Trash2 className="h-4 w-4" />
-                                    </button>
-                                </div>
-                            </div>
-                            <h3 className="text-lg font-bold text-slate-800 mb-2">{service.title}</h3>
-                            <p className="text-slate-500 text-sm line-clamp-3 mb-4 flex-grow">{service.description}</p>
-                            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">{service.benefits?.length || 0} Üstünlük</div>
-                        </div>
-                    );
-                })}
+            <div className="card">
+                <div className="card-header">
+                    <h3 className="card-title">Xidmətlər Siyahısı</h3>
+                </div>
+                <div className="card-body table-responsive p-0">
+                    <table className="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Ad</th>
+                                <th>Təsvir</th>
+                                <th>Üstünlüklər</th>
+                                <th style={{ width: '150px' }}>Əməliyyatlar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {services.map((service) => (
+                                <tr key={service.id}>
+                                    <td>
+                                        <div className="d-flex align-items-center">
+                                            <i className={`fas fa-${service.iconName || 'shield-alt'} mr-2 text-primary`}></i>
+                                            <span className="font-weight-bold">{service.title}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                            {service.description}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span className="badge badge-info">{service.benefits?.length || 0} Üstünlük</span>
+                                    </td>
+                                    <td>
+                                        <button onClick={() => handleEdit(service)} className="btn btn-sm btn-info mr-1">
+                                            <i className="fas fa-edit"></i>
+                                        </button>
+                                        <button onClick={() => handleDelete(service.id)} className="btn btn-sm btn-danger">
+                                            <i className="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {isModalOpen && (

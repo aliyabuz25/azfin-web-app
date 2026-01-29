@@ -1,190 +1,148 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../components/admin/Layout';
-import { useData } from '../../context/DataContext';
-import { Trash2, CheckCircle, Clock, Mail, Phone, User, MessageSquare, Briefcase, GraduationCap } from 'lucide-react';
-import { Application } from '../../types';
+
+interface FormRequest {
+    id: string;
+    date: string;
+    status: 'pending' | 'read' | 'contacted';
+    name: string;
+    email: string;
+    phone?: string;
+    subject?: string;
+    message: string;
+    type?: string;
+}
 
 const ApplicationsManager: React.FC = () => {
-    const { applications, deleteApplication, updateApplicationStatus, refreshData } = useData();
-    const [filter, setFilter] = useState<Application['type'] | 'all'>('all');
-    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [requests, setRequests] = useState<FormRequest[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const handleRefresh = async () => {
-        setIsRefreshing(true);
-        await refreshData();
-        setTimeout(() => setIsRefreshing(false), 500);
-    };
+    useEffect(() => {
+        fetchRequests();
+    }, []);
 
-    const filteredApps = filter === 'all'
-        ? applications
-        : applications.filter(app => app.type === filter);
-
-    const getIcon = (type: Application['type']) => {
-        switch (type) {
-            case 'service': return Briefcase;
-            case 'academy': return GraduationCap;
-            case 'contact': return MessageSquare;
-            default: return Mail;
+    const fetchRequests = async () => {
+        try {
+            const response = await fetch('/api/requests');
+            const data = await response.json();
+            setRequests(data);
+        } catch (error) {
+            console.error('Error fetching requests:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
-    const getTypeLabel = (type: Application['type']) => {
-        switch (type) {
-            case 'service': return 'Xidmət Təklifi';
-            case 'academy': return 'Akademiya Müraciəti';
-            case 'contact': return 'Əlaqə Formu';
-            default: return 'Müraciət';
+    const deleteRequest = async (id: string) => {
+        if (!window.confirm('Bu müraciəti silmək istədiyinizə əminsiniz?')) return;
+        try {
+            await fetch(`/api/requests/${id}`, { method: 'DELETE' });
+            setRequests(requests.filter(r => r.id !== id));
+        } catch (error) {
+            console.error('Error deleting request:', error);
         }
     };
 
-    const getStatusBadge = (status: Application['status']) => {
+    const updateStatus = async (id: string, status: string) => {
+        try {
+            await fetch(`/api/requests/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            });
+            setRequests(requests.map(r => r.id === id ? { ...r, status: status as any } : r));
+        } catch (error) {
+            console.error('Error updating status:', error);
+        }
+    };
+
+    const getStatusBadge = (status: string) => {
         switch (status) {
-            case 'new': return <span className="bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">Yeni</span>;
-            case 'read': return <span className="bg-amber-100 text-amber-600 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">Oxundu</span>;
-            case 'contacted': return <span className="bg-emerald-100 text-emerald-600 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">Əlaqə Saxlanıldı</span>;
+            case 'pending': return <span className="badge badge-warning">Gözləyir</span>;
+            case 'read': return <span className="badge badge-info">Oxunub</span>;
+            case 'contacted': return <span className="badge badge-success">Əlaqə saxlanılıb</span>;
+            default: return <span className="badge badge-secondary">{status}</span>;
         }
     };
 
     return (
-        <AdminLayout
-            title="Müraciətlər"
-            actions={
-                <button
-                    onClick={handleRefresh}
-                    disabled={isRefreshing}
-                    className="bg-white border border-slate-200 text-slate-600 px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 hover:bg-slate-50 transition-all disabled:opacity-50"
-                >
-                    <Clock className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-                    {isRefreshing ? 'Yenilənir...' : 'Yenilə'}
-                </button>
-            }
-        >
-            <div className="space-y-8">
-                {/* Filters */}
-                <div className="flex flex-wrap gap-4">
-                    <button
-                        onClick={() => setFilter('all')}
-                        className={`px-6 py-2.5 rounded-lg font-bold text-xs transition-all ${filter === 'all' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-100'}`}
-                    >
-                        Hamısı ({applications.length})
-                    </button>
-                    {(['service', 'academy', 'contact'] as const).map(type => (
-                        <button
-                            key={type}
-                            onClick={() => setFilter(type)}
-                            className={`px-6 py-2.5 rounded-lg font-bold text-xs transition-all ${filter === type ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-white text-slate-500 hover:bg-slate-50 border border-slate-100'}`}
-                        >
-                            {getTypeLabel(type)} ({applications.filter(a => a.type === type).length})
+        <AdminLayout title="Müraciətlər">
+            <div className="card">
+                <div className="card-header">
+                    <h3 className="card-title">Müraciətlər Siyahısı (request.json)</h3>
+                    <div className="card-tools">
+                        <button className="btn btn-tool" onClick={fetchRequests}>
+                            <i className="fas fa-sync-alt"></i>
                         </button>
-                    ))}
+                    </div>
                 </div>
-
-                {/* List */}
-                <div className="grid grid-cols-1 gap-6">
-                    {filteredApps.length === 0 ? (
-                        <div className="bg-white p-20 text-center rounded-2xl border border-slate-100">
-                            <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <Mail className="h-10 w-10 text-slate-300" />
-                            </div>
-                            <h3 className="text-xl font-black text-slate-800 uppercase italic">Müraciət tapılmadı</h3>
-                            <p className="text-slate-400 font-medium">Bu kateqoriyada hələ ki heç bir müraciət yoxdur.</p>
-                        </div>
-                    ) : (
-                        filteredApps.map((app) => {
-                            const Icon = getIcon(app.type);
-                            return (
-                                <div key={app.id} className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row md:items-center gap-8 group">
-                                    <div className={`w-16 h-16 rounded-xl flex items-center justify-center shrink-0 shadow-lg ${app.type === 'service' ? 'bg-blue-50 text-blue-500' :
-                                        app.type === 'academy' ? 'bg-purple-50 text-purple-500' :
-                                            'bg-emerald-50 text-emerald-500'
-                                        }`}>
-                                        <Icon className="h-8 w-8" />
-                                    </div>
-
-                                    <div className="flex-1 space-y-4">
-                                        <div className="flex items-center gap-3">
-                                            <h3 className="text-lg font-black text-slate-800 lowercase tracking-tight">
-                                                {app.data.name || app.data.fullName || 'Adsız Müraciət'}
-                                            </h3>
-                                            {getStatusBadge(app.status)}
-                                        </div>
-
-                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-8">
-                                            {app.data.email && (
-                                                <div className="flex items-center gap-2 text-slate-500 text-sm font-medium">
-                                                    <Mail className="h-4 w-4 text-slate-400" /> {app.data.email}
-                                                </div>
-                                            )}
-                                            {app.data.phone && (
-                                                <div className="flex items-center gap-2 text-slate-500 text-sm font-medium">
-                                                    <Phone className="h-4 w-4 text-slate-400" /> {app.data.phone}
-                                                </div>
-                                            )}
-                                            <div className="flex items-center gap-2 text-slate-500 text-sm font-medium">
-                                                <Clock className="h-4 w-4 text-slate-400" /> {app.date}
-                                            </div>
-                                        </div>
-
-                                        {app.data.message && (
-                                            <p className="text-slate-600 text-sm bg-slate-50 p-4 rounded-lg italic border-l-4 border-slate-200">
-                                                "{app.data.message}"
-                                            </p>
-                                        )}
-
-                                        {/* Dynamic data display for all types */}
-                                        <div className="flex flex-wrap gap-x-6 gap-y-2 pt-2">
-                                            {Object.entries(app.data).map(([key, value]) => {
-                                                // Skip standard fields already shown above
-                                                if (['name', 'fullName', 'email', 'phone', 'message'].includes(key)) return null;
-                                                if (!value) return null;
-
-                                                const labelMap: Record<string, string> = {
-                                                    activity: 'Fəaliyyət',
-                                                    taxType: 'Vergi növü',
-                                                    status: 'Müştəri statusu',
-                                                    subject: 'Mövzu',
-                                                    trainingTitle: 'Təlim',
-                                                    serviceTitle: 'Xidmət',
-                                                    note: 'Qeyd'
-                                                };
-
-                                                return (
-                                                    <div key={key} className="flex items-center gap-2">
-                                                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{labelMap[key] || key}:</span>
-                                                        <span className="text-xs font-bold text-primary italic uppercase">{String(value)}</span>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-
-                                    <div className="flex md:flex-col gap-2 shrink-0">
-                                        {app.status !== 'contacted' && (
+                <div className="card-body table-responsive p-0">
+                    <table className="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Tarix</th>
+                                <th>Ad Soyad</th>
+                                <th>Mövzu / Növ</th>
+                                <th>Status</th>
+                                <th>Əməliyyatlar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {loading ? (
+                                <tr><td colSpan={5} className="text-center p-4">Yüklənir...</td></tr>
+                            ) : requests.length === 0 ? (
+                                <tr><td colSpan={5} className="text-center p-4">Müraciət tapılmadı</td></tr>
+                            ) : requests.map((req) => (
+                                <React.Fragment key={req.id}>
+                                    <tr>
+                                        <td>{new Date(req.date).toLocaleString('az-AZ')}</td>
+                                        <td>
+                                            <div className="font-weight-bold">{req.name}</div>
+                                            <div className="text-xs text-muted">{req.email}</div>
+                                        </td>
+                                        <td>
+                                            <span className="text-sm">{req.subject || 'Mövzu yoxdur'}</span>
+                                            {req.type && <span className="badge badge-light ml-2">{req.type}</span>}
+                                        </td>
+                                        <td>{getStatusBadge(req.status)}</td>
+                                        <td>
                                             <button
-                                                onClick={() => updateApplicationStatus(app.id, 'contacted')}
-                                                className="flex-1 md:flex-none p-3 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-xl transition-all"
-                                                title="Əlaqə saxlanıldı olaraq qeyd et"
+                                                className="btn btn-sm btn-info mr-1"
+                                                data-toggle="collapse"
+                                                data-target={`#req-${req.id}`}
+                                                title="Detallar"
+                                                onClick={() => req.status === 'pending' && updateStatus(req.id, 'read')}
                                             >
-                                                <CheckCircle className="h-5 w-5 mx-auto" />
+                                                <i className="fas fa-eye"></i>
                                             </button>
-                                        )}
-                                        <button
-                                            onClick={() => {
-                                                if (window.confirm('Bu müraciəti silmək istədiyinizə əminsiniz?')) {
-                                                    deleteApplication(app.id);
-                                                }
-                                            }}
-                                            className="flex-1 md:flex-none p-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition-all"
-                                            title="Sil"
-                                        >
-                                            <Trash2 className="h-5 w-5 mx-auto" />
-                                        </button>
-                                    </div>
-                                </div>
-                            );
-                        })
-                    )}
+                                            <button className="btn btn-sm btn-danger" onClick={() => deleteRequest(req.id)} title="Sil">
+                                                <i className="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr id={`req-${req.id}`} className="collapse bg-light">
+                                        <td colSpan={5}>
+                                            <div className="p-3">
+                                                <p><strong>Telefon:</strong> {req.phone || 'Göstərilməyib'}</p>
+                                                <p><strong>Mesaj:</strong></p>
+                                                <div className="bg-white p-3 border rounded shadow-sm mb-3">
+                                                    {req.message}
+                                                </div>
+                                                <div>
+                                                    <button
+                                                        className="btn btn-success btn-sm"
+                                                        onClick={() => updateStatus(req.id, 'contacted')}
+                                                    >
+                                                        <i className="fas fa-check mr-1"></i> Əlaqə saxlanıldı olaraq qeyd et
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </React.Fragment>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </AdminLayout>

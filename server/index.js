@@ -25,6 +25,72 @@ if (!fs.existsSync(uploadDir)) {
 // Serve uploaded files statically
 app.use('/uploads', express.static(uploadDir));
 
+const REQUESTS_FILE = path.join(__dirname, '../requests.json');
+
+// Ensure requests file exists
+if (!fs.existsSync(REQUESTS_FILE)) {
+    fs.writeFileSync(REQUESTS_FILE, JSON.stringify([], null, 2));
+}
+
+// Request Management Endpoints
+app.get('/api/requests', async (req, res) => {
+    try {
+        const data = await fs.promises.readFile(REQUESTS_FILE, 'utf8');
+        res.json(JSON.parse(data));
+    } catch (error) {
+        console.error('Error reading requests file:', error);
+        res.status(500).json({ error: 'Requests error' });
+    }
+});
+
+app.post('/api/requests', async (req, res) => {
+    try {
+        const data = await fs.promises.readFile(REQUESTS_FILE, 'utf8');
+        const requests = JSON.parse(data);
+        const newRequest = {
+            id: Date.now().toString(),
+            date: new Date().toISOString(),
+            status: 'pending',
+            ...req.body
+        };
+        requests.unshift(newRequest);
+        await fs.promises.writeFile(REQUESTS_FILE, JSON.stringify(requests, null, 2));
+        res.json({ success: true, request: newRequest });
+    } catch (error) {
+        console.error('Error writing requests file:', error);
+        res.status(500).json({ error: 'Fayl yazıla bilmədi' });
+    }
+});
+
+app.put('/api/requests/:id', async (req, res) => {
+    try {
+        const data = await fs.promises.readFile(REQUESTS_FILE, 'utf8');
+        let requests = JSON.parse(data);
+        const index = requests.findIndex(r => r.id === req.params.id);
+        if (index !== -1) {
+            requests[index] = { ...requests[index], ...req.body };
+            await fs.promises.writeFile(REQUESTS_FILE, JSON.stringify(requests, null, 2));
+            res.json({ success: true });
+        } else {
+            res.status(404).json({ error: 'Not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.delete('/api/requests/:id', async (req, res) => {
+    try {
+        const data = await fs.promises.readFile(REQUESTS_FILE, 'utf8');
+        let requests = JSON.parse(data);
+        requests = requests.filter(r => r.id !== req.params.id);
+        await fs.promises.writeFile(REQUESTS_FILE, JSON.stringify(requests, null, 2));
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // Data Management Endpoints
 app.get('/api/data', async (req, res) => {
     try {

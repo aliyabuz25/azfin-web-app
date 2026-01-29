@@ -12,11 +12,24 @@ const Contact: React.FC = () => {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    addApplication('contact', formData);
-    setSubmitted(true);
-    setFormData({ name: '', email: '', subject: 'Maliyyə Auditi', message: '' });
+    try {
+      const response = await fetch('/api/requests', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({ name: '', email: '', subject: 'Maliyyə Auditi', message: '' });
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+    }
   };
 
   const contactInfo = [

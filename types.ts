@@ -92,6 +92,57 @@ export interface SiteSettings {
   homeClientsTitle: string;
   contactTitle: string;
   contactSubtitle: string;
+  // UI Labels
+  uiAbout: string;
+  uiServices: string;
+  uiAcademy: string;
+  uiBlog: string;
+  uiContact: string;
+  uiAuditTV: string;
+  uiHome: string;
+  uiNavigation: string;
+  uiReadMore: string;
+  uiGetOffer: string;
+  uiAllTrainings: string;
+  uiCopyright: string;
+  uiSocialMedia: string;
+  uiOurExperience: string;
+  uiCompetentService: string;
+  uiSuccessAudit: string;
+  uiCorporateClient: string;
+  uiYearsExperience: string;
+  uiProfessionalExpert: string;
+  uiOurMission: string;
+  uiServiceAreas: string;
+  uiTeam: string;
+  uiTestimonials: string;
+  uiJoinTeam: string;
+  uiKaryeraText: string;
+  uiViewVacancies: string;
+  uiTrustText: string;
+  uiClientTrustSub: string;
+  uiServiceCatalogue: string;
+  uiServiceHeader1: string;
+  uiServiceHeader2: string;
+  uiServiceSub: string;
+  uiAcademyHeader1: string;
+  uiAcademyHeader2: string;
+  uiAcademySub: string;
+  uiBlogHeader1: string;
+  uiBlogHeader2: string;
+  uiBlogSub: string;
+  uiFullName: string;
+  uiPhone: string;
+  uiEmail: string;
+  uiActivityType: string;
+  uiTaxType: string;
+  uiCustomerStatus: string;
+  uiSubmit: string;
+  uiApply: string;
+  uiSelect: string;
+  uiThanks: string;
+  uiContactSoon: string;
+  uiClose: string;
 }
 
 export interface SectorItem {

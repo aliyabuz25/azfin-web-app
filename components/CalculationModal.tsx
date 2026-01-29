@@ -11,7 +11,7 @@ interface CalculationModalProps {
 }
 
 const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, serviceType, serviceTitle }) => {
-  const { addApplication } = useData();
+  const { addApplication, siteSettings: SETTINGS } = useData();
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     activity: '',
@@ -67,9 +67,9 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
                 <div className="w-14 h-14 bg-accent text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                   <CheckCircle2 className="h-7 w-7" />
                 </div>
-                <h4 className="text-primary font-extrabold text-sm uppercase tracking-[0.2em] mb-3 italic">Təşəkkür edirik!</h4>
-                <p className="text-slate-500 font-bold text-[10px] leading-relaxed mb-10 uppercase tracking-widest">Ən qısa zamanda sizinlə əlaqə saxlanılacaq.</p>
-                <button onClick={onClose} className="bg-primary text-white px-10 py-3 rounded-full font-bold text-[9px] uppercase tracking-[0.3em] hover:bg-primary-medium transition-all shadow-md">Tamam</button>
+                <h4 className="text-primary font-extrabold text-sm uppercase tracking-[0.2em] mb-3 italic">{SETTINGS.uiThanks}</h4>
+                <p className="text-slate-500 font-bold text-[10px] leading-relaxed mb-10 uppercase tracking-widest">{SETTINGS.uiContactSoon}</p>
+                <button onClick={onClose} className="bg-primary text-white px-10 py-3 rounded-full font-bold text-[9px] uppercase tracking-[0.3em] hover:bg-primary-medium transition-all shadow-md">{SETTINGS.uiClose}</button>
               </div>
             </div>
           ) : (
@@ -77,7 +77,7 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Fəaliyyət növü *</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{SETTINGS.uiActivityType} *</label>
                     <div className="relative">
                       <select
                         required
@@ -85,7 +85,7 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
                         onChange={(e) => setFormData({ ...formData, activity: e.target.value })}
                         className="w-full bg-slate-50 border border-slate-200 p-4 appearance-none focus:outline-none focus:border-accent font-bold text-xs rounded-sm"
                       >
-                        <option value="">Seçin</option>
+                        <option value="">{SETTINGS.uiSelect}</option>
                         <option value="Ticarət">Ticarət</option>
                         <option value="İstehsal">İstehsal</option>
                         <option value="İaşə">İaşə</option>
@@ -98,7 +98,7 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
                   {serviceType === 'audit' && (
                     <>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Vergi növü *</label>
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{SETTINGS.uiTaxType} *</label>
                         <div className="relative">
                           <select
                             required
@@ -106,7 +106,7 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
                             onChange={(e) => setFormData({ ...formData, taxType: e.target.value })}
                             className="w-full bg-slate-50 border border-slate-200 p-4 appearance-none focus:outline-none focus:border-accent font-bold text-xs rounded-sm"
                           >
-                            <option value="">Seçin</option>
+                            <option value="">{SETTINGS.uiSelect}</option>
                             <option value="ƏDV">ƏDV Ödəyicisi</option>
                             <option value="Mənfəət">Mənfəət/Gəlir Vergisi</option>
                             <option value="Sadələşdirilmiş">Sadələşdirilmiş Vergi</option>
@@ -115,7 +115,7 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Müştəri statusu *</label>
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{SETTINGS.uiCustomerStatus} *</label>
                         <div className="relative">
                           <select
                             required
@@ -123,7 +123,7 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
                             onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                             className="w-full bg-slate-50 border border-slate-200 p-4 appearance-none focus:outline-none focus:border-accent font-bold text-xs rounded-sm"
                           >
-                            <option value="">Seçin</option>
+                            <option value="">{SETTINGS.uiSelect}</option>
                             <option value="Hüquqi">Hüquqi Şəxs</option>
                             <option value="Fiziki">Fiziki Şəxs (Sahibkar)</option>
                           </select>
@@ -134,7 +134,7 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
                   )}
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Ad Soyad *</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{SETTINGS.uiFullName} *</label>
                     <input
                       required
                       type="text"
@@ -145,7 +145,7 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Telefon *</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{SETTINGS.uiPhone} *</label>
                     <input
                       required
                       type="tel"
@@ -156,7 +156,7 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Email *</label>
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{SETTINGS.uiEmail} *</label>
                     <input
                       required
                       type="email"
@@ -169,15 +169,15 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
                 </div>
                 <div className="pt-4">
                   <button type="submit" className="w-full bg-accent text-white py-5 rounded-sm font-black text-[11px] uppercase tracking-[0.2em] hover:bg-primary-medium transition-all shadow-xl flex items-center justify-center gap-3">
-                    Sorğunu Göndər <Send className="h-4 w-4" />
+                    {SETTINGS.uiSubmit} <Send className="h-4 w-4" />
                   </button>
                 </div>
-              </form>
-            </div>
+              </form >
+            </div >
           )}
-        </div>
-      </div>
-    </div>
+        </div >
+      </div >
+    </div >
   );
 };
 

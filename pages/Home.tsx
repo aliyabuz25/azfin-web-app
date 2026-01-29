@@ -74,7 +74,7 @@ const Home: React.FC = () => {
                   {SETTINGS.heroButtonText} <ArrowRight className="h-4 w-4" />
                 </Link>
                 <button onClick={() => setIsModalOpen(true)} className="bg-white border border-slate-200 text-primary px-10 py-5 rounded-sm font-black text-[11px] uppercase tracking-[0.2em] hover:bg-slate-50 transition-all shadow-sm">
-                  Təklif Alın
+                  {SETTINGS.uiGetOffer}
                 </button>
               </div>
             </div>
@@ -89,10 +89,10 @@ const Home: React.FC = () => {
                   <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center shadow-lg shadow-accent/20">
                     <Award className="h-6 w-6 text-white" />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Təcrübəmiz</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{SETTINGS.uiOurExperience}</span>
                 </div>
                 <div className="text-3xl font-black text-primary tracking-tighter italic uppercase">15+ İl</div>
-                <div className="text-[10px] text-slate-500 font-bold mt-2 uppercase tracking-widest">Səriştəli Xidmət</div>
+                <div className="text-[10px] text-slate-500 font-bold mt-2 uppercase tracking-widest">{SETTINGS.uiCompetentService}</div>
               </div>
             </div>
           </div>
@@ -142,7 +142,7 @@ const Home: React.FC = () => {
                   </div>
                   <div className="mt-10 flex items-center justify-between w-full">
                     <div className="flex items-center gap-3 text-primary font-black text-[10px] uppercase tracking-[0.2em] group-hover:gap-5 transition-all">
-                      Ətraflı <ChevronRight className="h-3 w-3 text-accent" />
+                      {SETTINGS.uiReadMore} <ChevronRight className="h-3 w-3 text-accent" />
                     </div>
                     <button
                       onClick={(e) => {
@@ -152,7 +152,7 @@ const Home: React.FC = () => {
                       }}
                       className="bg-accent text-white px-4 py-2 rounded-sm font-black text-[9px] uppercase tracking-widest hover:bg-primary-medium transition-all shadow-sm"
                     >
-                      Təklif Alın
+                      {SETTINGS.uiGetOffer}
                     </button>
                   </div>
                 </Link>

@@ -6,7 +6,7 @@ import { useData } from '../context/DataContext';
 import ApplicationModal from '../components/ApplicationModal';
 
 const Academy: React.FC = () => {
-  const { trainings: TRAININGS } = useData();
+  const { trainings: TRAININGS, siteSettings: SETTINGS } = useData();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTraining, setSelectedTraining] = useState('');
   const navigate = useNavigate();
@@ -40,11 +40,11 @@ const Academy: React.FC = () => {
                 Azfin Akademiya
               </div>
               <h1 className="text-4xl md:text-5xl font-black text-primary tracking-tight leading-tight uppercase italic">
-                Peşəkar <span className="text-accent">Təlimlər</span>
+                {SETTINGS.uiAcademyHeader1} <span className="text-accent">{SETTINGS.uiAcademyHeader2}</span>
               </h1>
             </div>
             <p className="text-slate-500 font-bold text-xs max-w-xs border-l-2 border-accent pl-6 pb-2 uppercase tracking-widest leading-relaxed">
-              Maliyyə və vergi sahəsində karyeranızı beynəlxalq standartlarla inkişaf etdirin.
+              {SETTINGS.uiAcademySub}
             </p>
           </div>
         </div>

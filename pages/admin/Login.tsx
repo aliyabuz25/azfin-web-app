@@ -47,69 +47,75 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
-                <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-accent to-emerald-400"></div>
-
-                <div className="p-8 pt-12 text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/10 mb-6">
-                        <ShieldCheck className="h-8 w-8 text-accent" />
-                    </div>
-                    <h1 className="text-2xl font-black text-slate-800 tracking-tight mb-2">
-                        {hasAdmin ? 'Admin Paneli Giriş' : 'Admin Hesabı Yarat'}
-                    </h1>
-                    <p className="text-slate-500 text-sm font-medium">
-                        {hasAdmin ? 'Davam etmək üçün hesabınıza daxil olun' : 'Sistemi idarə etmək üçün ilk admin hesabını yaradın'}
-                    </p>
+        <div className="hold-transition login-page bg-dark">
+            <div className="login-box">
+                <div className="login-logo">
+                    <a href="/" className="text-white"><b>Azfin</b>Consulting</a>
                 </div>
-
-                <form onSubmit={handleSubmit} className="p-8 pt-0 space-y-5">
-                    {error && (
-                        <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm font-medium border border-red-100 flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-red-600"></div>
-                            {error}
-                        </div>
-                    )}
-
-                    <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">İstifadəçi Adı</label>
-                        <div className="relative">
-                            <User className="absolute left-3.5 top-3.5 h-5 w-5 text-slate-400" />
-                            <input
-                                type="text"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent font-medium text-slate-800 transition-all"
-                                placeholder="Admin istifadəçi adı"
-                            />
-                        </div>
+                <div className="card card-outline card-primary shadow-lg">
+                    <div className="card-header text-center">
+                        <h1 className="h4 font-weight-bold text-dark">
+                            {hasAdmin ? 'Admin Paneli Giriş' : 'Admin Hesabı Yarat'}
+                        </h1>
                     </div>
+                    <div className="card-body">
+                        <p className="login-box-msg text-dark">
+                            {hasAdmin ? 'Davam etmək üçün hesabınıza daxil olun' : 'Sistemi idarə etmək üçün ilk admin hesabını yaradın'}
+                        </p>
 
-                    <div className="space-y-1.5">
-                        <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Şifrə</label>
-                        <div className="relative">
-                            <Lock className="absolute left-3.5 top-3.5 h-5 w-5 text-slate-400" />
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent font-medium text-slate-800 transition-all"
-                                placeholder="********"
-                            />
-                        </div>
+                        <form onSubmit={handleSubmit}>
+                            {error && (
+                                <div className="alert alert-danger alert-dismissible py-2 mb-3">
+                                    <h6 className="m-0"><i className="icon fas fa-ban mr-2"></i> {error}</h6>
+                                </div>
+                            )}
+
+                            <div className="input-group mb-3">
+                                <input
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    className="form-control"
+                                    placeholder="Admin istifadəçi adı"
+                                />
+                                <div className="input-group-append">
+                                    <div className="input-group-text">
+                                        <span className="fas fa-user"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="input-group mb-3">
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="form-control"
+                                    placeholder="********"
+                                />
+                                <div className="input-group-append">
+                                    <div className="input-group-text">
+                                        <span className="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="row">
+                                <div className="col-12">
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary btn-block"
+                                    >
+                                        {hasAdmin ? 'Giriş Et' : 'Hesabı Yarat'}
+                                        <i className="fas fa-sign-in-alt ml-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-
-                    <button
-                        type="submit"
-                        className="w-full bg-accent hover:bg-emerald-600 text-white font-bold py-3.5 rounded-lg transition-all shadow-lg shadow-accent/20 flex items-center justify-center gap-2 mt-4"
-                    >
-                        {hasAdmin ? 'Giriş Et' : 'Hesabı Yarat'}
-                        <ArrowRight className="h-5 w-5" />
-                    </button>
-                </form>
-
-                <div className="bg-slate-50 p-4 text-center border-t border-slate-100">
-                    <p className="text-xs text-slate-400 font-medium">© 2024 Azfin Consulting Admin Panel</p>
+                    <div className="card-footer text-center bg-light">
+                        <p className="text-xs text-muted m-0">© 2024 Azfin Consulting Admin Panel</p>
+                    </div>
                 </div>
             </div>
         </div>

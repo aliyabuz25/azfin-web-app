@@ -5,13 +5,13 @@ import { useData } from '../context/DataContext';
 type TabType = 'about' | 'team' | 'testimonials';
 
 const About: React.FC = () => {
-  const { aboutData } = useData();
+  const { aboutData, siteSettings: SETTINGS } = useData();
   const [activeTab, setActiveTab] = useState<TabType>('about');
 
   const tabs = [
-    { id: 'about' as TabType, label: 'Bizim haqqımızda', icon: Building2 },
-    { id: 'team' as TabType, label: 'Əməkdaşlar', icon: Users },
-    { id: 'testimonials' as TabType, label: 'Müştəri rəyləri', icon: MessageSquare },
+    { id: 'about' as TabType, label: SETTINGS.uiAbout, icon: Building2 },
+    { id: 'team' as TabType, label: SETTINGS.uiTeam, icon: Users },
+    { id: 'testimonials' as TabType, label: SETTINGS.uiTestimonials, icon: MessageSquare },
   ];
 
   return (
@@ -81,12 +81,12 @@ const About: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="bg-slate-50 p-10 border border-slate-100 group hover:border-accent transition-colors">
                       <Target className="h-8 w-8 text-accent mb-6" />
-                      <h3 className="text-xl font-black text-primary uppercase italic mb-4">Missiyamız</h3>
+                      <h3 className="text-xl font-black text-primary uppercase italic mb-4">{SETTINGS.uiOurMission}</h3>
                       <p className="text-slate-500 text-sm font-bold leading-relaxed">{aboutData.mission}</p>
                     </div>
                     <div className="bg-slate-50 p-10 border border-slate-100 group hover:border-accent transition-colors">
                       <Globe className="h-8 w-8 text-accent mb-6" />
-                      <h3 className="text-xl font-black text-primary uppercase italic mb-4">Xidmət Sahələrimiz</h3>
+                      <h3 className="text-xl font-black text-primary uppercase italic mb-4">{SETTINGS.uiServiceAreas}</h3>
                       <p className="text-slate-500 text-sm font-bold leading-relaxed">{aboutData.scope}</p>
                     </div>
                   </div>
@@ -116,9 +116,9 @@ const About: React.FC = () => {
                   </div>
                   <div className="bg-primary p-12 text-center rounded-sm">
                     <UserPlus className="h-10 w-10 text-accent mx-auto mb-6" />
-                    <h3 className="text-white text-2xl font-black uppercase italic mb-4">Peşəkar komandamıza qoşulun</h3>
-                    <p className="text-slate-400 text-sm font-bold uppercase tracking-widest mb-8">Karyeranızı Azfin ilə birlikdə inkişaf etdirin</p>
-                    <button className="bg-accent text-white px-10 py-4 text-[10px] font-black uppercase tracking-widest hover:bg-primary-medium transition-all">Vakansiyalara Bax</button>
+                    <h3 className="text-white text-2xl font-black uppercase italic mb-4">{SETTINGS.uiJoinTeam}</h3>
+                    <p className="text-slate-400 text-sm font-bold uppercase tracking-widest mb-8">{SETTINGS.uiKaryeraText}</p>
+                    <button className="bg-accent text-white px-10 py-4 text-[10px] font-black uppercase tracking-widest hover:bg-primary-medium transition-all">{SETTINGS.uiViewVacancies}</button>
                   </div>
                 </div>
               )}
@@ -144,8 +144,8 @@ const About: React.FC = () => {
                   </div>
                   <div className="flex flex-col items-center py-12 border-t border-slate-100 text-center">
                     <ShieldCheck className="h-12 w-12 text-accent mb-6" />
-                    <h3 className="text-2xl font-black text-primary uppercase italic mb-4">Sizin güvəniniz, bizim uğurumuzdur</h3>
-                    <p className="text-slate-500 max-w-lg text-sm font-bold uppercase tracking-widest leading-relaxed">Bizimlə əməkdaşlıq edən 300-dən çox korporativ müştəri sırasına siz də qoşulun.</p>
+                    <h3 className="text-2xl font-black text-primary uppercase italic mb-4">{SETTINGS.uiTrustText}</h3>
+                    <p className="text-slate-500 max-w-lg text-sm font-bold uppercase tracking-widest leading-relaxed">{SETTINGS.uiClientTrustSub}</p>
                   </div>
                 </div>
               )}

@@ -44,59 +44,68 @@ const Navbar: React.FC = () => {
             </Link>
 
             <div className="hidden md:flex items-center h-full flex-grow justify-center gap-2">
-              {NAV_ITEMS.map((item) => (
-                <div
-                  key={item.label}
-                  className="relative h-full flex items-center"
-                  onMouseEnter={() => item.children ? setActiveDropdown(item.label) : null}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  {item.label === 'XİDMƏTLƏR' ? (
-                    <div className="h-full flex items-center">
+              {NAV_ITEMS.map((item) => {
+                const label = item.path === '/' ? SETTINGS.uiHome :
+                  item.path === '/about' ? SETTINGS.uiAbout :
+                    item.path === '/services' ? SETTINGS.uiServices :
+                      item.path === '/blog' ? SETTINGS.uiBlog :
+                        item.path === '/academy' ? SETTINGS.uiAcademy :
+                          item.label;
+
+                return (
+                  <div
+                    key={item.label}
+                    className="relative h-full flex items-center"
+                    onMouseEnter={() => item.children ? setActiveDropdown(item.label) : null}
+                    onMouseLeave={() => setActiveDropdown(null)}
+                  >
+                    {item.path === '/services' ? (
+                      <div className="h-full flex items-center">
+                        <Link
+                          to={item.path}
+                          className={`${location.pathname.startsWith(item.path) ? 'text-accent' : 'text-primary hover:text-accent'
+                            } px-4 h-full text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 text-center leading-tight`}
+                        >
+                          {label}
+                          <ChevronDown className={`h-3 w-3 opacity-30 transition-transform ${activeDropdown === item.label ? 'rotate-180' : ''}`} />
+                        </Link>
+                        {activeDropdown === item.label && (
+                          <div className="absolute top-[100%] left-1/2 -translate-x-1/2 w-[550px] bg-white border border-slate-100 shadow-2xl p-6 grid grid-cols-2 gap-2 animate-in fade-in slide-in-from-top-1">
+                            {SERVICES.map((service) => {
+                              const SvgIcon = service.icon || getIcon(service.iconName || 'Briefcase');
+                              return (
+                                <Link
+                                  key={service.id}
+                                  to={`/services/${service.id}`}
+                                  className="flex items-start gap-4 p-4 hover:bg-slate-50 rounded-sm transition-all group"
+                                >
+                                  <div className="w-8 h-8 bg-slate-100 flex items-center justify-center rounded-sm group-hover:bg-accent transition-colors">
+                                    <SvgIcon className="h-4 w-4 text-primary group-hover:text-white" />
+                                  </div>
+                                  <div className="text-left">
+                                    <div className="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">{service.title}</div>
+                                    <div className="text-[9px] text-slate-400 font-medium leading-tight line-clamp-2">{service.description}</div>
+                                  </div>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
                       <Link
                         to={item.path}
-                        className={`${location.pathname.startsWith(item.path) ? 'text-accent' : 'text-primary hover:text-accent'
-                          } px-4 h-full text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 text-center leading-tight`}
+                        target={item.isExternal ? "_blank" : "_self"}
+                        className={`${location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path)) ? 'text-accent' : 'text-primary hover:text-accent'
+                          } px-4 h-full text-[11px] font-bold uppercase tracking-wider transition-all flex items-center text-center leading-tight whitespace-pre-line group relative`}
                       >
-                        {item.label}
-                        <ChevronDown className={`h-3 w-3 opacity-30 transition-transform ${activeDropdown === item.label ? 'rotate-180' : ''}`} />
+                        {label}
+                        <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
                       </Link>
-                      {activeDropdown === item.label && (
-                        <div className="absolute top-[100%] left-1/2 -translate-x-1/2 w-[550px] bg-white border border-slate-100 shadow-2xl p-6 grid grid-cols-2 gap-2 animate-in fade-in slide-in-from-top-1">
-                          {SERVICES.map((service) => {
-                            const SvgIcon = service.icon || getIcon(service.iconName || 'Briefcase');
-                            return (
-                              <Link
-                                key={service.id}
-                                to={`/services/${service.id}`}
-                                className="flex items-start gap-4 p-4 hover:bg-slate-50 rounded-sm transition-all group"
-                              >
-                                <div className="w-8 h-8 bg-slate-100 flex items-center justify-center rounded-sm group-hover:bg-accent transition-colors">
-                                  <SvgIcon className="h-4 w-4 text-primary group-hover:text-white" />
-                                </div>
-                                <div className="text-left">
-                                  <div className="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">{service.title}</div>
-                                  <div className="text-[9px] text-slate-400 font-medium leading-tight line-clamp-2">{service.description}</div>
-                                </div>
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <Link
-                      to={item.path}
-                      target={item.isExternal ? "_blank" : "_self"}
-                      className={`${location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path)) ? 'text-accent' : 'text-primary hover:text-accent'
-                        } px-4 h-full text-[11px] font-bold uppercase tracking-wider transition-all flex items-center text-center leading-tight whitespace-pre-line group relative`}
-                    >
-                      {item.label}
-                      <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-                    </Link>
-                  )}
-                </div>
-              ))}
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             <div className="flex items-center h-full">
@@ -118,17 +127,25 @@ const Navbar: React.FC = () => {
         {isOpen && (
           <div className="md:hidden bg-white border-t border-slate-100 fixed inset-0 top-20 z-50 p-6 overflow-y-auto">
             <div className="flex flex-col gap-5">
-              {NAV_ITEMS.map((item) => (
-                <div key={item.label} className="border-b border-slate-50 pb-4">
-                  <Link
-                    to={item.path}
-                    onClick={() => setIsOpen(false)}
-                    className="text-base font-bold text-primary uppercase tracking-tight whitespace-pre-line block"
-                  >
-                    {item.label}
-                  </Link>
-                </div>
-              ))}
+              {NAV_ITEMS.map((item) => {
+                const label = item.path === '/' ? SETTINGS.uiHome :
+                  item.path === '/about' ? SETTINGS.uiAbout :
+                    item.path === '/services' ? SETTINGS.uiServices :
+                      item.path === '/blog' ? SETTINGS.uiBlog :
+                        item.path === '/academy' ? SETTINGS.uiAcademy :
+                          item.label;
+                return (
+                  <div key={item.label} className="border-b border-slate-50 pb-4">
+                    <Link
+                      to={item.path}
+                      onClick={() => setIsOpen(false)}
+                      className="text-base font-bold text-primary uppercase tracking-tight whitespace-pre-line block"
+                    >
+                      {label}
+                    </Link>
+                  </div>
+                );
+              })}
               <Link
                 to={SETTINGS.navbarButtonLink}
                 onClick={() => setIsOpen(false)}

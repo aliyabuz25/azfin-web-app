@@ -85,44 +85,62 @@ const AcademyManager: React.FC = () => {
         <AdminLayout
             title="Akademiya Təlimləri"
             actions={
-                <button onClick={handleAddNew} className="bg-accent hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 transition-all shadow-lg shadow-accent/20">
-                    <Plus className="h-4 w-4" /> Yeni Təlim
+                <button onClick={handleAddNew} className="btn btn-primary btn-sm">
+                    <i className="fas fa-plus mr-1"></i> Yeni Təlim
                 </button>
             }
         >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {trainings.map((training) => (
-                    <div key={training.id} className="bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all flex flex-col overflow-hidden group">
-                        <div className="h-40 overflow-hidden relative">
-                            <img src={training.image} alt={training.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-slate-800">
-                                {training.status === 'upcoming' ? 'Aktiv' : training.status}
-                            </div>
-                        </div>
-                        <div className="p-6 flex-grow flex flex-col">
-                            <h3 className="text-lg font-bold text-slate-800 mb-2 line-clamp-2">{training.title}</h3>
-                            <div className="flex flex-wrap gap-2 mb-4">
-                                <div className="flex items-center gap-1 text-[10px] font-bold text-slate-400 uppercase">
-                                    <Calendar className="h-3 w-3" /> {training.startDate}
-                                </div>
-                                <div className="flex items-center gap-1 text-[10px] font-bold text-slate-400 uppercase">
-                                    <Clock className="h-3 w-3" /> {training.duration}
-                                </div>
-                            </div>
-                            <div className="flex items-center justify-between pt-4 border-t border-slate-50 mt-auto">
-                                <span className="text-xs font-bold text-accent uppercase tracking-wider">{training.level}</span>
-                                <div className="flex gap-2">
-                                    <button onClick={() => handleEdit(training)} className="p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-all">
-                                        <Edit2 className="h-4 w-4" />
-                                    </button>
-                                    <button onClick={() => handleDelete(training.id)} className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all">
-                                        <Trash2 className="h-4 w-4" />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+            <div className="card">
+                <div className="card-header">
+                    <h3 className="card-title">Təlimlər Siyahısı</h3>
+                </div>
+                <div className="card-body table-responsive p-0">
+                    <table className="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Şəkil</th>
+                                <th>Təlim Adı</th>
+                                <th>Tarix</th>
+                                <th>Müddət</th>
+                                <th>Səviyyə</th>
+                                <th>Status</th>
+                                <th style={{ width: '150px' }}>Əməliyyatlar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {trainings.map((training) => (
+                                <tr key={training.id}>
+                                    <td>
+                                        <img src={training.image} alt={training.title} style={{ width: '50px', height: '35px', objectFit: 'cover', borderRadius: '4px' }} />
+                                    </td>
+                                    <td>
+                                        <div className="font-weight-bold" style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                            {training.title}
+                                        </div>
+                                    </td>
+                                    <td>{training.startDate}</td>
+                                    <td>{training.duration}</td>
+                                    <td>
+                                        <span className="badge badge-info">{training.level}</span>
+                                    </td>
+                                    <td>
+                                        <span className={`badge ${training.status === 'upcoming' ? 'badge-success' : 'badge-secondary'}`}>
+                                            {training.status === 'upcoming' ? 'Aktiv' : training.status}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button onClick={() => handleEdit(training)} className="btn btn-sm btn-info mr-1">
+                                            <i className="fas fa-edit"></i>
+                                        </button>
+                                        <button onClick={() => handleDelete(training.id)} className="btn btn-sm btn-danger">
+                                            <i className="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {isModalOpen && (

@@ -1,6 +1,6 @@
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from './Sidebar';
+import { Link } from 'react-router-dom';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -9,20 +9,69 @@ interface LayoutProps {
 }
 
 const AdminLayout: React.FC<LayoutProps> = ({ children, title, actions }) => {
+    useEffect(() => {
+        // Add AdminLTE body classes
+        document.body.classList.add('sidebar-mini');
+        document.body.classList.add('layout-fixed');
+
+        return () => {
+            document.body.classList.remove('sidebar-mini');
+            document.body.classList.remove('layout-fixed');
+        };
+    }, []);
+
     return (
-        <div className="flex bg-slate-50 min-h-screen font-sans">
+        <div className="wrapper">
+            {/* Navbar */}
+            <nav className="main-header navbar navbar-expand navbar-white navbar-light">
+                {/* Left navbar links */}
+                <ul className="navbar-nav">
+                    <li className="nav-item">
+                        <a className="nav-link" data-widget="pushmenu" href="#" role="button"><i className="fas fa-bars"></i></a>
+                    </li>
+                    <li className="nav-item d-none d-sm-inline-block">
+                        <Link to="/admin/dashboard" className="nav-link">Home</Link>
+                    </li>
+                </ul>
+
+                {/* Right navbar links */}
+                <ul className="navbar-nav ml-auto">
+                    {actions && (
+                        <li className="nav-item">
+                            <div className="d-flex align-items-center h-100">
+                                {actions}
+                            </div>
+                        </li>
+                    )}
+                </ul>
+            </nav>
+
             <Sidebar />
-            <div className="flex-1 overflow-auto h-screen">
-                <header className="bg-white border-b border-slate-200 px-8 py-5 sticky top-0 z-30 shadow-sm flex items-center justify-between">
-                    <div>
-                        <h2 className="text-2xl font-black text-slate-800 tracking-tight">{title}</h2>
+
+            <div className="content-wrapper">
+                <section className="content-header">
+                    <div className="container-fluid">
+                        <div className="row mb-2">
+                            <div className="col-sm-6">
+                                <h1>{title}</h1>
+                            </div>
+                        </div>
                     </div>
-                    {actions && <div className="flex gap-3">{actions}</div>}
-                </header>
-                <main className="p-8 pb-20">
-                    {children}
-                </main>
+                </section>
+
+                <section className="content">
+                    <div className="container-fluid">
+                        {children}
+                    </div>
+                </section>
             </div>
+
+            <footer className="main-footer">
+                <div className="float-right d-none d-sm-block">
+                    <b>Version</b> 1.0.0
+                </div>
+                <strong>&copy; {new Date().getFullYear()} <a href="/">Azfin Consulting</a>.</strong> All rights reserved.
+            </footer>
         </div>
     );
 };

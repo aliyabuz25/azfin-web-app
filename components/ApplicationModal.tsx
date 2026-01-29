@@ -10,7 +10,7 @@ interface ApplicationModalProps {
 }
 
 const ApplicationModal: React.FC<ApplicationModalProps> = ({ isOpen, onClose, trainingTitle }) => {
-    const { addApplication } = useData();
+    const { addApplication, siteSettings: SETTINGS } = useData();
     const [submitted, setSubmitted] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
@@ -20,13 +20,25 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({ isOpen, onClose, tr
 
     if (!isOpen) return null;
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        addApplication('academy', {
-            ...formData,
-            trainingTitle
-        });
-        setSubmitted(true);
+        try {
+            await fetch('/api/requests', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'academy',
+                    name: formData.name,
+                    phone: formData.phone,
+                    message: formData.note,
+                    subject: trainingTitle
+                }),
+            });
+            setSubmitted(true);
+        } catch (error) {
+            console.error('Error submitting application:', error);
+            alert('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+        }
     };
 
     const handleClose = () => {
@@ -44,7 +56,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({ isOpen, onClose, tr
                 {/* Header */}
                 <div className="bg-primary px-6 py-5 flex justify-between items-center border-b border-accent/30">
                     <h3 className="text-white font-black text-sm uppercase tracking-[0.2em] italic">
-                        Təlimə Müraciət
+                        {SETTINGS.uiAcademy}
                     </h3>
                     <button
                         onClick={handleClose}
@@ -60,15 +72,15 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({ isOpen, onClose, tr
                             <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-accent/10 mb-6">
                                 <Check className="h-8 w-8 text-accent" />
                             </div>
-                            <h3 className="text-xl font-black text-primary uppercase italic tracking-tight mb-3">Müraciətiniz qəbul olundu!</h3>
+                            <h3 className="text-xl font-black text-primary uppercase italic tracking-tight mb-3">{SETTINGS.uiThanks}</h3>
                             <p className="text-sm text-slate-500 font-bold mb-8 uppercase tracking-widest leading-relaxed">
-                                Qısa zamanda sizinlə əlaqə saxlanılacaq.
+                                {SETTINGS.uiContactSoon}
                             </p>
                             <button
                                 onClick={handleClose}
                                 className="bg-primary text-white px-10 py-3 rounded-full font-bold text-[9px] uppercase tracking-[0.3em] hover:bg-primary-medium transition-all"
                             >
-                                Bağla
+                                {SETTINGS.uiClose}
                             </button>
                         </div>
                     ) : (
@@ -79,7 +91,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({ isOpen, onClose, tr
 
                             <form onSubmit={handleSubmit} className="space-y-5">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Ad və Soyad *</label>
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{SETTINGS.uiFullName} *</label>
                                     <input
                                         type="text"
                                         required
@@ -90,7 +102,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({ isOpen, onClose, tr
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Telefon nömrəsi *</label>
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{SETTINGS.uiPhone} *</label>
                                     <input
                                         type="tel"
                                         required
@@ -116,7 +128,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({ isOpen, onClose, tr
                                         type="submit"
                                         className="w-full bg-accent text-white py-5 rounded-sm font-black text-[11px] uppercase tracking-[0.2em] hover:bg-primary-medium transition-all shadow-xl"
                                     >
-                                        Müraciət Et
+                                        {SETTINGS.uiApply}
                                     </button>
                                 </div>
                             </form>

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "server": "node server/index.js",
+    "dev:all": "concurrently \"npm run dev\" \"npm run server\"",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -22,6 +23,7 @@
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
     "body-parser": "^2.2.2",
+    "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "express": "^5.2.1",
     "multer": "^2.0.2",

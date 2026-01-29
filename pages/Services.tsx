@@ -6,7 +6,7 @@ import CalculationModal from '../components/CalculationModal';
 import { ServiceItem } from '../types';
 
 const Services: React.FC = () => {
-  const { services: SERVICES } = useData();
+  const { services: SERVICES, siteSettings: SETTINGS } = useData();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
 
@@ -26,15 +26,15 @@ const Services: React.FC = () => {
             <div className="max-w-2xl">
               <div className="flex items-center gap-2 text-accent mb-6 text-[10px] font-bold uppercase tracking-[0.4em]">
                 <span className="w-8 h-[1px] bg-accent"></span>
-                Xidmət Kataloqumuz
+                {SETTINGS.uiServiceCatalogue}
               </div>
               <h1 className="text-4xl md:text-5xl font-black text-primary tracking-tight leading-tight uppercase italic">
-                Biznesiniz üçün <br />
-                <span className="text-accent">İxtisaslaşmış</span> Həllər
+                {SETTINGS.uiServiceHeader1} <br />
+                <span className="text-accent">{SETTINGS.uiServiceHeader2}</span>
               </h1>
             </div>
             <p className="text-slate-500 font-bold text-xs max-w-xs border-l-2 border-slate-200 pl-6 pb-2 uppercase tracking-widest italic">
-              Azfin Consulting hər bir müəssisəyə fərdi yanaşaraq, maliyyə dayanıqlığını təmin edən dəqiq strategiyalar hazırlayır.
+              {SETTINGS.uiServiceSub}
             </p>
           </div>
         </div>
@@ -81,7 +81,7 @@ const Services: React.FC = () => {
                     }}
                     className="bg-accent text-white px-8 py-4 rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-primary-medium transition-all shadow-xl"
                   >
-                    Təklif Alın
+                    {SETTINGS.uiGetOffer}
                   </button>
                   <div className="w-12 h-12 border border-slate-200 flex items-center justify-center rounded-full group-hover:bg-primary group-hover:border-primary group-hover:text-accent transition-all duration-500 shadow-lg">
                     <ChevronRight className="h-5 w-5 transform group-hover:translate-x-1 transition-transform" />

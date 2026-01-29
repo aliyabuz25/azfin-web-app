@@ -66,182 +66,213 @@ const AboutManager: React.FC = () => {
         <AdminLayout
             title="Haqqımızda"
             actions={
-                <button onClick={handleSave} className="bg-accent hover:bg-emerald-600 text-white px-8 py-2 rounded-lg font-black text-sm flex items-center gap-2 transition-all shadow-lg shadow-accent/20">
-                    <Check className="h-4 w-4" /> {success ? 'Yadda Saxlanıldı' : 'Yadda Saxla'}
+                <button onClick={handleSave} className="btn btn-success btn-sm">
+                    <i className="fas fa-check mr-1"></i> {success ? 'Yadda Saxlanıldı' : 'Yadda Saxla'}
                 </button>
             }
         >
-            <div className="max-w-5xl mx-auto space-y-12 pb-20">
-                {/* General Info */}
-                <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm space-y-6">
-                    <div className="flex items-center gap-3 pb-4 border-b border-slate-50">
-                        <div className="bg-blue-50 p-2 rounded-lg text-blue-500">
-                            <Building2 className="h-5 w-5" />
+            <div className="row pb-5">
+                <div className="col-md-12">
+                    {/* General Info */}
+                    <div className="card card-primary card-outline">
+                        <div className="card-header">
+                            <h3 className="card-title">
+                                <i className="fas fa-building mr-2"></i>
+                                Ümumi Məlumat
+                            </h3>
                         </div>
-                        <h3 className="text-lg font-black text-slate-800 tracking-tight uppercase">Ümumi Məlumat</h3>
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col-md-4">
+                                    <ImageUpload
+                                        value={formData.image}
+                                        onChange={url => setFormData({ ...formData, image: url })}
+                                        label="Əsas Şəkil"
+                                    />
+                                </div>
+                                <div className="col-md-8">
+                                    <div className="form-group">
+                                        <label>Başlıq</label>
+                                        <input
+                                            type="text"
+                                            value={formData.title}
+                                            onChange={e => setFormData({ ...formData, title: e.target.value })}
+                                            className="form-control"
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Qısa Təsvir (Vurğulanan)</label>
+                                        <textarea
+                                            rows={2}
+                                            value={formData.description}
+                                            onChange={e => setFormData({ ...formData, description: e.target.value })}
+                                            className="form-control"
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Tam Məzmun</label>
+                                        <textarea
+                                            rows={4}
+                                            value={formData.content}
+                                            onChange={e => setFormData({ ...formData, content: e.target.value })}
+                                            className="form-control"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <div className="space-y-4">
-                        <ImageUpload
-                            value={formData.image}
-                            onChange={url => setFormData({ ...formData, image: url })}
-                            label="Əsas Şəkil"
-                        />
-                        <div className="space-y-1.5">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Başlıq</label>
-                            <input
-                                type="text"
-                                value={formData.title}
-                                onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 text-sm font-medium"
-                            />
+                <div className="col-md-6">
+                    <div className="card card-info card-outline">
+                        <div className="card-header">
+                            <h3 className="card-title">Missiyamız</h3>
                         </div>
-                        <div className="space-y-1.5">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Qısa Təsvir (Vurğulanan)</label>
+                        <div className="card-body">
                             <textarea
-                                rows={2}
-                                value={formData.description}
-                                onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 text-sm font-medium italic"
-                            />
-                        </div>
-                        <div className="space-y-1.5">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tam Məzmun</label>
-                            <textarea
-                                rows={4}
-                                value={formData.content}
-                                onChange={e => setFormData({ ...formData, content: e.target.value })}
-                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 text-sm font-medium"
+                                rows={3}
+                                value={formData.mission}
+                                onChange={e => setFormData({ ...formData, mission: e.target.value })}
+                                className="form-control"
                             />
                         </div>
                     </div>
                 </div>
 
-                {/* Mission & Scope */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm space-y-4">
-                        <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] border-b border-slate-50 pb-3">Missiyamız</h4>
-                        <textarea
-                            rows={3}
-                            value={formData.mission}
-                            onChange={e => setFormData({ ...formData, mission: e.target.value })}
-                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 text-sm font-medium"
-                        />
-                    </div>
-                    <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm space-y-4">
-                        <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] border-b border-slate-50 pb-3">Xidmət Sahələrimiz (Təsvir)</h4>
-                        <textarea
-                            rows={3}
-                            value={formData.scope}
-                            onChange={e => setFormData({ ...formData, scope: e.target.value })}
-                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 text-sm font-medium"
-                        />
+                <div className="col-md-6">
+                    <div className="card card-info card-outline">
+                        <div className="card-header">
+                            <h3 className="card-title">Xidmət Sahələrimiz</h3>
+                        </div>
+                        <div className="card-body">
+                            <textarea
+                                rows={3}
+                                value={formData.scope}
+                                onChange={e => setFormData({ ...formData, scope: e.target.value })}
+                                className="form-control"
+                            />
+                        </div>
                     </div>
                 </div>
 
                 {/* Team Management */}
-                <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm space-y-6">
-                    <div className="flex items-center justify-between pb-4 border-b border-slate-50">
-                        <div className="flex items-center gap-3">
-                            <div className="bg-purple-50 p-2 rounded-lg text-purple-500">
-                                <Users className="h-5 w-5" />
-                            </div>
-                            <h3 className="text-lg font-black text-slate-800 tracking-tight uppercase">Əməkdaşlarımız</h3>
+                <div className="col-md-12 mt-4">
+                    <div className="card card-purple card-outline">
+                        <div className="card-header d-flex align-items-center">
+                            <h3 className="card-title mr-auto">
+                                <i className="fas fa-users mr-2"></i>
+                                Əməkdaşlarımız
+                            </h3>
+                            <button onClick={addTeamMember} className="btn btn-primary btn-xs">
+                                <i className="fas fa-plus mr-1"></i> Əlavə Et
+                            </button>
                         </div>
-                        <button onClick={addTeamMember} className="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-slate-800 transition-all">
-                            <Plus className="h-4 w-4" /> Əlavə Et
-                        </button>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {formData.team.map((member: any) => (
-                            <div key={member.id} className="flex flex-col gap-4 p-6 bg-slate-50 rounded-xl border border-slate-100 relative group">
-                                <button onClick={() => deleteTeamMember(member.id)} className="absolute top-4 right-4 p-2 text-slate-300 hover:text-red-500 transition-colors">
-                                    <Trash2 className="h-4 w-4" />
-                                </button>
-                                <div className="w-full h-48 rounded-lg overflow-hidden border border-slate-200">
-                                    <ImageUpload
-                                        value={member.img}
-                                        onChange={url => updateTeamMember(member.id, 'img', url)}
-                                        label="Şəkil"
-                                    />
-                                </div>
-                                <div className="space-y-4">
-                                    <div className="space-y-1.5">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ad və Soyad</label>
-                                        <input
-                                            type="text"
-                                            value={member.name}
-                                            onChange={e => updateTeamMember(member.id, 'name', e.target.value)}
-                                            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 text-sm font-medium"
-                                        />
+                        <div className="card-body">
+                            <div className="row">
+                                {formData.team.map((member: any) => (
+                                    <div key={member.id} className="col-md-4 mb-4">
+                                        <div className="card card-widget widget-user-2 shadow-sm border">
+                                            <button onClick={() => deleteTeamMember(member.id)} className="btn btn-tool position-absolute" style={{ right: '5px', top: '5px', zIndex: 10 }}>
+                                                <i className="fas fa-times text-danger"></i>
+                                            </button>
+                                            <div className="widget-user-header bg-light">
+                                                <div className="text-center mb-2">
+                                                    <img src={member.img || 'https://via.placeholder.com/100'} alt={member.name} className="img-circle elevation-2" style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
+                                                </div>
+                                                <div className="form-group mb-1">
+                                                    <input
+                                                        type="text"
+                                                        value={member.name}
+                                                        placeholder="Ad Soyad"
+                                                        onChange={e => updateTeamMember(member.id, 'name', e.target.value)}
+                                                        className="form-control form-control-sm text-center font-weight-bold"
+                                                    />
+                                                </div>
+                                                <div className="form-group mb-0">
+                                                    <input
+                                                        type="text"
+                                                        value={member.role}
+                                                        placeholder="Vəzifə"
+                                                        onChange={e => updateTeamMember(member.id, 'role', e.target.value)}
+                                                        className="form-control form-control-sm text-center"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="card-footer p-2">
+                                                <ImageUpload
+                                                    value={member.img}
+                                                    onChange={url => updateTeamMember(member.id, 'img', url)}
+                                                    label="Şəkil Yenilə"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="space-y-1.5">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Vəzifə</label>
-                                        <input
-                                            type="text"
-                                            value={member.role}
-                                            onChange={e => updateTeamMember(member.id, 'role', e.target.value)}
-                                            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 text-sm font-medium"
-                                        />
-                                    </div>
-                                </div>
+                                ))}
                             </div>
-                        ))}
+                        </div>
                     </div>
                 </div>
 
                 {/* Testimonials Management */}
-                <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm space-y-6">
-                    <div className="flex items-center justify-between pb-4 border-b border-slate-50">
-                        <div className="flex items-center gap-3">
-                            <div className="bg-emerald-50 p-2 rounded-lg text-emerald-500">
-                                <MessageSquare className="h-5 w-5" />
-                            </div>
-                            <h3 className="text-lg font-black text-slate-800 tracking-tight uppercase">Müştəri Rəyləri</h3>
+                <div className="col-md-12 mt-4">
+                    <div className="card card-success card-outline">
+                        <div className="card-header d-flex align-items-center">
+                            <h3 className="card-title mr-auto">
+                                <i className="fas fa-comments mr-2"></i>
+                                Müştəri Rəyləri
+                            </h3>
+                            <button onClick={addTestimonial} className="btn btn-primary btn-xs">
+                                <i className="fas fa-plus mr-1"></i> Əlavə Et
+                            </button>
                         </div>
-                        <button onClick={addTestimonial} className="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-slate-800 transition-all">
-                            <Plus className="h-4 w-4" /> Əlavə Et
-                        </button>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-6">
-                        {formData.testimonials.map((testimonial: any) => (
-                            <div key={testimonial.id} className="p-6 bg-slate-50 rounded-xl border border-slate-100 relative group space-y-4">
-                                <button onClick={() => deleteTestimonial(testimonial.id)} className="absolute top-4 right-4 p-2 text-slate-300 hover:text-red-500 transition-colors">
-                                    <Trash2 className="h-4 w-4" />
-                                </button>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="space-y-1.5">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Ad Soyad</label>
-                                        <input
-                                            type="text"
-                                            value={testimonial.name}
-                                            onChange={e => updateTestimonial(testimonial.id, 'name', e.target.value)}
-                                            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 text-sm font-medium"
-                                        />
+                        <div className="card-body">
+                            <div className="row">
+                                {formData.testimonials.map((testimonial: any) => (
+                                    <div key={testimonial.id} className="col-md-6 mb-3">
+                                        <div className="card shadow-sm border">
+                                            <div className="card-header p-2 d-flex align-items-center">
+                                                <span className="badge badge-info mr-auto">Rəy #{testimonial.id.slice(-4)}</span>
+                                                <button onClick={() => deleteTestimonial(testimonial.id)} className="btn btn-tool">
+                                                    <i className="fas fa-trash text-danger"></i>
+                                                </button>
+                                            </div>
+                                            <div className="card-body p-3">
+                                                <div className="row">
+                                                    <div className="col-6">
+                                                        <input
+                                                            type="text"
+                                                            value={testimonial.name}
+                                                            placeholder="Ad Soyad"
+                                                            onChange={e => updateTestimonial(testimonial.id, 'name', e.target.value)}
+                                                            className="form-control form-control-sm"
+                                                        />
+                                                    </div>
+                                                    <div className="col-6">
+                                                        <input
+                                                            type="text"
+                                                            value={testimonial.company}
+                                                            placeholder="Şirkət"
+                                                            onChange={e => updateTestimonial(testimonial.id, 'company', e.target.value)}
+                                                            className="form-control form-control-sm"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="mt-2">
+                                                    <textarea
+                                                        rows={2}
+                                                        value={testimonial.text}
+                                                        placeholder="Rəy mətni..."
+                                                        onChange={e => updateTestimonial(testimonial.id, 'text', e.target.value)}
+                                                        className="form-control form-control-sm italic"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="space-y-1.5">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Şirkət</label>
-                                        <input
-                                            type="text"
-                                            value={testimonial.company}
-                                            onChange={e => updateTestimonial(testimonial.id, 'company', e.target.value)}
-                                            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 text-sm font-medium"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="space-y-1.5">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Rəy Mətni</label>
-                                    <textarea
-                                        rows={3}
-                                        value={testimonial.text}
-                                        onChange={e => updateTestimonial(testimonial.id, 'text', e.target.value)}
-                                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent/50 text-sm font-medium italic"
-                                    />
-                                </div>
+                                ))}
                             </div>
-                        ))}
+                        </div>
                     </div>
                 </div>
             </div>

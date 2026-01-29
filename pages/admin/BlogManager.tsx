@@ -75,37 +75,56 @@ const BlogManager: React.FC = () => {
         <AdminLayout
             title="Bloq Yazıları"
             actions={
-                <button onClick={handleAddNew} className="bg-accent hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 transition-all shadow-lg shadow-accent/20">
-                    <Plus className="h-4 w-4" /> Yeni Yazı
+                <button onClick={handleAddNew} className="btn btn-primary btn-sm">
+                    <i className="fas fa-plus mr-1"></i> Yeni Yazı
                 </button>
             }
         >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {blogs.map((blog) => (
-                    <div key={blog.id} className="bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all flex flex-col overflow-hidden group">
-                        <div className="h-48 overflow-hidden relative">
-                            <img src={blog.image} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                            <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-slate-800">
-                                {blog.category}
-                            </div>
-                        </div>
-                        <div className="p-6 flex-grow flex flex-col">
-                            <h3 className="text-lg font-bold text-slate-800 mb-2 line-clamp-2">{blog.title}</h3>
-                            <p className="text-slate-500 text-sm line-clamp-3 mb-4 flex-grow">{blog.excerpt}</p>
-                            <div className="flex items-center justify-between pt-4 border-t border-slate-50 mt-auto">
-                                <span className="text-xs font-bold text-slate-400">{blog.date}</span>
-                                <div className="flex gap-2">
-                                    <button onClick={() => handleEdit(blog)} className="p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-all">
-                                        <Edit2 className="h-4 w-4" />
-                                    </button>
-                                    <button onClick={() => handleDelete(blog.id)} className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all">
-                                        <Trash2 className="h-4 w-4" />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+            <div className="card">
+                <div className="card-header">
+                    <h3 className="card-title">Bloq Siyahısı</h3>
+                </div>
+                <div className="card-body table-responsive p-0">
+                    <table className="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Şəkil</th>
+                                <th>Başlıq</th>
+                                <th>Kateqoriya</th>
+                                <th>Tarix</th>
+                                <th style={{ width: '150px' }}>Əməliyyatlar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {blogs.map((blog) => (
+                                <tr key={blog.id}>
+                                    <td>
+                                        <img src={blog.image} alt={blog.title} style={{ width: '50px', height: '35px', objectFit: 'cover', borderRadius: '4px' }} />
+                                    </td>
+                                    <td>
+                                        <div className="font-weight-bold" style={{ maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                            {blog.title}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span className="badge badge-info">{blog.category}</span>
+                                    </td>
+                                    <td>
+                                        <small className="text-muted">{blog.date}</small>
+                                    </td>
+                                    <td>
+                                        <button onClick={() => handleEdit(blog)} className="btn btn-sm btn-info mr-1">
+                                            <i className="fas fa-edit"></i>
+                                        </button>
+                                        <button onClick={() => handleDelete(blog.id)} className="btn btn-sm btn-danger">
+                                            <i className="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {isModalOpen && (

@@ -5,7 +5,7 @@ import { useData } from '../context/DataContext';
 import { Calendar, User, ArrowRight, Search } from 'lucide-react';
 
 const Blog: React.FC = () => {
-  const { blogs: BLOG_POSTS } = useData();
+  const { blogs: BLOG_POSTS, siteSettings: SETTINGS } = useData();
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Redesigned Split Header to match the overall site design */}
@@ -18,11 +18,11 @@ const Blog: React.FC = () => {
                 Azfin Journal
               </div>
               <h1 className="text-4xl md:text-5xl font-black text-primary tracking-tight leading-tight uppercase italic">
-                Bloq və <span className="text-accent">Xəbərlər</span>
+                {SETTINGS.uiBlogHeader1} <span className="text-accent">{SETTINGS.uiBlogHeader2}</span>
               </h1>
             </div>
             <p className="text-slate-500 font-bold text-xs max-w-xs border-l-2 border-accent pl-6 pb-2 uppercase tracking-widest leading-relaxed">
-              Maliyyə və vergi dünyasındakı ən son yenilikləri bizim peşəkar komandamızın təhlili ilə izləyin.
+              {SETTINGS.uiBlogSub}
             </p>
           </div>
         </div>
@@ -62,7 +62,7 @@ const Blog: React.FC = () => {
                         {post.excerpt}
                       </p>
                       <Link to={`/blog/${post.id}`} className="inline-flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-widest group-hover:text-accent transition-colors">
-                        Davamını Oxu <ArrowRight className="h-3 w-3 text-accent" />
+                        {SETTINGS.uiReadMore} <ArrowRight className="h-3 w-3 text-accent" />
                       </Link>
                     </div>
                   </article>

@@ -1,41 +1,46 @@
-
 import React from 'react';
 import AdminLayout from '../../components/admin/Layout';
 import { useData } from '../../context/DataContext';
-import { FileText, Briefcase, Users2, Award } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
     const { services, blogs, statistics, trainings } = useData();
 
     const stats = [
-        { label: 'Ümumi Xidmətlər', value: services.length, icon: Briefcase, color: 'bg-blue-500' },
-        { label: 'Bloq Yazıları', value: blogs.length, icon: FileText, color: 'bg-emerald-500' },
-        { label: 'Təlimlər', value: trainings.length, icon: Award, color: 'bg-purple-500' },
-        { label: 'Statistikalar', value: statistics.length, icon: Users2, color: 'bg-orange-500' }
+        { label: 'Xidmətlər', value: services.length, icon: 'fas fa-briefcase', color: 'bg-info' },
+        { label: 'Bloq Yazıları', value: blogs.length, icon: 'fas fa-file-alt', color: 'bg-success' },
+        { label: 'Təlimlər', value: trainings.length, icon: 'fas fa-graduation-cap', color: 'bg-warning' },
+        { label: 'Statistikalar', value: statistics.length, icon: 'fas fa-chart-pie', color: 'bg-danger' }
     ];
 
     return (
         <AdminLayout title="İdarə Paneli">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="row">
                 {stats.map((stat, idx) => (
-                    <div key={idx} className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-center gap-4 hover:shadow-md transition-all">
-                        <div className={`${stat.color} p-4 rounded-lg text-white shadow-lg shadow-black/5`}>
-                            <stat.icon className="h-6 w-6" />
-                        </div>
-                        <div>
-                            <div className="text-2xl font-black text-slate-800">{stat.value}</div>
-                            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">{stat.label}</div>
+                    <div key={idx} className="col-lg-3 col-6">
+                        <div className={`small-box ${stat.color}`}>
+                            <div className="inner">
+                                <h3 className="text-white">{stat.value}</h3>
+                                <p className="text-white">{stat.label}</p>
+                            </div>
+                            <div className="icon">
+                                <i className={stat.icon}></i>
+                            </div>
+                            <a href="#" className="small-box-footer">Ətraflı <i className="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 ))}
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-8">
-                <h3 className="text-lg font-bold text-slate-800 mb-4">Xoş Gəlmisiniz!</h3>
-                <p className="text-slate-600 leading-relaxed">
-                    Azfin Consulting idarəetmə panelinə xoş gəlmisiniz. Sol tərəfdəki menyudan saytın məzmununu idarə edə bilərsiniz.
-                    Xidmətlər, bloq yazıları və statistik dəyişikliklər dərhal saytda əks olunacaqdır.
-                </p>
+            <div className="card">
+                <div className="card-header">
+                    <h3 className="card-title font-weight-bold">Xoş Gəlmisiniz!</h3>
+                </div>
+                <div className="card-body">
+                    <p className="text-muted leading-relaxed">
+                        Azfin Consulting idarəetmə panelinə xoş gəlmisiniz. Sol tərəfdəki menyudan saytın məzmununu idarə edə bilərsiniz.
+                        Xidmətlər, bloq yazıları və statistik dəyişikliklər dərhal saytda əks olunacaqdır.
+                    </p>
+                </div>
             </div>
         </AdminLayout>
     );

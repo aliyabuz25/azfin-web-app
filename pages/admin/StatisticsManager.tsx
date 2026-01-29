@@ -57,34 +57,33 @@ const StatisticsManager: React.FC = () => {
         <AdminLayout
             title="Statistikalar"
             actions={
-                <button onClick={handleAddNew} className="bg-accent hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 transition-all shadow-lg shadow-accent/20">
-                    <Plus className="h-4 w-4" /> Yeni Statistika
+                <button onClick={handleAddNew} className="btn btn-primary btn-sm">
+                    <i className="fas fa-plus mr-1"></i> Yeni Statistika
                 </button>
             }
         >
-            <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6`}>
-                {statistics.map((stat) => {
-                    const Icon = stat.icon;
-                    return (
-                        <div key={stat.id} className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all flex flex-col group">
-                            <div className="flex items-start justify-between mb-4">
-                                <div className="p-3 bg-slate-50 rounded-lg text-accent group-hover:bg-accent group-hover:text-white transition-colors">
-                                    <Icon className="h-6 w-6" />
-                                </div>
-                                <div className="flex gap-2">
-                                    <button onClick={() => handleEdit(stat)} className="p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-all">
-                                        <Edit2 className="h-4 w-4" />
+            <div className="row">
+                {statistics.map((stat) => (
+                    <div key={stat.id} className="col-12 col-sm-6 col-md-3">
+                        <div className="info-box shadow-sm mb-4">
+                            <span className="info-box-icon bg-info elevation-1">
+                                <i className={`fas fa-${stat.iconName || 'award'}`}></i>
+                            </span>
+                            <div className="info-box-content">
+                                <span className="info-box-text">{stat.label}</span>
+                                <span className="info-box-number">{stat.value}</span>
+                                <div className="mt-2">
+                                    <button onClick={() => handleEdit(stat)} className="btn btn-xs btn-outline-info mr-1">
+                                        <i className="fas fa-edit"></i>
                                     </button>
-                                    <button onClick={() => handleDelete(stat.id)} className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all">
-                                        <Trash2 className="h-4 w-4" />
+                                    <button onClick={() => handleDelete(stat.id)} className="btn btn-xs btn-outline-danger">
+                                        <i className="fas fa-trash"></i>
                                     </button>
                                 </div>
                             </div>
-                            <div className="text-2xl font-black text-slate-800 mb-1">{stat.value}</div>
-                            <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">{stat.label}</div>
                         </div>
-                    );
-                })}
+                    </div>
+                ))}
             </div>
 
             {isModalOpen && (

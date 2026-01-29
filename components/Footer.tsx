@@ -23,21 +23,21 @@ const Footer: React.FC = () => {
 
           {/* Naviqasiya Column */}
           <div>
-            <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">Naviqasiya</h3>
+            <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">{SETTINGS.uiNavigation}</h3>
             <ul className="space-y-6">
-              <li><Link to="/" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">Ana Səhifə</Link></li>
-              <li><Link to="/about" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">Haqqımızda</Link></li>
-              <li><Link to="/services" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">Xidmətlər</Link></li>
-              <li><Link to="/academy" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">Akademiya</Link></li>
-              <li><Link to="/blog" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">Bloq və Xəbərlər</Link></li>
-              <li><Link to="/contact" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">Əlaqə</Link></li>
-              <li><a href="https://audittv.az/" target="_blank" rel="noopener noreferrer" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">AuditTV</a></li>
+              <li><Link to="/" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiHome}</Link></li>
+              <li><Link to="/about" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiAbout}</Link></li>
+              <li><Link to="/services" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiServices}</Link></li>
+              <li><Link to="/academy" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiAcademy}</Link></li>
+              <li><Link to="/blog" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiBlog}</Link></li>
+              <li><Link to="/contact" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiContact}</Link></li>
+              <li><a href="https://audittv.az/" target="_blank" rel="noopener noreferrer" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiAuditTV}</a></li>
             </ul>
           </div>
 
           {/* Xidmətlər Column */}
           <div>
-            <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">Xidmətlər</h3>
+            <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">{SETTINGS.uiServices}</h3>
             <ul className="space-y-6">
               {SERVICES.map((service) => (
                 <li key={service.id}>
@@ -54,7 +54,7 @@ const Footer: React.FC = () => {
 
           {/* Akademiya Column */}
           <div>
-            <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">Akademiya</h3>
+            <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">{SETTINGS.uiAcademy}</h3>
             <ul className="space-y-6">
               {TRAININGS.slice(0, 4).map((training) => (
                 <li key={training.id}>
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
                   </Link>
                 </li>
               ))}
-              <li><Link to="/academy" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">Bütün Təlimlər</Link></li>
+              <li><Link to="/academy" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiAllTrainings}</Link></li>
             </ul>
           </div>
 
