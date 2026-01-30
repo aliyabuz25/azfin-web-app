@@ -130,7 +130,8 @@ const DEFAULT_SETTINGS: SiteSettings = {
     uiSelect: 'Seçin',
     uiThanks: 'Təşəkkür edirik!',
     uiContactSoon: 'Ən qısa zamanda sizinlə əlaqə saxlanılacaq.',
-    uiClose: 'Tamam'
+    uiClose: 'Tamam',
+    auditTvUrl: 'https://audittv.az/'
 };
 
 const DEFAULT_ABOUT: AboutData = {

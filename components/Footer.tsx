@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 
 const Footer: React.FC = () => {
-  const { services: SERVICES, trainings: TRAININGS, siteSettings: SETTINGS } = useData();
+  const { siteSettings: SETTINGS, services: SERVICES, trainings: TRAININGS } = useData();
 
   return (
     <footer className="bg-[#050b18] text-white pt-24 pb-12">
@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">{SETTINGS.uiServices}</h3>
             <ul className="space-y-6">
-              {SERVICES.map((service) => (
+              {SERVICES.slice(0, 5).map((service) => (
                 <li key={service.id}>
                   <Link
                     to={`/services/${service.id}`}
@@ -56,7 +56,7 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">{SETTINGS.uiAcademy}</h3>
             <ul className="space-y-6">
-              {TRAININGS.slice(0, 4).map((training) => (
+              {TRAININGS.slice(0, 5).map((training) => (
                 <li key={training.id}>
                   <Link
                     to={`/academy/${training.id}`}

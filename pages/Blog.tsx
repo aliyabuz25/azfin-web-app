@@ -2,13 +2,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useData } from '../context/DataContext';
-import { Calendar, User, ArrowRight, Search } from 'lucide-react';
+import { Calendar, ArrowRight } from 'lucide-react';
 
 const Blog: React.FC = () => {
   const { blogs: BLOG_POSTS, siteSettings: SETTINGS } = useData();
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {/* Redesigned Split Header to match the overall site design */}
+      {/* Header */}
       <div className="bg-slate-50 border-b border-slate-100 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-end justify-between gap-10">
@@ -17,7 +18,7 @@ const Blog: React.FC = () => {
                 <span className="w-8 h-[1px] bg-accent"></span>
                 Azfin Journal
               </div>
-              <h1 className="text-4xl md:text-5xl font-black text-primary tracking-tight leading-tight uppercase italic">
+              <h1 className="text-4xl md:text-5xl font-black text-brand tracking-tight leading-tight uppercase italic">
                 {SETTINGS.uiBlogHeader1} <span className="text-accent">{SETTINGS.uiBlogHeader2}</span>
               </h1>
             </div>
@@ -32,7 +33,7 @@ const Blog: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-            {/* Blog Grid - 3 items per row on large screens */}
+            {/* Blog Grid */}
             <div className="lg:col-span-12">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {BLOG_POSTS.map((post) => (
@@ -55,13 +56,13 @@ const Blog: React.FC = () => {
                           <Calendar className="h-3 w-3 text-accent" /> {post.date}
                         </div>
                       </div>
-                      <h2 className="text-xl font-black text-primary mb-4 leading-tight group-hover:text-accent transition-colors italic uppercase tracking-tight">
+                      <h2 className="text-xl font-black text-brand mb-4 leading-tight group-hover:text-accent transition-colors italic uppercase tracking-tight">
                         {post.title}
                       </h2>
                       <p className="text-sm text-slate-500 mb-6 leading-relaxed line-clamp-2 font-medium">
                         {post.excerpt}
                       </p>
-                      <Link to={`/blog/${post.id}`} className="inline-flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-widest group-hover:text-accent transition-colors">
+                      <Link to={`/blog/${post.id}`} className="inline-flex items-center gap-2 text-brand font-black text-[10px] uppercase tracking-widest group-hover:text-accent transition-colors">
                         {SETTINGS.uiReadMore} <ArrowRight className="h-3 w-3 text-accent" />
                       </Link>
                     </div>

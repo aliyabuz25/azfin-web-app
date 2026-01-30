@@ -1,12 +1,12 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, BarChart3, ChevronDown, Phone, Mail, Clock } from 'lucide-react';
-import { NAV_ITEMS } from '../constants';
 import { useData } from '../context/DataContext';
-import { getIcon } from '../utils/icons';
 
 const Navbar: React.FC = () => {
-  const { services: SERVICES, siteSettings: SETTINGS } = useData();
+  const { siteSettings: SETTINGS, services: SERVICES } = useData();
+
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,111 +14,129 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPos = window.scrollY;
-      // Add hysteresis to prevent flickering
-      if (scrollPos > 80) {
-        setIsScrolled(true);
-      } else if (scrollPos < 10) {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const NAV_ITEMS = [
+    { label: SETTINGS.uiHome, path: '/' },
+    { label: SETTINGS.uiAbout, path: '/about' },
+    {
+      label: SETTINGS.uiServices,
+      path: '/services',
+      hasDropdown: true
+    },
+    { label: SETTINGS.uiBlog, path: '/blog' },
+    { label: SETTINGS.uiAcademy, path: '/academy' },
+    { label: SETTINGS.uiAuditTV, path: SETTINGS.auditTvUrl, isExternal: true },
+  ];
+
   return (
-    <div className="flex flex-col w-full sticky top-0 z-50 shadow-sm">
+    <div className="flex flex-col w-full sticky top-0 z-50 transition-all duration-300">
+      {/* Top Utility Bar */}
+      <div className={`bg-brand text-slate-300 px-4 sm:px-6 lg:px-8 hidden md:block border-b border-white/5 transition-all duration-300 overflow-hidden ${isScrolled ? 'h-0 py-0 opacity-0' : 'h-10 py-2 opacity-100'}`}>
+        <div className="max-w-7xl mx-auto flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.15em]">
+          <div className="flex gap-10">
+            <div className="flex items-center gap-2">
+              <Phone className="h-3 w-3 text-accent" />
+              <span>{SETTINGS.phoneNumber}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Mail className="h-3 w-3 text-accent" />
+              <span>{SETTINGS.email}</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-8">
+            <div className="flex items-center gap-2">
+              <Clock className="h-3 w-3 text-accent" />
+              <span>{SETTINGS.workingHours}</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Main Navigation Bar */}
-      <nav className={`bg-white border-b border-slate-100 transition-all duration-500 ease-in-out ${isScrolled ? 'py-2' : 'py-4 md:py-8'}`}>
+      <nav className={`bg-white border-b border-slate-100 transition-all duration-300 ${isScrolled ? 'h-16 md:h-20' : 'h-20 md:h-32'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
           <div className="flex justify-between items-center h-full">
             <Link to="/" className="flex items-center gap-3 flex-shrink-0">
-              <div className={`bg-primary flex items-center justify-center rounded-sm transition-all ${isScrolled ? 'w-8 h-8' : 'w-10 h-10'}`}>
+              <div className={`bg-brand flex items-center justify-center rounded-sm transition-all ${isScrolled ? 'w-8 h-8' : 'w-10 h-10'}`}>
                 <BarChart3 className={`${isScrolled ? 'h-4 w-4' : 'h-5 w-5'} text-accent`} />
               </div>
               <div className="flex flex-col">
-                <span className={`font-extrabold text-primary tracking-tighter leading-none transition-all ${isScrolled ? 'text-lg' : 'text-xl'}`}>AZFIN</span>
+                <span className={`font-extrabold text-brand tracking-tighter leading-none transition-all ${isScrolled ? 'text-lg' : 'text-xl'}`}>AZFIN</span>
                 <span className={`text-[8px] font-bold text-slate-400 tracking-[0.25em] uppercase transition-all ${isScrolled ? 'mt-0' : 'mt-1'}`}>Audit & Consulting</span>
               </div>
             </Link>
 
             <div className="hidden md:flex items-center h-full flex-grow justify-center gap-2">
-              {NAV_ITEMS.map((item) => {
-                const label = item.path === '/' ? SETTINGS.uiHome :
-                  item.path === '/about' ? SETTINGS.uiAbout :
-                    item.path === '/services' ? SETTINGS.uiServices :
-                      item.path === '/blog' ? SETTINGS.uiBlog :
-                        item.path === '/academy' ? SETTINGS.uiAcademy :
-                          item.path === '/contact' ? SETTINGS.uiContact :
-                            item.label;
-
-                return (
-                  <div
-                    key={item.label}
-                    className="relative h-full flex items-center"
-                    onMouseEnter={() => item.children ? setActiveDropdown(item.label) : null}
-                    onMouseLeave={() => setActiveDropdown(null)}
-                  >
-                    {item.path === '/services' ? (
-                      <div className="h-full flex items-center">
-                        <Link
-                          to={item.path}
-                          className={`${location.pathname.startsWith(item.path) ? 'text-accent' : 'text-primary hover:text-accent'
-                            } px-4 h-full text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 text-center leading-tight`}
-                        >
-                          {label}
-                          <ChevronDown className={`h-3 w-3 opacity-30 transition-transform ${activeDropdown === item.label ? 'rotate-180' : ''}`} />
-                        </Link>
-                        {activeDropdown === item.label && (
-                          <div className="absolute top-[100%] left-1/2 -translate-x-1/2 w-[550px] bg-white border border-slate-100 shadow-2xl p-6 grid grid-cols-2 gap-2 animate-in fade-in slide-in-from-top-1">
-                            {SERVICES.map((service) => {
-                              const SvgIcon = service.icon || getIcon(service.iconName || 'Briefcase');
-                              return (
-                                <Link
-                                  key={service.id}
-                                  to={`/services/${service.id}`}
-                                  className="flex items-start gap-4 p-4 hover:bg-slate-50 rounded-sm transition-all group"
-                                >
-                                  <div className="w-8 h-8 bg-slate-100 flex items-center justify-center rounded-sm group-hover:bg-accent transition-colors">
-                                    <SvgIcon className="h-4 w-4 text-primary group-hover:text-white" />
-                                  </div>
-                                  <div className="text-left">
-                                    <div className="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">{service.title}</div>
-                                    <div className="text-[9px] text-slate-400 font-medium leading-tight line-clamp-2">{service.description}</div>
-                                  </div>
-                                </Link>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    ) : (
+              {NAV_ITEMS.map((item) => (
+                <div
+                  key={item.label}
+                  className="relative h-full flex items-center"
+                  onMouseEnter={() => item.hasDropdown ? setActiveDropdown(item.label) : null}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  {item.hasDropdown ? (
+                    <div className="h-full flex items-center">
                       <Link
                         to={item.path}
-                        target={item.isExternal ? "_blank" : "_self"}
-                        className={`${location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path)) ? 'text-accent' : 'text-primary hover:text-accent'
-                          } px-4 h-full text-[11px] font-bold uppercase tracking-wider transition-all flex items-center text-center leading-tight whitespace-pre-line group relative`}
+                        className={`${location.pathname.startsWith(item.path) ? 'text-accent' : 'text-brand hover:text-accent'
+                          } px-4 h-full text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 text-center leading-tight`}
                       >
-                        {label}
-                        <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                        {item.label}
+                        <ChevronDown className={`h-3 w-3 opacity-30 transition-transform ${activeDropdown === item.label ? 'rotate-180' : ''}`} />
                       </Link>
-                    )}
-                  </div>
-                );
-              })}
+                      {activeDropdown === item.label && (
+                        <div className="absolute top-[100%] left-1/2 -translate-x-1/2 w-[550px] bg-white border border-slate-100 shadow-2xl p-6 grid grid-cols-2 gap-2 animate-in fade-in slide-in-from-top-1">
+                          {SERVICES.map((service) => {
+                            const SvgIcon = service.icon;
+                            return (
+                              <Link
+                                key={service.id}
+                                to={`/services/${service.id}`}
+                                className="flex items-start gap-4 p-4 hover:bg-slate-50 rounded-sm transition-all group"
+                              >
+                                <div className="w-8 h-8 bg-slate-100 flex items-center justify-center rounded-sm group-hover:bg-accent transition-colors">
+                                  <SvgIcon className="h-4 w-4 text-brand group-hover:text-white" />
+                                </div>
+                                <div className="text-left">
+                                  <div className="text-[10px] font-bold text-brand uppercase tracking-widest mb-1">{service.title}</div>
+                                  <div className="text-[9px] text-slate-400 font-medium leading-tight line-clamp-2">{service.description}</div>
+                                </div>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      to={item.path}
+                      target={item.isExternal ? "_blank" : "_self"}
+                      className={`${location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path)) ? 'text-accent' : 'text-brand hover:text-accent'
+                        } px-4 h-full text-[11px] font-bold uppercase tracking-wider transition-all flex items-center text-center leading-tight whitespace-pre-line group relative`}
+                    >
+                      {item.label}
+                      <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-accent transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+                    </Link>
+                  )}
+                </div>
+              ))}
             </div>
 
             <div className="flex items-center h-full">
               <Link
                 to={SETTINGS.navbarButtonLink}
-                className={`bg-accent text-white font-bold text-[11px] uppercase tracking-wider hover:bg-[#2d8c73] transition-all shadow-sm text-center flex items-center justify-center ${isScrolled ? 'px-6 py-2.5 rounded-sm' : 'px-8 py-4 rounded-sm'}`}
+                className={`bg-accent text-white font-bold text-[11px] uppercase tracking-wider hover:bg-[#2d8c73] transition-all shadow-sm text-center flex items-center justify-center ${isScrolled ? 'px-6 py-2 rounded-sm h-10' : 'px-8 py-4 rounded-sm h-16'}`}
               >
                 {SETTINGS.navbarButtonText}
               </Link>
             </div>
 
-            <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 text-primary ml-4">
+            <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 text-brand ml-4">
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
@@ -128,26 +146,18 @@ const Navbar: React.FC = () => {
         {isOpen && (
           <div className="md:hidden bg-white border-t border-slate-100 fixed inset-0 top-20 z-50 p-6 overflow-y-auto">
             <div className="flex flex-col gap-5">
-              {NAV_ITEMS.map((item) => {
-                const label = item.path === '/' ? SETTINGS.uiHome :
-                  item.path === '/about' ? SETTINGS.uiAbout :
-                    item.path === '/services' ? SETTINGS.uiServices :
-                      item.path === '/blog' ? SETTINGS.uiBlog :
-                        item.path === '/academy' ? SETTINGS.uiAcademy :
-                          item.path === '/contact' ? SETTINGS.uiContact :
-                            item.label;
-                return (
-                  <div key={item.label} className="border-b border-slate-50 pb-4">
-                    <Link
-                      to={item.path}
-                      onClick={() => setIsOpen(false)}
-                      className="text-base font-bold text-primary uppercase tracking-tight whitespace-pre-line block"
-                    >
-                      {label}
-                    </Link>
-                  </div>
-                );
-              })}
+              {NAV_ITEMS.map((item) => (
+                <div key={item.label} className="border-b border-slate-50 pb-4">
+                  <Link
+                    to={item.path}
+                    target={item.isExternal ? "_blank" : "_self"}
+                    onClick={() => setIsOpen(false)}
+                    className="text-base font-bold text-brand uppercase tracking-tight whitespace-pre-line block"
+                  >
+                    {item.label}
+                  </Link>
+                </div>
+              ))}
               <Link
                 to={SETTINGS.navbarButtonLink}
                 onClick={() => setIsOpen(false)}
