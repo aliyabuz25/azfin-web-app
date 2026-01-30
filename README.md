@@ -73,3 +73,10 @@ Docker olmadan quraşdırmaq istəyirsinizsə:
 ---
 
 © 2024 Azfin Consulting. Developed by Ali Yabuz.
+
+---
+
+## Production Deployment (Portainer + Traefik)
+
+For the Octotech server, deployment uses prebuilt images and Traefik labels (no host ports).
+See `DEPLOY.md` for the exact steps, paths, and verification commands.
