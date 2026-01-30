@@ -1,0 +1,11 @@
+node_modules
+.dist
+/build
+/dist
+.DS_Store
+__MACOSX
+azfin.zip
+*.log
+.git
+.gitignore
+.vscode
