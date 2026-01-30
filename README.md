@@ -1,78 +1,62 @@
 # Azfin Consulting LLC - Professional Web Platform
 
-Azfin Consulting MMC üçün hazırlanmış müasir, dinamik və tam idarəolunan veb platforma. Bu layihə həm istifadəçilər üçün premium dizaynlı ön hissəni (frontend), həm də idarəçilər üçün AdminLTE əsaslı idarəetmə panelini (backend/admin) özündə birləşdirir.
+A modern, fully manageable web platform for Azfin Consulting LLC. The project includes a premium public website (frontend) and an AdminLTE-based management panel (backend/admin).
 
-## 🚀 Xüsusiyyətlər
+## Features
 
-- **Dinamik Məzmun İdarəetməsi**: Saytdakı bütün yazılar, xidmətlər, bloqlar və akademiya məlumatları Admin panelindən dəyişdirilə bilər.
-- **AdminLTE Dashboard**: Peşəkar və funksional idarəetmə paneli.
-- **Müraciət Sistemi**: Müştəri sorğularının real-vaxt rejimində qəbulu və idarə edilməsi.
-- **Tam Localizasiya**: Bütün UI etiketlərinin (Navbar, Footer, Düymələr) dinamik idarə edilməsi.
-- **Responsive Dizayn**: Bütün cihazlarda (Mobil, Planşet, Masaüstü) mükəmməl görünüş.
-- **Docker Dəstəyi**: Sürətli və asan quraşdırma üçün Docker konfiqurasiyası.
+- Dynamic content management for posts, services, blogs, and academy content
+- AdminLTE dashboard for administrators
+- Request management system
+- Full UI localization support
+- Responsive design for mobile, tablet, and desktop
+- Docker support for quick setup
 
-## 🛠 Texnologiyalar
+## Tech Stack
 
-- **Frontend**: React 19, Vite, Tailwind CSS, Lucide Icons.
-- **Backend / API**: Node.js, Express.
-- **Data Storage**: JSON-based persistent storage (Verilənlər bazası tələb olunmur).
-- **File Management**: Multer (Şəkil yükləmələri üçün).
+- Frontend: React 19, Vite, Tailwind CSS, Lucide Icons
+- Backend / API: Node.js, Express
+- Data Storage: JSON-based persistent storage (no database required)
+- File Uploads: Multer
 
-## 🐳 Docker ilə Quraşdırma
+## Docker (Local)
 
-Sistemi Docker vasitəsilə bir neçə saniyə ərzində quraşdıra bilərsiniz. Bu üsul bütün asılılıqları daxildə həll edir.
-
-### 1. Docker Compose ilə başladın
-
-Layihənin kök qovluğunda terminalı açın və aşağıdakı əmri icra edin:
+From the project root:
 
 ```bash
 docker-compose up -d --build
 ```
 
-### 2. İzləyin
+After startup:
+- Website: `http://localhost:5001`
+- Admin Panel: `http://localhost:5001/admin/login`
 
-Sistem hazır olduqdan sonra aşağıdakı ünvanlardan istifadə edə bilərsiniz:
-- **Veb Sayt**: `http://localhost:5001`
-- **Admin Panel**: `http://localhost:5001/admin/login`
+Note: `data.json`, `requests.json`, and `uploads/` are mounted as volumes so data persists across container restarts.
 
-**Qeyd:** `data.json`, `requests.json` və `uploads/` qovluğu volume olaraq bağlanıb, yəni konteyner silinsə belə məlumatlarınız itməyəcək.
+## Local (Manual)
 
----
+1) Install dependencies:
+```bash
+npm install
+```
 
-## 💻 Yerli (Manual) Quraşdırma
+2) Run frontend and server together:
+```bash
+npm run dev:all
+```
 
-Docker olmadan quraşdırmaq istəyirsinizsə:
+3) Open in browser:
+- Frontend: `http://localhost:5173`
+- API Server: `http://localhost:5001`
 
-1. **Asılılıqları yükləyin:**
-   ```bash
-   npm install
-   ```
+## Folder Structure
 
-2. **Frontend və Serveri eyni anda başladın:**
-   ```bash
-   npm run dev:all
-   ```
-
-3. **Brauzerdə açın:**
-   - Frontend: `http://localhost:5173`
-   - API Server: `http://localhost:5001`
-
----
-
-## 📁 Qovluq Strukturu
-
-- `/components`: Təkrar istifadə edilə bilən UI komponentləri.
-- `/pages`: Səhifə komponentləri.
-- `/pages/admin`: Admin panelinə aid səhifələr və menecerlər.
-- `/server`: Node.js Express API serveri.
-- `/context`: Data və Auth idarəetməsi üçün React Context.
-- `/public`: Statik fayllar.
-- `data.json`: Saytın dinamik məlumatları (Database).
-
----
-
-© 2024 Azfin Consulting. Developed by Ali Yabuz.
+- `/components`: Reusable UI components
+- `/pages`: Page components
+- `/pages/admin`: Admin pages and managers
+- `/server`: Node.js Express API
+- `/context`: React Context for data and auth
+- `/public`: Static files
+- `data.json`: Dynamic site data (JSON)
 
 ---
 
@@ -80,3 +64,5 @@ Docker olmadan quraşdırmaq istəyirsinizsə:
 
 For the Octotech server, deployment uses prebuilt images and Traefik labels (no host ports).
 See `DEPLOY.md` for the exact steps, paths, and verification commands.
+
+© 2024 Azfin Consulting. Developed by Ali Yabuz.
