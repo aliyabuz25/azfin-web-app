@@ -66,3 +66,11 @@ For the Octotech server, deployment uses prebuilt images and Traefik labels (no 
 See `DEPLOY.md` for the exact steps, paths, and verification commands.
 
 © 2024 Azfin Consulting. Developed by Ali Yabuz.
+
+## Update Flow (Summary)
+
+1) `git pull` on the server in `/datastore/azfin/app`
+2) Rebuild images
+3) Redeploy the Portainer stack
+
+See `CONTRIBUTING.md` for the full steps.
