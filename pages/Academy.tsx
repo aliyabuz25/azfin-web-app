@@ -39,7 +39,7 @@ const Academy: React.FC = () => {
                 <span className="w-8 h-[1px] bg-accent"></span>
                 Azfin Akademiya
               </div>
-              <h1 className="text-4xl md:text-5xl font-black text-primary tracking-tight leading-tight uppercase italic">
+              <h1 className="text-4xl md:text-5xl font-black text-brand tracking-tight leading-tight uppercase italic">
                 {SETTINGS.uiAcademyHeader1} <span className="text-accent">{SETTINGS.uiAcademyHeader2}</span>
               </h1>
             </div>
@@ -60,6 +60,7 @@ const Academy: React.FC = () => {
                 onClick={() => handleCardClick(training.id)}
                 className="bg-white rounded-xl overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.05)] border border-slate-100 group flex flex-col transition-all duration-500 hover:shadow-[0_15px_40px_rgb(0,0,0,0.1)] cursor-pointer"
               >
+                {/* Card Image */}
                 <div className="relative h-48 overflow-hidden">
                   <img
                     src={training.image}
@@ -73,8 +74,9 @@ const Academy: React.FC = () => {
                   )}
                 </div>
 
+                {/* Card Body */}
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-lg font-black text-primary mb-4 group-hover:text-accent transition-colors leading-tight uppercase italic">
+                  <h3 className="text-lg font-black text-brand mb-4 group-hover:text-accent transition-colors leading-tight uppercase italic">
                     {training.title}
                   </h3>
 
@@ -93,15 +95,16 @@ const Academy: React.FC = () => {
                     {training.description}
                   </p>
 
+                  {/* Card Footer */}
                   <div className="flex items-center justify-between pt-5 border-t border-slate-50">
                     <div className="text-slate-400 font-bold text-[9px] uppercase tracking-widest">
-                      <span className="text-primary">{training.level}</span>
+                      <span className="text-brand">{training.level}</span>
                     </div>
                     <button
                       onClick={(e) => handleApplyClick(e, training.title)}
-                      className="bg-primary text-white px-5 py-2.5 rounded-lg font-black text-[9px] uppercase tracking-widest hover:bg-primary-medium transition-all shadow-md flex items-center gap-2"
+                      className="bg-brand text-white px-5 py-2.5 rounded-lg font-black text-[9px] uppercase tracking-widest hover:bg-brand-medium transition-all shadow-md flex items-center gap-2"
                     >
-                      Müraciət <ArrowRight className="h-3.5 w-3.5" />
+                      {SETTINGS.uiApply} <ArrowRight className="h-3.5 w-3.5" />
                     </button>
                   </div>
                 </div>

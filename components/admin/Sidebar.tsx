@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -11,15 +12,15 @@ const Sidebar: React.FC = () => {
     const menuItems = [
         { path: '/admin/dashboard', icon: 'fas fa-tachometer-alt', label: 'Panel' },
         { path: '/admin/applications', icon: 'fas fa-envelope', label: 'Müraciətlər' },
-        { label: 'SAYTIN MƏZMUNU', isHeader: true },
-        { path: '/admin/services', icon: 'fas fa-briefcase', label: 'Xidmətlər' },
-        { path: '/admin/blogs', icon: 'fas fa-file-alt', label: 'Bloq' },
-        { path: '/admin/academy', icon: 'fas fa-graduation-cap', label: 'Akademiya' },
-        { label: 'SƏHİFƏLƏR', isHeader: true },
+        { label: 'SƏHİFƏLƏRİ İDARƏ ET', isHeader: true },
         { path: '/admin/settings', icon: 'fas fa-home', label: 'Ana Səhifə' },
         { path: '/admin/about', icon: 'fas fa-info-circle', label: 'Haqqımızda' },
+        { path: '/admin/services', icon: 'fas fa-briefcase', label: 'Xidmətlər' },
+        { path: '/admin/academy', icon: 'fas fa-graduation-cap', label: 'Akademiya' },
+        { path: '/admin/blogs', icon: 'fas fa-newspaper', label: 'Bloq' },
+        { path: '/admin/contact', icon: 'fas fa-address-book', label: 'Əlaqə' },
         { label: 'SİSTEM', isHeader: true },
-        { path: '/admin/users', icon: 'fas fa-users', label: 'İstifadəçilər' },
+        { path: '/admin/users', icon: 'fas fa-users-cog', label: 'İstifadəçilər' },
     ];
 
     return (

@@ -25,6 +25,7 @@ import StatisticsManager from './pages/admin/StatisticsManager';
 import ProcessManager from './pages/admin/ProcessManager';
 import AboutManager from './pages/admin/AboutManager';
 import ApplicationsManager from './pages/admin/ApplicationsManager';
+import ContactManager from './pages/admin/ContactManager';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import { DataProvider } from './context/DataContext';
@@ -41,7 +42,7 @@ const ScrollToTop = () => {
 };
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="min-h-screen flex flex-col font-sans text-gray-800 antialiased selection:bg-accent selection:text-white">
+  <div className="min-h-screen flex flex-col font-sans text-brand-800 antialiased selection:bg-accent selection:text-white">
     <Navbar />
     <main className="flex-grow">
       {children}
@@ -81,6 +82,7 @@ const App: React.FC = () => {
             <Route path="/admin/process" element={<ProtectedRoute><ProcessManager /></ProtectedRoute>} />
             <Route path="/admin/about" element={<ProtectedRoute><AboutManager /></ProtectedRoute>} />
             <Route path="/admin/applications" element={<ProtectedRoute><ApplicationsManager /></ProtectedRoute>} />
+            <Route path="/admin/contact" element={<ProtectedRoute><ContactManager /></ProtectedRoute>} />
             <Route path="/admin/*" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           </Routes>
         </DataProvider>

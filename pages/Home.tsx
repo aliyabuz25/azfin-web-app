@@ -5,7 +5,7 @@ import {
   ArrowRight, ShieldCheck, Award, ChevronRight,
   Plane, Utensils, GraduationCap, Factory, Building, Cpu,
   ReceiptText, BarChartBig, Search, Gavel, UsersRound,
-  Lightbulb, Rocket, Calendar, Clock
+  Lightbulb, Rocket
 } from 'lucide-react';
 import { useData } from '../context/DataContext';
 import CalculationModal from '../components/CalculationModal';
@@ -64,16 +64,16 @@ const Home: React.FC = () => {
                 <ShieldCheck className="h-3 w-3" />
                 {SETTINGS.heroBadge}
               </div>
-              <h1 className="text-4xl md:text-6xl font-black text-primary leading-[1.1] tracking-tighter" dangerouslySetInnerHTML={{ __html: SETTINGS.heroTitle }}>
+              <h1 className="text-4xl md:text-6xl font-black text-brand leading-[1.1] tracking-tighter" dangerouslySetInnerHTML={{ __html: SETTINGS.heroTitle }}>
               </h1>
               <p className="text-base text-slate-500 font-medium leading-relaxed max-w-lg">
                 {SETTINGS.heroSubtitle}
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
-                <Link to={SETTINGS.heroButtonLink} className="bg-accent text-white px-10 py-5 rounded-sm font-black text-[11px] uppercase tracking-[0.2em] hover:bg-primary-medium transition-all flex items-center gap-3 shadow-xl">
+                <Link to={SETTINGS.heroButtonLink} className="bg-accent text-white px-10 py-5 rounded-sm font-black text-[11px] uppercase tracking-[0.2em] hover:bg-brand-medium transition-all flex items-center gap-3 shadow-xl">
                   {SETTINGS.heroButtonText} <ArrowRight className="h-4 w-4" />
                 </Link>
-                <button onClick={() => setIsModalOpen(true)} className="bg-white border border-slate-200 text-primary px-10 py-5 rounded-sm font-black text-[11px] uppercase tracking-[0.2em] hover:bg-slate-50 transition-all shadow-sm">
+                <button onClick={() => setIsModalOpen(true)} className="bg-white border border-slate-200 text-brand px-10 py-5 rounded-sm font-black text-[11px] uppercase tracking-[0.2em] hover:bg-slate-50 transition-all shadow-sm">
                   {SETTINGS.uiGetOffer}
                 </button>
               </div>
@@ -91,7 +91,7 @@ const Home: React.FC = () => {
                   </div>
                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{SETTINGS.uiOurExperience}</span>
                 </div>
-                <div className="text-3xl font-black text-primary tracking-tighter italic uppercase">
+                <div className="text-3xl font-black text-brand tracking-tighter italic uppercase">
                   {STATISTICS.find(s => s.id === '3')?.value || '15+ İl'}
                 </div>
                 <div className="text-[10px] text-slate-500 font-bold mt-2 uppercase tracking-widest">{SETTINGS.uiCompetentService}</div>
@@ -113,10 +113,10 @@ const Home: React.FC = () => {
               const Icon = stat.icon;
               return (
                 <div key={idx} className="flex flex-col items-center text-center md:items-start md:text-left">
-                  <span className="text-4xl font-black text-primary tracking-tighter italic uppercase mb-1">{stat.value}</span>
+                  <span className="text-4xl font-black text-brand tracking-tighter italic uppercase mb-1">{stat.value}</span>
                   <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 border-t border-accent pt-2">{stat.label}</span>
                 </div>
-              );
+              )
             })}
           </div>
         </div>
@@ -127,7 +127,7 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <div className="text-accent font-black text-[10px] uppercase tracking-[0.6em] mb-4">{SETTINGS.homeServicesTitle}</div>
-            <h2 className="text-3xl md:text-5xl font-black text-primary tracking-tighter uppercase italic">{SETTINGS.homeServicesSubtitle}</h2>
+            <h2 className="text-3xl md:text-5xl font-black text-brand tracking-tighter uppercase italic">{SETTINGS.homeServicesSubtitle}</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -135,15 +135,15 @@ const Home: React.FC = () => {
               const Icon = service.icon;
               return (
                 <Link key={service.id} to={`/services/${service.id}`} className="group bg-white p-10 rounded-sm border border-slate-100 hover:border-accent transition-all duration-500 flex flex-col items-start shadow-sm hover:shadow-xl hover:-translate-y-1">
-                  <div className="w-14 h-14 bg-primary text-accent rounded-sm flex items-center justify-center mb-10 group-hover:bg-accent group-hover:text-white transition-colors shadow-lg">
+                  <div className="w-14 h-14 bg-brand text-accent rounded-sm flex items-center justify-center mb-10 group-hover:bg-accent group-hover:text-white transition-colors shadow-lg">
                     <Icon className="h-6 w-6" />
                   </div>
                   <div className="space-y-4 flex-grow">
-                    <h3 className="text-lg font-black text-primary uppercase tracking-tight italic group-hover:text-accent transition-colors">{service.title}</h3>
+                    <h3 className="text-lg font-black text-brand uppercase tracking-tight italic group-hover:text-accent transition-colors">{service.title}</h3>
                     <p className="text-slate-500 text-xs leading-relaxed font-bold">{service.description}</p>
                   </div>
                   <div className="mt-10 flex items-center justify-between w-full">
-                    <div className="flex items-center gap-3 text-primary font-black text-[10px] uppercase tracking-[0.2em] group-hover:gap-5 transition-all">
+                    <div className="flex items-center gap-3 text-brand font-black text-[10px] uppercase tracking-[0.2em] group-hover:gap-5 transition-all">
                       {SETTINGS.uiReadMore} <ChevronRight className="h-3 w-3 text-accent" />
                     </div>
                     <button
@@ -152,7 +152,7 @@ const Home: React.FC = () => {
                         e.stopPropagation();
                         setIsModalOpen(true);
                       }}
-                      className="bg-accent text-white px-4 py-2 rounded-sm font-black text-[9px] uppercase tracking-widest hover:bg-primary-medium transition-all shadow-sm"
+                      className="bg-accent text-white px-4 py-2 rounded-sm font-black text-[9px] uppercase tracking-widest hover:bg-brand-medium transition-all shadow-sm"
                     >
                       {SETTINGS.uiGetOffer}
                     </button>
@@ -168,7 +168,7 @@ const Home: React.FC = () => {
       <section ref={addToRefs} className="py-24 bg-white transition-all duration-1000 transform opacity-0 translate-y-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-20">
-            <h2 className="text-3xl md:text-5xl font-black text-primary tracking-tighter leading-tight max-w-2xl relative">
+            <h2 className="text-3xl md:text-5xl font-black text-brand tracking-tighter leading-tight max-w-2xl relative">
               {SETTINGS.homeSectorsTitle}
               <div className="absolute -bottom-6 left-0 w-24 h-1.5 bg-accent"></div>
             </h2>
@@ -182,11 +182,11 @@ const Home: React.FC = () => {
                     <div className="p-3 bg-slate-50 rounded-lg text-slate-400 group-hover:text-accent transition-colors">
                       <Icon className="h-10 w-10" />
                     </div>
-                    <h3 className="text-lg font-black text-primary tracking-tight uppercase group-hover:text-accent transition-colors">{sector.title}</h3>
+                    <h3 className="text-lg font-black text-brand tracking-tight uppercase group-hover:text-accent transition-colors">{sector.title}</h3>
                   </div>
                   <p className="text-slate-500 text-sm font-medium leading-relaxed border-l-2 border-slate-100 pl-6 group-hover:border-accent transition-colors">{sector.description}</p>
                 </div>
-              );
+              )
             })}
           </div>
         </div>
@@ -196,7 +196,7 @@ const Home: React.FC = () => {
       <section ref={addToRefs} className="py-24 bg-slate-50 transition-all duration-1000 transform opacity-0 translate-y-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="mb-16 text-center">
-            <h2 className="text-4xl md:text-5xl font-black text-primary tracking-tighter uppercase">
+            <h2 className="text-4xl md:text-5xl font-black text-brand tracking-tighter uppercase">
               {SETTINGS.homeProcessTitle}
             </h2>
             <p className="mt-6 text-slate-500 font-medium max-w-2xl mx-auto">{SETTINGS.homeProcessSubtitle}</p>
@@ -208,12 +208,12 @@ const Home: React.FC = () => {
                 <div key={step.id} className="relative group bg-white p-10 rounded-[40px] border border-slate-100 hover:shadow-2xl transition-all duration-500 overflow-hidden text-left">
                   <span className="absolute top-6 right-8 text-8xl font-black text-slate-50 group-hover:text-slate-100 transition-colors z-0">{step.stepNumber}</span>
                   <div className="relative z-10">
-                    <div className="w-14 h-14 bg-primary text-accent rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform"><Icon className="h-6 w-6" /></div>
-                    <h3 className="text-xl font-black text-primary mb-4 tracking-tight uppercase">{step.title}</h3>
+                    <div className="w-14 h-14 bg-brand text-accent rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform"><Icon className="h-6 w-6" /></div>
+                    <h3 className="text-xl font-black text-brand mb-4 tracking-tight uppercase">{step.title}</h3>
                     <p className="text-slate-500 text-sm font-medium leading-relaxed">{step.description}</p>
                   </div>
                 </div>
-              );
+              )
             })}
           </div>
         </div>
@@ -240,7 +240,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-primary py-16 relative overflow-hidden">
+      <section className="bg-brand py-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-accent/5 blur-[120px] -z-0"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center gap-8 relative z-10">
           <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase italic leading-none">

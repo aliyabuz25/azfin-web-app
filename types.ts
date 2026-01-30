@@ -143,6 +143,7 @@ export interface SiteSettings {
   uiThanks: string;
   uiContactSoon: string;
   uiClose: string;
+  auditTvUrl: string;
 }
 
 export interface SectorItem {

@@ -302,6 +302,12 @@ const SettingsManager: React.FC = () => {
                                             <input type="text" value={formData.uiContact} onChange={e => setFormData({ ...formData, uiContact: e.target.value })} className="form-control" />
                                         </div>
                                     </div>
+                                    <div className="col-md-4">
+                                        <div className="form-group">
+                                            <label>AuditTV Linki</label>
+                                            <input type="text" value={formData.auditTvUrl} onChange={e => setFormData({ ...formData, auditTvUrl: e.target.value })} className="form-control" />
+                                        </div>
+                                    </div>
 
                                     <div className="col-12 mt-4 mb-3">
                                         <h5 className="border-bottom pb-2">Butonlar və Kiçik Başlıqlar</h5>
