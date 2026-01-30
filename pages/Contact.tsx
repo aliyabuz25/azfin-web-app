@@ -20,7 +20,7 @@ const Contact: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, type: 'contact' }),
       });
       if (response.ok) {
         setSubmitted(true);

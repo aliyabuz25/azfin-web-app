@@ -105,17 +105,22 @@ const TrainingDetail: React.FC = () => {
                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                                         <CheckCircle2 className="h-4 w-4 text-accent" /> Status
                                     </span>
-                                    <span className="bg-accent/10 text-accent px-3 py-1 rounded text-[9px] font-black uppercase tracking-widest">
-                                        {training.status === 'upcoming' ? 'Qeydiyyat Aktivdir' : 'Davam Edir'}
+                                    <span className={`px-3 py-1 rounded text-[9px] font-black uppercase tracking-widest ${training.status === 'completed' ? 'bg-red-100 text-red-500' : 'bg-accent/10 text-accent'}`}>
+                                        {training.status === 'upcoming' ? 'Qeydiyyat Aktivdir' :
+                                            training.status === 'ongoing' ? 'Davam Edir' : 'Bitmişdir'}
                                     </span>
                                 </div>
                             </div>
 
                             <button
                                 onClick={() => setIsModalOpen(true)}
-                                className="w-full bg-accent text-white font-black py-5 rounded-xl transition-all shadow-xl shadow-accent/20 text-xs uppercase tracking-widest hover:bg-primary-medium flex items-center justify-center gap-3"
+                                disabled={training.status === 'completed'}
+                                className={`w-full font-black py-5 rounded-xl transition-all shadow-xl text-xs uppercase tracking-widest flex items-center justify-center gap-3 ${training.status === 'completed'
+                                        ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
+                                        : 'bg-accent text-white shadow-accent/20 hover:bg-primary-medium'
+                                    }`}
                             >
-                                Müraciət Et
+                                {training.status === 'completed' ? 'Qeydiyyat Bitib' : 'Müraciət Et'}
                             </button>
 
                             <div className="mt-8 p-6 bg-slate-50 rounded-xl">

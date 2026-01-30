@@ -16,6 +16,20 @@ interface FormRequest {
 const ApplicationsManager: React.FC = () => {
     const [requests, setRequests] = useState<FormRequest[]>([]);
     const [loading, setLoading] = useState(true);
+    const [expandedRows, setExpandedRows] = useState<string[]>([]);
+    const [activeTab, setActiveTab] = useState<'contact' | 'academy' | 'service'>('contact');
+
+    const toggleRow = (id: string) => {
+        if (expandedRows.includes(id)) {
+            setExpandedRows(expandedRows.filter(rowId => rowId !== id));
+        } else {
+            setExpandedRows([...expandedRows, id]);
+            const request = requests.find(r => r.id === id);
+            if (request && request.status === 'pending') {
+                updateStatus(id, 'read');
+            }
+        }
+    };
 
     useEffect(() => {
         fetchRequests();
@@ -68,9 +82,34 @@ const ApplicationsManager: React.FC = () => {
     return (
         <AdminLayout title="Müraciətlər">
             <div className="card">
-                <div className="card-header">
-                    <h3 className="card-title">Müraciətlər Siyahısı (request.json)</h3>
-                    <div className="card-tools">
+                <div className="card-header p-0 pt-1 border-bottom-0">
+                    <ul className="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                        <li className="nav-item">
+                            <button
+                                className={`nav-link ${activeTab === 'contact' ? 'active' : ''}`}
+                                onClick={() => setActiveTab('contact')}
+                            >
+                                Əlaqə
+                            </button>
+                        </li>
+                        <li className="nav-item">
+                            <button
+                                className={`nav-link ${activeTab === 'academy' ? 'active' : ''}`}
+                                onClick={() => setActiveTab('academy')}
+                            >
+                                Akademiya
+                            </button>
+                        </li>
+                        <li className="nav-item">
+                            <button
+                                className={`nav-link ${activeTab === 'service' ? 'active' : ''}`}
+                                onClick={() => setActiveTab('service')}
+                            >
+                                Xidmətlər
+                            </button>
+                        </li>
+                    </ul>
+                    <div className="card-tools p-2">
                         <button className="btn btn-tool" onClick={fetchRequests}>
                             <i className="fas fa-sync-alt"></i>
                         </button>
@@ -90,57 +129,59 @@ const ApplicationsManager: React.FC = () => {
                         <tbody>
                             {loading ? (
                                 <tr><td colSpan={5} className="text-center p-4">Yüklənir...</td></tr>
-                            ) : requests.length === 0 ? (
+                            ) : requests.filter(r => (r.type || 'contact') === activeTab).length === 0 ? (
                                 <tr><td colSpan={5} className="text-center p-4">Müraciət tapılmadı</td></tr>
-                            ) : requests.map((req) => (
-                                <React.Fragment key={req.id}>
-                                    <tr>
-                                        <td>{new Date(req.date).toLocaleString('az-AZ')}</td>
-                                        <td>
-                                            <div className="font-weight-bold">{req.name}</div>
-                                            <div className="text-xs text-muted">{req.email}</div>
-                                        </td>
-                                        <td>
-                                            <span className="text-sm">{req.subject || 'Mövzu yoxdur'}</span>
-                                            {req.type && <span className="badge badge-light ml-2">{req.type}</span>}
-                                        </td>
-                                        <td>{getStatusBadge(req.status)}</td>
-                                        <td>
-                                            <button
-                                                className="btn btn-sm btn-info mr-1"
-                                                data-toggle="collapse"
-                                                data-target={`#req-${req.id}`}
-                                                title="Detallar"
-                                                onClick={() => req.status === 'pending' && updateStatus(req.id, 'read')}
-                                            >
-                                                <i className="fas fa-eye"></i>
-                                            </button>
-                                            <button className="btn btn-sm btn-danger" onClick={() => deleteRequest(req.id)} title="Sil">
-                                                <i className="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr id={`req-${req.id}`} className="collapse bg-light">
-                                        <td colSpan={5}>
-                                            <div className="p-3">
-                                                <p><strong>Telefon:</strong> {req.phone || 'Göstərilməyib'}</p>
-                                                <p><strong>Mesaj:</strong></p>
-                                                <div className="bg-white p-3 border rounded shadow-sm mb-3">
-                                                    {req.message}
-                                                </div>
-                                                <div>
-                                                    <button
-                                                        className="btn btn-success btn-sm"
-                                                        onClick={() => updateStatus(req.id, 'contacted')}
-                                                    >
-                                                        <i className="fas fa-check mr-1"></i> Əlaqə saxlanıldı olaraq qeyd et
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </React.Fragment>
-                            ))}
+                            ) : requests
+                                .filter(r => (r.type || 'contact') === activeTab)
+                                .map((req) => (
+                                    <React.Fragment key={req.id}>
+                                        <tr>
+                                            <td>{new Date(req.date).toLocaleString('az-AZ')}</td>
+                                            <td>
+                                                <div className="font-weight-bold">{req.name}</div>
+                                                <div className="text-xs text-muted">{req.email}</div>
+                                            </td>
+                                            <td>
+                                                <span className="text-sm">{req.subject || 'Mövzu yoxdur'}</span>
+                                                {req.type && <span className="badge badge-light ml-2">{req.type}</span>}
+                                            </td>
+                                            <td>{getStatusBadge(req.status)}</td>
+                                            <td>
+                                                <button
+                                                    className="btn btn-sm btn-info mr-1"
+                                                    title="Detallar"
+                                                    onClick={() => toggleRow(req.id)}
+                                                >
+                                                    <i className="fas fa-eye"></i>
+                                                </button>
+                                                <button className="btn btn-sm btn-danger" onClick={() => deleteRequest(req.id)} title="Sil">
+                                                    <i className="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        {expandedRows.includes(req.id) && (
+                                            <tr className="bg-light">
+                                                <td colSpan={5}>
+                                                    <div className="p-3">
+                                                        <p><strong>Telefon:</strong> {req.phone || 'Göstərilməyib'}</p>
+                                                        <p><strong>Mesaj:</strong></p>
+                                                        <div className="bg-white p-3 border rounded shadow-sm mb-3">
+                                                            {req.message}
+                                                        </div>
+                                                        <div>
+                                                            <button
+                                                                className="btn btn-success btn-sm"
+                                                                onClick={() => updateStatus(req.id, 'contacted')}
+                                                            >
+                                                                <i className="fas fa-check mr-1"></i> Əlaqə saxlanıldı olaraq qeyd et
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </React.Fragment>
+                                ))}
                         </tbody>
                     </table>
                 </div>

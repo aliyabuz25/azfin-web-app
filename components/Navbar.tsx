@@ -50,7 +50,8 @@ const Navbar: React.FC = () => {
                     item.path === '/services' ? SETTINGS.uiServices :
                       item.path === '/blog' ? SETTINGS.uiBlog :
                         item.path === '/academy' ? SETTINGS.uiAcademy :
-                          item.label;
+                          item.path === '/contact' ? SETTINGS.uiContact :
+                            item.label;
 
                 return (
                   <div
@@ -133,7 +134,8 @@ const Navbar: React.FC = () => {
                     item.path === '/services' ? SETTINGS.uiServices :
                       item.path === '/blog' ? SETTINGS.uiBlog :
                         item.path === '/academy' ? SETTINGS.uiAcademy :
-                          item.label;
+                          item.path === '/contact' ? SETTINGS.uiContact :
+                            item.label;
                 return (
                   <div key={item.label} className="border-b border-slate-50 pb-4">
                     <Link

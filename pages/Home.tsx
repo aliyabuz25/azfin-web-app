@@ -91,7 +91,9 @@ const Home: React.FC = () => {
                   </div>
                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{SETTINGS.uiOurExperience}</span>
                 </div>
-                <div className="text-3xl font-black text-primary tracking-tighter italic uppercase">15+ İl</div>
+                <div className="text-3xl font-black text-primary tracking-tighter italic uppercase">
+                  {STATISTICS.find(s => s.id === '3')?.value || '15+ İl'}
+                </div>
                 <div className="text-[10px] text-slate-500 font-bold mt-2 uppercase tracking-widest">{SETTINGS.uiCompetentService}</div>
               </div>
             </div>

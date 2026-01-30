@@ -38,13 +38,24 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    addApplication('service', {
-      ...formData,
-      serviceTitle: serviceType === 'audit' ? 'Audit Qiymət Təklifi' : serviceTitle
-    });
-    setSubmitted(true);
+    try {
+      await fetch('/api/requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'service',
+          ...formData,
+          subject: serviceType === 'audit' ? 'Audit Qiymət Təklifi' : serviceTitle,
+          message: `Fəaliyyət: ${formData.activity}, Vergi: ${formData.taxType}, Status: ${formData.status}`
+        }),
+      });
+      setSubmitted(true);
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      alert('Xəta baş verdi.');
+    }
   };
 
   return (
@@ -54,7 +65,7 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
         {!submitted && (
           <div className="bg-primary p-6 flex justify-between items-center border-b border-accent/30">
             <div>
-              <h3 className="text-white font-black text-lg uppercase tracking-widest italic">{serviceType === 'audit' ? 'Audit Qiymət Təklifi' : 'Xidmət Sorğusu'}</h3>
+              <h3 className="text-white font-black text-lg uppercase tracking-widest italic">XİDMƏT MÜRACİƏTİ</h3>
               {serviceTitle && <p className="text-accent text-[10px] font-bold uppercase tracking-widest mt-1">{serviceTitle}</p>}
             </div>
             <button onClick={onClose} className="text-slate-400 hover:text-accent transition-colors"><X className="h-6 w-6" /></button>
@@ -95,43 +106,39 @@ const CalculationModal: React.FC<CalculationModalProps> = ({ isOpen, onClose, se
                     </div>
                   </div>
 
-                  {serviceType === 'audit' && (
-                    <>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{SETTINGS.uiTaxType} *</label>
-                        <div className="relative">
-                          <select
-                            required
-                            value={formData.taxType}
-                            onChange={(e) => setFormData({ ...formData, taxType: e.target.value })}
-                            className="w-full bg-slate-50 border border-slate-200 p-4 appearance-none focus:outline-none focus:border-accent font-bold text-xs rounded-sm"
-                          >
-                            <option value="">{SETTINGS.uiSelect}</option>
-                            <option value="ƏDV">ƏDV Ödəyicisi</option>
-                            <option value="Mənfəət">Mənfəət/Gəlir Vergisi</option>
-                            <option value="Sadələşdirilmiş">Sadələşdirilmiş Vergi</option>
-                          </select>
-                          <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{SETTINGS.uiCustomerStatus} *</label>
-                        <div className="relative">
-                          <select
-                            required
-                            value={formData.status}
-                            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                            className="w-full bg-slate-50 border border-slate-200 p-4 appearance-none focus:outline-none focus:border-accent font-bold text-xs rounded-sm"
-                          >
-                            <option value="">{SETTINGS.uiSelect}</option>
-                            <option value="Hüquqi">Hüquqi Şəxs</option>
-                            <option value="Fiziki">Fiziki Şəxs (Sahibkar)</option>
-                          </select>
-                          <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
-                        </div>
-                      </div>
-                    </>
-                  )}
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{SETTINGS.uiTaxType} *</label>
+                    <div className="relative">
+                      <select
+                        required
+                        value={formData.taxType}
+                        onChange={(e) => setFormData({ ...formData, taxType: e.target.value })}
+                        className="w-full bg-slate-50 border border-slate-200 p-4 appearance-none focus:outline-none focus:border-accent font-bold text-xs rounded-sm"
+                      >
+                        <option value="">{SETTINGS.uiSelect}</option>
+                        <option value="ƏDV">ƏDV Ödəyicisi</option>
+                        <option value="Mənfəət">Mənfəət/Gəlir Vergisi</option>
+                        <option value="Sadələşdirilmiş">Sadələşdirilmiş Vergi</option>
+                      </select>
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{SETTINGS.uiCustomerStatus} *</label>
+                    <div className="relative">
+                      <select
+                        required
+                        value={formData.status}
+                        onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                        className="w-full bg-slate-50 border border-slate-200 p-4 appearance-none focus:outline-none focus:border-accent font-bold text-xs rounded-sm"
+                      >
+                        <option value="">{SETTINGS.uiSelect}</option>
+                        <option value="Hüquqi">Hüquqi Şəxs</option>
+                        <option value="Fiziki">Fiziki Şəxs (Sahibkar)</option>
+                      </select>
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+                    </div>
+                  </div>
 
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{SETTINGS.uiFullName} *</label>

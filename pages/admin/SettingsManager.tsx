@@ -644,6 +644,17 @@ const SettingsManager: React.FC = () => {
                                     </div>
                                     <div className="col-md-6">
                                         <div className="form-group">
+                                            <label>Facebook URL</label>
+                                            <input
+                                                type="text"
+                                                value={formData.facebookUrl}
+                                                onChange={e => setFormData({ ...formData, facebookUrl: e.target.value })}
+                                                className="form-control"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="form-group">
                                             <label>WhatsApp Nömrəsi</label>
                                             <input
                                                 type="text"

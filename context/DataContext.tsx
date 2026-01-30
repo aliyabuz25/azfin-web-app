@@ -61,7 +61,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
     heroImage: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=1000',
     heroButtonText: 'Xidmətlər',
     heroButtonLink: '/services',
-    ctaTitle: 'AUDİT TƏKLİFİ AL',
+    ctaTitle: 'XİDMƏT MÜRACİƏTİ',
     ctaButtonText: 'MÜRACİƏT ET',
     ctaButtonLink: '/contact',
     instagramUrl: 'https://instagram.com/azfin',
@@ -90,7 +90,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
     uiHome: 'Ana Səhifə',
     uiNavigation: 'Naviqasiya',
     uiReadMore: 'Ətraflı',
-    uiGetOffer: 'Təklif Alın',
+    uiGetOffer: 'XİDMƏT MÜRACİƏTİ',
     uiAllTrainings: 'Bütün Təlimlər',
     uiCopyright: 'Bütün hüquqlar qorunur',
     uiSocialMedia: 'Sosial Media',
@@ -188,9 +188,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
             if (serverData.sectors) setSectors(serverData.sectors);
             else {
                 const initialSectors = [
-                    { id: '1', iconName: 'Building2', title: "Sənaye", description: "İstehsalat və ağır sənaye müəssisələri üçün maliyyə nəzarəti." },
-                    { id: '2', iconName: 'Users', title: "Xidmət", description: "Restoran, otel və digər xidmət sahələrinin uçotu." },
-                    { id: '3', iconName: 'TrendingUp', title: "Ticarət", description: "Pərakəndə və topdansatış dövriyyəsinin analizi." }
+                    { id: '1', iconName: 'Plane', title: "LOGİSTİKA VƏ NƏQLİYYAT", description: "Beynəlxalq daşımalar və tədarük zənciri üzrə maliyyə auditi və strateji planlama." },
+                    { id: '2', iconName: 'Utensils', title: "İAŞƏ", description: "Restoran şəbəkələri və qida xidmətləri sektoru üçün xərclərin optimallaşdırılması və vergi uçotu." },
+                    { id: '3', iconName: 'GraduationCap', title: "TƏHSİL", description: "Özəl təhsil müəssisələri və təlim mərkəzləri üçün maliyyə idarəetməsi və audit xidmətləri." },
+                    { id: '4', iconName: 'Factory', title: "İSTEHSALAT VƏ SƏNAYE", description: "Ağır sənaye müəssisələrinin istehsalat maliyyəsi və maya dəyəri analizi." },
+                    { id: '5', iconName: 'Building', title: "DAŞINMAZ ƏMLAK", description: "Tikinti layihələrinin maliyyə nəzarəti, audit və investisiya məsləhətləri." },
+                    { id: '6', iconName: 'Cpu', title: "TEXNOLOGİYA VƏ IT", description: "Yüksək texnologiya şirkətləri üçün vergi optimallaşdırılması və startap maliyyəsi." }
                 ];
                 setSectors(initialSectors);
             }
