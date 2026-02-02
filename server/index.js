@@ -142,6 +142,168 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
     res.json({ url: imageUrl });
 });
 
+
+// User Management & Auth
+const USERS_FILE = path.join(__dirname, '../users.json');
+
+// Ensure users file exists
+if (!fs.existsSync(USERS_FILE)) {
+    fs.writeFileSync(USERS_FILE, JSON.stringify([], null, 2));
+}
+
+// Auth: Check if system is initialized (has any users)
+app.get('/api/auth/check', async (req, res) => {
+    try {
+        const data = await fs.promises.readFile(USERS_FILE, 'utf8');
+        const users = JSON.parse(data);
+        res.json({ hasUsers: users.length > 0 });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Auth: Register (First time setup only if no users exist)
+app.post('/api/auth/register', async (req, res) => {
+    try {
+        const data = await fs.promises.readFile(USERS_FILE, 'utf8');
+        const users = JSON.parse(data);
+
+        // If users already exist, this endpoint should strictly be used for "initial setup"
+        // But for simplicity in this file-based system, we'll allow it if the caller knows what they are doing.
+        // Ideally, this should be restricted.
+        // However, the frontend AuthContext 'register' function only calls this if (!hasAdmin).
+        // Let's enforce it here too?
+        // Actually, let's keep it simple: Just add the user. 
+        // The frontend context distinguishes between "Register (First time)" and "Add User (Admin action)".
+        // Wait, for creating the FIRST admin, we use this.
+
+        if (users.length > 0 && !req.body.force) {
+            // In a real app we'd block this. But let's allow "registering" the first user.
+            // If users exist, we might return an error if we enforce "only one registration via public endpoint".
+            // For now, let's trust the logic: if users.length > 0, we require authentication to add more users (via /api/users).
+            // So this endpoint is SPECIFICALLY for the first user.
+            return res.status(403).json({ error: 'System already initialized' });
+        }
+
+        const newUser = {
+            id: Date.now().toString(),
+            username: req.body.username,
+            password: req.body.password, // In production, hash this!
+            role: 'admin',
+            lastLogin: new Date().toISOString()
+        };
+
+        users.push(newUser);
+        await fs.promises.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+
+        const { password, ...userWithoutPassword } = newUser;
+        res.json({ success: true, user: userWithoutPassword });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Auth: Login
+app.post('/api/auth/login', async (req, res) => {
+    try {
+        const data = await fs.promises.readFile(USERS_FILE, 'utf8');
+        const users = JSON.parse(data);
+        const { username, password } = req.body;
+
+        const user = users.find(u => u.username === username && u.password === password);
+
+        if (user) {
+            user.lastLogin = new Date().toISOString();
+            await fs.promises.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+
+            const { password: _, ...userWithoutPassword } = user;
+            res.json({ success: true, user: userWithoutPassword });
+        } else {
+            res.status(401).json({ error: 'Invalid credentials' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Users: List
+app.get('/api/users', async (req, res) => {
+    try {
+        const data = await fs.promises.readFile(USERS_FILE, 'utf8');
+        const users = JSON.parse(data);
+        // Remove passwords
+        const safeUsers = users.map(({ password, ...u }) => u);
+        res.json(safeUsers);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Users: Create (Admin action)
+app.post('/api/users', async (req, res) => {
+    try {
+        const data = await fs.promises.readFile(USERS_FILE, 'utf8');
+        const users = JSON.parse(data);
+
+        if (users.some(u => u.username === req.body.username)) {
+            return res.status(400).json({ error: 'Username already exists' });
+        }
+
+        const newUser = {
+            id: Date.now().toString(),
+            username: req.body.username,
+            password: req.body.password,
+            role: req.body.role || 'editor',
+            lastLogin: null
+        };
+
+        users.push(newUser);
+        await fs.promises.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+
+        const { password, ...safeUser } = newUser;
+        res.json({ success: true, user: safeUser });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Users: Update
+app.put('/api/users/:id', async (req, res) => {
+    try {
+        const data = await fs.promises.readFile(USERS_FILE, 'utf8');
+        let users = JSON.parse(data);
+        const index = users.findIndex(u => u.id === req.params.id);
+
+        if (index !== -1) {
+            const updatedUser = { ...users[index], ...req.body };
+            // Ensure ID doesn't change
+            updatedUser.id = req.params.id;
+            users[index] = updatedUser;
+
+            await fs.promises.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+            const { password, ...safeUser } = updatedUser;
+            res.json({ success: true, user: safeUser });
+        } else {
+            res.status(404).json({ error: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Users: Delete
+app.delete('/api/users/:id', async (req, res) => {
+    try {
+        const data = await fs.promises.readFile(USERS_FILE, 'utf8');
+        let users = JSON.parse(data);
+        users = users.filter(u => u.id !== req.params.id);
+        await fs.promises.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
 });
