@@ -1,14 +1,14 @@
 services:
   azfin-backend:
-    build:
-      context: .
-      dockerfile: Dockerfile.backend
-    image: azfin-backend:latest
+    image: node:20-alpine
     restart: unless-stopped
+    working_dir: /app
+    command: sh -c "npm install && npm run server"
     environment:
       PORT: "5001"
       PUBLIC_BASE_URL: ""
     volumes:
+      - ./:/app
       - /datastore/azfin/data.json:/app/data.json
       - /datastore/azfin/requests.json:/app/requests.json
       - /datastore/azfin/uploads:/app/uploads
@@ -23,12 +23,12 @@ services:
       - 'traefik.http.services.azfin-api.loadbalancer.server.port=5001'
 
   azfin-frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    image: azfin-frontend:latest
+    image: node:20-alpine
     restart: unless-stopped
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 901"
     volumes:
+      - ./:/app
       - /datastore/azfin/nginx-logs:/var/log/nginx
     networks:
       - edge
@@ -37,7 +37,7 @@ services:
       - 'traefik.docker.network=edge'
       - 'traefik.http.routers.azfin.rule=Host(`azfin.octotech.az`) || Host(`azfin.az`)'
       - 'traefik.http.routers.azfin.entrypoints=web'
-      - 'traefik.http.services.azfin.loadbalancer.server.port=80'
+      - 'traefik.http.services.azfin.loadbalancer.server.port=901'
 
 networks:
   edge:
