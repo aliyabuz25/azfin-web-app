@@ -1,12 +1,13 @@
-version: '3.8'
-
 services:
   azfin-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
     image: azfin-backend:latest
     restart: unless-stopped
     environment:
       PORT: "5001"
-      NODE_ENV: "production"
+      PUBLIC_BASE_URL: ""
     volumes:
       - /datastore/azfin/data.json:/app/data.json
       - /datastore/azfin/requests.json:/app/requests.json
@@ -16,20 +17,25 @@ services:
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=edge'
-      - 'traefik.http.routers.azfin-api.rule=(Host(`azfin.octotech.az`)) && (PathPrefix(`/api`) || PathPrefix(`/uploads`))'
+      - 'traefik.http.routers.azfin-api.rule=(Host(`azfin.octotech.az`) || Host(`azfin.az`)) && (PathPrefix(`/api`) || PathPrefix(`/uploads`))'
       - 'traefik.http.routers.azfin-api.entrypoints=web'
       - 'traefik.http.routers.azfin-api.priority=100'
       - 'traefik.http.services.azfin-api.loadbalancer.server.port=5001'
 
   azfin-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
     image: azfin-frontend:latest
     restart: unless-stopped
+    volumes:
+      - /datastore/azfin/nginx-logs:/var/log/nginx
     networks:
       - edge
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=edge'
-      - 'traefik.http.routers.azfin.rule=Host(`azfin.octotech.az`)'
+      - 'traefik.http.routers.azfin.rule=Host(`azfin.octotech.az`) || Host(`azfin.az`)'
       - 'traefik.http.routers.azfin.entrypoints=web'
       - 'traefik.http.services.azfin.loadbalancer.server.port=80'
 
