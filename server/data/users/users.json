@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "id": "1770054238000",
+    "username": "alidev",
+    "password": "$2b$10$EHBZcg2KO9XuussJj3vboOay41bDVL9JQ9xwLRLcP/7y8y1/m8RrW",
+    "role": "admin",
+    "createdAt": "2026-02-02T17:43:58.000Z"
+  }
+]
