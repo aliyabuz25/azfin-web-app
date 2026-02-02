@@ -18,17 +18,17 @@ A modern, fully manageable web platform for Azfin Consulting LLC. The project in
 - Data Storage: JSON-based persistent storage (no database required)
 - File Uploads: Multer
 
-## Docker (Local)
+## Docker (Local / Production)
 
 From the project root:
 
 ```bash
-docker-compose up -d --build
+docker-compose up -d
 ```
 
-After startup:
-- Website: `http://localhost:5001`
-- Admin Panel: `http://localhost:5001/admin/login`
+After startup (via Traefik):
+- Website: `https://azfin.az` or `https://azfin.octotech.az`
+- API/Admin: `https://azfin.az/admin`
 
 Note: `data.json`, `requests.json`, and `uploads/` are mounted as volumes so data persists across container restarts.
 
@@ -45,7 +45,7 @@ npm run dev:all
 ```
 
 3) Open in browser:
-- Frontend: `http://localhost:5173`
+- Frontend: `http://localhost:901`
 - API Server: `http://localhost:5001`
 
 ## Folder Structure
