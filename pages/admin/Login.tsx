@@ -8,7 +8,7 @@ const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const { login, register, hasAdmin, isAuthenticated } = useAuth();
+    const { login, register, skipLogin, hasAdmin, isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -114,6 +114,18 @@ const Login: React.FC = () => {
                         >
                             {hasAdmin ? 'Giriş Et' : 'Hesabı Yarat'}
                             <ArrowRight className="w-4 h-4" />
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={async () => {
+                                const success = await skipLogin();
+                                if (success) navigate('/admin/services');
+                                else setError('Test girişi uğursuz oldu');
+                            }}
+                            className="w-full bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10 py-4 rounded-2xl font-bold text-[10px] uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 mt-2"
+                        >
+                            Test Girişi (Skip Login)
                         </button>
                     </form>
                 </div>

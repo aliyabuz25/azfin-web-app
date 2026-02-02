@@ -15,6 +15,7 @@ interface AuthContextType {
     users: User[];
     login: (username: string, password: string) => Promise<boolean>;
     register: (username: string, password: string) => Promise<boolean>;
+    skipLogin: () => Promise<boolean>;
     logout: () => void;
     isAuthenticated: boolean;
     hasAdmin: boolean;
@@ -128,6 +129,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const skipLogin = async () => {
+        // Automatically login with demo account
+        return await login('alidev', 'Initial_123!');
+    };
+
     const logout = () => {
         setUser(null);
         localStorage.removeItem('azfin_active_user');
@@ -204,7 +210,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     return (
         <AuthContext.Provider value={{
-            user, users, login, register, logout,
+            user, users, login, register, skipLogin, logout,
             isAuthenticated: !!user, hasAdmin,
             addUser, updateUser, deleteUser
         }}>
