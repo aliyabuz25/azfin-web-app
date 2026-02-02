@@ -43,6 +43,82 @@ app.get('/api/requests', async (req, res) => {
         res.status(500).json({ error: 'Requests error' });
     }
 });
+import nodemailer from 'nodemailer';
+
+// SMTP Configuration File
+const SMTP_FILE = path.join(__dirname, '../smtp.json');
+
+// Ensure SMTP file exists
+if (!fs.existsSync(SMTP_FILE)) {
+    fs.writeFileSync(SMTP_FILE, JSON.stringify({}, null, 2));
+}
+
+// SMTP Settings Endpoints
+app.get('/api/settings/smtp', async (req, res) => {
+    try {
+        const data = await fs.promises.readFile(SMTP_FILE, 'utf8');
+        res.json(JSON.parse(data));
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.post('/api/settings/smtp', async (req, res) => {
+    try {
+        await fs.promises.writeFile(SMTP_FILE, JSON.stringify(req.body, null, 2));
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ error: 'Could not save SMTP settings' });
+    }
+});
+
+// Email Sending Helper
+async function sendEmailNotification(requestData) {
+    try {
+        const smtpData = await fs.promises.readFile(SMTP_FILE, 'utf8');
+        const config = JSON.parse(smtpData);
+
+        if (!config.host || !config.user || !config.pass) {
+            console.log('SMTP not configured, skipping email.');
+            return;
+        }
+
+        const transporter = nodemailer.createTransport({
+            host: config.host,
+            port: config.port || 587,
+            secure: config.secure || false, // true for 465, false for other ports
+            auth: {
+                user: config.user,
+                pass: config.pass,
+            },
+            tls: {
+                rejectUnauthorized: false // Sometimes needed for self-signed certs or development
+            }
+        });
+
+        const mailOptions = {
+            from: config.fromEmail || config.user,
+            to: config.toEmail || config.user, // Default to self if not specified
+            subject: `Yeni Müraciət: ${requestData.name || 'Adsız'}`,
+            html: `
+                <h3>Yeni Müraciət Daxil Oldu</h3>
+                <p><strong>Ad:</strong> ${requestData.name}</p>
+                <p><strong>Telefon:</strong> ${requestData.phone}</p>
+                <p><strong>Email:</strong> ${requestData.email || 'Qeyd olunmayıb'}</p>
+                <p><strong>Mövzu:</strong> ${requestData.subject || 'Qeyd olunmayıb'}</p>
+                <p><strong>Mesaj:</strong></p>
+                <p>${requestData.message || 'Mesaj yoxdur'}</p>
+                <br>
+                <p><small>Bu mesaj avtomatik olaraq Azfin web saytından göndərilib.</small></p>
+            `,
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent: %s', info.messageId);
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
+}
 
 app.post('/api/requests', async (req, res) => {
     try {
@@ -56,12 +132,19 @@ app.post('/api/requests', async (req, res) => {
         };
         requests.unshift(newRequest);
         await fs.promises.writeFile(REQUESTS_FILE, JSON.stringify(requests, null, 2));
+
+        // Send Email Notification (Async, don't block response)
+        sendEmailNotification(newRequest);
+
         res.json({ success: true, request: newRequest });
     } catch (error) {
         console.error('Error writing requests file:', error);
         res.status(500).json({ error: 'Fayl yazıla bilmədi' });
     }
 });
+
+// ... (rest of the code) ...
+
 
 app.put('/api/requests/:id', async (req, res) => {
     try {
