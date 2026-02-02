@@ -11,11 +11,11 @@ export default defineConfig(({ mode }) => {
       allowedHosts: true,
       proxy: {
         '/api': {
-          target: 'http://localhost:5001',
+          target: 'http://azfin-backend:5001',
           changeOrigin: true,
         },
         '/uploads': {
-          target: 'http://localhost:5001',
+          target: 'http://azfin-backend:5001',
           changeOrigin: true,
         },
       },
@@ -26,11 +26,11 @@ export default defineConfig(({ mode }) => {
       allowedHosts: true,
       proxy: {
         '/api': {
-          target: 'http://localhost:5001',
+          target: 'http://azfin-backend:5001',
           changeOrigin: true,
         },
         '/uploads': {
-          target: 'http://localhost:5001',
+          target: 'http://azfin-backend:5001',
           changeOrigin: true,
         },
       },
