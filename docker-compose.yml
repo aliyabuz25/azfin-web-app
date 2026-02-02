@@ -15,7 +15,7 @@ services:
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=edge'
-      - 'traefik.http.routers.azfin-api.rule=(Host(`azfin.octotech.az`) || Host(`azfin.az`)) && (PathPrefix(`/api`) || PathPrefix(`/uploads`))'
+      - 'traefik.http.routers.azfin-api.rule=(Host(`azfin.octotech.az`) || Host(`azfin.az`)) && (PathPrefix(`/api`) || PathPrefix(`/uploads`) || PathPrefix(`/admin`))'
       - 'traefik.http.routers.azfin-api.entrypoints=web'
       - 'traefik.http.routers.azfin-api.priority=100'
       - 'traefik.http.services.azfin-api.loadbalancer.server.port=5000'
