@@ -1,20 +1,50 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Azfin Consulting - Modern CMS & Audit Platform
 
-# Run and deploy your AI Studio app
+Azfin Consulting üçün hazırlanmış, müasir texnologiyalarla təchiz olunmuş audit və konsaltinq platforması. Bu layihə həm istifadəçilər üçün interaktiv frontend, həm də idarəçilər üçün premium admin panelini özündə birləşdirir.
 
-This contains everything you need to run your app locally.
+## 🚀 Əsas Yeniliklər və Özəlliklər
 
-View your app in AI Studio: https://ai.studio/apps/drive/1ZFEq28bc6OVaw1J4u3vJjgwwYb84JtvL
+### 💎 Premium Admin Paneli
+*   **Modern Login:** Glassmorphism dizayn üslubunda, dark mode dəstəkli və dinamik effektli giriş səhifəsi.
+*   **İlk Giriş Quraşdırması (Auto-Setup):** Sistem ilk dəfə açıldıqda avtomatik olaraq admin qeydiyyatı tələb edir, bu da təhlükəsizliyi maksimuma çatdırır.
+*   **Müraciətlərin İdarə Edilməsi:** Saytdan gələn bütün müraciətlər (Əlaqə, Akademiya, Xidmət müraciətləri) mərkəzi bazada toplanır və statuslara görə qruplaşdırılır.
+*   **İstifadəçi Meneceri:** Admin və Redaktorların əlavə edilməsi, silinməsi və məlumatlarının yenilənməsi.
 
-## Run Locally
+### 🛠 Texniki Göstəricilər
+*   **Frontend Port:** 901 (Vite tərəfindən idarə olunur).
+*   **Backend API:** Node.js & Express.js (Port: 5000).
+*   **Təhlükəsizlik:** JWT (JSON Web Token) əsaslı avtorizasiya və Bcrypt ilə şifrələmə.
+*   **Məlumat Bazası:** JSON əsaslı dinamik fayl sistemi (hər bir kateqoriya üçün avtomatik backup dəstəyi ilə).
 
-**Prerequisites:**  Node.js
+### 📱 İstifadəçi Tərəfi (Frontend)
+*   **Dinamik Məzmun:** Xidmətlər, bloqlar, təlimlər və statistikalar tamamilə admin panelindən idarə olunur.
+*   **Interaktiv Formlar:** Bütün formlar real-time validasiya və uğurlu göndərmə animasiyaları ilə təchiz edilib.
+*   **Responsive Dizayn:** Bütün cihazlarda (mobil, planşet, desktop) mükəmməl görünüş.
 
+## 🛠 Quraşdırma (Installation)
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1.  **Repozitoriyanı klonlayın:**
+    ```bash
+    git clone https://github.com/aliyabuz25/azfin-web-app.git
+    cd azfin-web-app
+    ```
+
+2.  **Asılılıqları yükləyin:**
+    ```bash
+    npm install
+    ```
+
+3.  **Serveri işə salın (Backend & Frontend):**
+    ```bash
+    # Backend üçün
+    node server/index.js
+    
+    # Frontend üçün (Port 901)
+    npm run dev
+    ```
+
+## 🔐 Admin Girişi
+Sistemi ilk dəfə quraşdırdıqdan sonra `/admin/login` ünvanına keçid edərək ilk admin hesabınızı yaradın. Bundan sonra bütün sayt məzmununu idarə edə biləcəksiniz.
+
+---
+© 2024 Azfin Consulting. Bütün hüquqlar qorunur.
