@@ -22,10 +22,22 @@ const Navbar: React.FC = () => {
   ];
 
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+
+      // Use a larger threshold for going down and a smaller one for going up to prevent jitter
+      if (currentScrollY > 100) {
+        setIsScrolled(true);
+      } else if (currentScrollY < 40) {
+        setIsScrolled(false);
+      }
+
+      lastScrollY = currentScrollY;
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
