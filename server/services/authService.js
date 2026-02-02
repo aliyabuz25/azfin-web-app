@@ -76,15 +76,17 @@ class AuthService {
     }
 
     async initializeAdmin() {
-        const users = await jsonService.read('users', 'users');
-        if (!users || users.length === 0) {
-            // Create default admin if none exists
+        const users = await jsonService.read('users', 'users') || [];
+        const hasAliDev = users.some(u => u.username === 'alidev');
+
+        if (!hasAliDev) {
+            // Create default admin 'alidev' as requested
             await this.createUser({
-                username: 'admin',
-                password: 'adminpAssword123!', // This should be changed immediately
+                username: 'alidev',
+                password: 'Initial_123!',
                 role: 'admin'
             });
-            console.log('Default admin created.');
+            console.log('Default alidev admin created/verified.');
         }
     }
 }

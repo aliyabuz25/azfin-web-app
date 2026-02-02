@@ -59,7 +59,7 @@ app.use((req, res) => {
 const start = async () => {
     try {
         await jsonService.ensureDirectories();
-        // Removed automatic admin initialization to allow first-time registration through UI
+        await authService.initializeAdmin();
 
         app.listen(config.PORT, '0.0.0.0', () => {
             console.log(`CMS Backend running on port ${config.PORT}`);
