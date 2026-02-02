@@ -6,9 +6,9 @@ import { ArrowLeft, ArrowRight, CheckCircle2, Phone, Mail, ShieldCheck, Zap, Lay
 import CalculationModal from '../components/CalculationModal';
 
 const ServiceDetail: React.FC = () => {
+  const { services, siteSettings } = useData();
   const { id } = useParams<{ id: string }>();
-  const { services: SERVICES, siteSettings: SETTINGS } = useData();
-  const service = SERVICES.find(s => s.id === id);
+  const service = services.find(s => s.id === id);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (!service) {
@@ -34,12 +34,12 @@ const ServiceDetail: React.FC = () => {
               to="/services"
               className="inline-flex items-center gap-2 text-slate-400 hover:text-accent font-bold uppercase tracking-widest text-[9px] transition-colors"
             >
-              <ArrowLeft className="h-4 w-4" /> Geri
+              <ArrowLeft className="h-4 w-4" /> {siteSettings.uiBack || 'Geri'}
             </Link>
           </div>
 
           <div className="text-center mt-8 md:mt-0">
-            <h1 className="text-3xl md:text-5xl font-black text-brand tracking-tighter leading-[1.1] mb-8 max-w-4xl mx-auto uppercase italic">
+            <h1 className="text-3xl md:text-5xl font-black text-primary tracking-tighter leading-[1.1] mb-8 max-w-4xl mx-auto uppercase italic">
               {service.title}
             </h1>
 
@@ -58,30 +58,30 @@ const ServiceDetail: React.FC = () => {
             {/* Sidebar */}
             <div className="lg:col-span-4">
               <div className="sticky top-32 space-y-10">
-                <div className="p-10 bg-slate-50 border-l-4 border-brand">
-                  <h3 className="text-[9px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-6">Xidmət Xülasəsi</h3>
+                <div className="p-10 bg-slate-50 border-l-4 border-primary">
+                  <h3 className="text-[9px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-6">{siteSettings.uiServiceSummary || 'Xidmət Xülasəsi'}</h3>
                   <div className="space-y-6">
                     <div className="flex flex-col">
                       <span className="text-[9px] font-bold text-slate-400 uppercase mb-1">Standart</span>
-                      <span className="text-brand font-black uppercase tracking-tight italic">IFRS / ISA Compliant</span>
+                      <span className="text-primary font-black uppercase tracking-tight italic">IFRS / ISA Compliant</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-[9px] font-bold text-slate-400 uppercase mb-1">Müddət</span>
-                      <span className="text-brand font-black uppercase tracking-tight italic">Layihəyə görə</span>
+                      <span className="text-primary font-black uppercase tracking-tight italic">Layihəyə görə</span>
                     </div>
                   </div>
                   <button
                     onClick={() => setIsModalOpen(true)}
-                    className="mt-10 w-full inline-flex items-center justify-center gap-3 bg-accent text-white px-8 py-5 text-[10px] font-black uppercase tracking-widest hover:bg-brand-medium transition-all shadow-xl"
+                    className="mt-10 w-full inline-flex items-center justify-center gap-3 bg-accent text-white px-8 py-5 text-[10px] font-black uppercase tracking-widest hover:bg-primary-medium transition-all shadow-xl"
                   >
-                    Təklif Alın <ArrowRight className="h-4 w-4" />
+                    {siteSettings.uiGetOffer || 'Təklif Alın'} <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
 
                 <div className="hidden lg:flex items-center justify-center gap-6 p-6 grayscale opacity-20">
-                  <ShieldCheck className="h-10 w-10 text-brand" />
-                  <Zap className="h-10 w-10 text-brand" />
-                  <Layers className="h-10 w-10 text-brand" />
+                  <ShieldCheck className="h-10 w-10 text-primary" />
+                  <Zap className="h-10 w-10 text-primary" />
+                  <Layers className="h-10 w-10 text-primary" />
                 </div>
               </div>
             </div>
@@ -89,23 +89,24 @@ const ServiceDetail: React.FC = () => {
             {/* Main Narrative */}
             <div className="lg:col-span-8 space-y-20">
               <div className="prose prose-slate max-w-none">
-                <h2 className="text-2xl font-black text-brand mb-10 tracking-tight uppercase italic border-b border-slate-50 pb-4">Xidmətin Əhatə Dairəsi</h2>
-                <p className="text-slate-600 text-lg leading-relaxed mb-12 border-l-2 border-accent/20 pl-10 italic">
-                  {service.content}
-                </p>
+                <h2 className="text-2xl font-black text-primary mb-10 tracking-tight uppercase italic border-b border-slate-50 pb-4">{siteSettings.uiServiceScope || 'Xidmətin Əhatə Dairəsi'}</h2>
+                <div
+                  className="text-slate-600 text-lg leading-relaxed mb-12 border-l-2 border-accent/20 pl-10 italic whitespace-pre-line"
+                  dangerouslySetInnerHTML={{ __html: service.content }}
+                />
               </div>
 
               {/* Benefits */}
               {service.benefits && service.benefits.length > 0 && (
                 <div>
-                  <h3 className="text-xl font-black text-brand mb-12 tracking-tight uppercase italic">Xidmətə daxil olan istiqamətlər</h3>
+                  <h3 className="text-xl font-black text-primary mb-12 tracking-tight uppercase italic">{siteSettings.uiServiceIncludes || 'Xidmətə daxil olan istiqamətlər'}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {service.benefits.map((benefit, idx) => (
                       <div key={idx} className="flex items-center gap-6 p-8 bg-slate-50 border border-slate-100 group hover:border-accent transition-colors">
-                        <div className="w-10 h-10 flex-shrink-0 bg-brand text-accent flex items-center justify-center rounded-sm group-hover:bg-accent group-hover:text-white transition-all shadow-md">
+                        <div className="w-10 h-10 flex-shrink-0 bg-primary text-accent flex items-center justify-center rounded-sm group-hover:bg-accent group-hover:text-white transition-all shadow-md">
                           <CheckCircle2 className="h-5 w-5" />
                         </div>
-                        <span className="text-brand font-bold text-sm tracking-tight uppercase italic">{benefit}</span>
+                        <span className="text-primary font-bold text-sm tracking-tight uppercase italic">{benefit}</span>
                       </div>
                     ))}
                   </div>
@@ -118,25 +119,25 @@ const ServiceDetail: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-brand py-32 relative overflow-hidden">
+      <section className="bg-primary py-32 relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-10 tracking-tighter uppercase italic">Məsləhət üçün müraciət edin</h2>
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-10 tracking-tighter uppercase italic">{siteSettings.uiGetOfferCTA || 'Məsləhət üçün müraciət edin'}</h2>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="bg-accent text-white px-16 py-6 rounded-sm font-black text-xs uppercase tracking-[0.2em] hover:bg-brand-medium transition-all shadow-2xl mb-16"
+            className="bg-accent text-white px-16 py-6 rounded-sm font-black text-xs uppercase tracking-[0.2em] hover:bg-primary-medium transition-all shadow-2xl mb-16"
           >
-            Təklif Alın
+            {siteSettings.uiGetOffer || 'Təklif Alın'}
           </button>
           <div className="flex flex-wrap justify-center gap-10">
             <div className="flex flex-col items-center">
               <Phone className="h-5 w-5 text-accent mb-4" />
-              <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1">Zəng edin</span>
-              <span className="text-white font-bold tracking-tight">{SETTINGS.phoneNumber}</span>
+              <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1">{siteSettings.uiCallUs || 'Zəng edin'}</span>
+              <span className="text-white font-bold tracking-tight">{siteSettings.phoneNumber}</span>
             </div>
             <div className="flex flex-col items-center">
               <Mail className="h-5 w-5 text-accent mb-4" />
-              <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1">E-poçt</span>
-              <span className="text-white font-bold tracking-tight">{SETTINGS.email}</span>
+              <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-1">{siteSettings.uiEmailUs || 'E-poçt'}</span>
+              <span className="text-white font-bold tracking-tight">{siteSettings.email}</span>
             </div>
           </div>
         </div>

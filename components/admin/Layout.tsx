@@ -10,11 +10,26 @@ interface LayoutProps {
 
 const AdminLayout: React.FC<LayoutProps> = ({ children, title, actions }) => {
     useEffect(() => {
+        // Add CSS for Admin Panel
+        const faLink = document.createElement('link');
+        faLink.rel = 'stylesheet';
+        faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
+        faLink.id = 'admin-fa-css';
+        document.head.appendChild(faLink);
+
+        const lteLink = document.createElement('link');
+        lteLink.rel = 'stylesheet';
+        lteLink.href = 'https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css';
+        lteLink.id = 'admin-lte-css';
+        document.head.appendChild(lteLink);
+
         // Add AdminLTE body classes
         document.body.classList.add('sidebar-mini');
         document.body.classList.add('layout-fixed');
 
         return () => {
+            document.getElementById('admin-fa-css')?.remove();
+            document.getElementById('admin-lte-css')?.remove();
             document.body.classList.remove('sidebar-mini');
             document.body.classList.remove('layout-fixed');
         };

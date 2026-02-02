@@ -6,9 +6,9 @@ import { ArrowLeft, Calendar, Clock, CheckCircle2, ShieldCheck } from 'lucide-re
 import ApplicationModal from '../components/ApplicationModal';
 
 const TrainingDetail: React.FC = () => {
+    const { trainings, siteSettings } = useData();
     const { id } = useParams<{ id: string }>();
-    const { trainings: TRAININGS, siteSettings: SETTINGS } = useData();
-    const training = TRAININGS.find(t => t.id === id);
+    const training = trainings.find(t => t.id === id);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     if (!training) {
@@ -27,14 +27,14 @@ const TrainingDetail: React.FC = () => {
             <div className="bg-white border-b border-slate-100 py-12">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <Link to="/academy" className="inline-flex items-center gap-2 text-slate-400 hover:text-accent font-bold uppercase tracking-widest text-[10px] transition-colors mb-8">
-                        <ArrowLeft className="h-4 w-4" /> Akademiyaya qayıt
+                        <ArrowLeft className="h-4 w-4" /> {siteSettings.uiBackToAcademy || 'Akademiyaya qayıt'}
                     </Link>
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                        <h1 className="text-3xl md:text-4xl font-black text-brand tracking-tight leading-tight uppercase italic max-w-2xl">
+                        <h1 className="text-3xl md:text-4xl font-black text-primary tracking-tight leading-tight uppercase italic max-w-2xl">
                             {training.title}
                         </h1>
                         <div className="flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent rounded-full text-[10px] font-black uppercase tracking-widest w-fit">
-                            <ShieldCheck className="h-4 w-4" /> Peşəkar Sertifikat
+                            <ShieldCheck className="h-4 w-4" /> {siteSettings.uiProfessionalCertificate || 'Peşəkar Sertifikat'}
                         </div>
                     </div>
                 </div>
@@ -57,23 +57,24 @@ const TrainingDetail: React.FC = () => {
 
                         {/* About Section */}
                         <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100">
-                            <h2 className="text-2xl font-black text-brand mb-6 tracking-tight uppercase italic">Təlim Haqqında</h2>
-                            <p className="text-slate-500 leading-relaxed text-lg font-medium">
-                                {training.fullContent || training.description}
-                            </p>
+                            <h2 className="text-2xl font-black text-primary mb-6 tracking-tight uppercase italic">{siteSettings.uiAboutTraining || 'Təlim Haqqında'}</h2>
+                            <div
+                                className="text-slate-500 leading-relaxed text-lg font-medium whitespace-pre-line"
+                                dangerouslySetInnerHTML={{ __html: training.fullContent || training.description }}
+                            />
                         </div>
 
                         {/* Syllabus Section */}
                         {training.syllabus && training.syllabus.length > 0 && (
                             <div className="bg-white rounded-2xl p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100">
-                                <h2 className="text-2xl font-black text-brand mb-8 tracking-tight uppercase italic">Tədris Proqramı</h2>
+                                <h2 className="text-2xl font-black text-primary mb-8 tracking-tight uppercase italic">{siteSettings.uiSyllabus || 'Tədris Proqramı'}</h2>
                                 <div className="space-y-4">
                                     {training.syllabus.map((topic, index) => (
                                         <div key={index} className="flex items-center gap-6 p-4 rounded-xl hover:bg-slate-50 transition-colors group">
                                             <div className="bg-[#EFF6FF] text-[#3B82F6] font-black h-10 w-10 rounded-full flex items-center justify-center text-xs flex-shrink-0 shadow-sm transition-transform group-hover:scale-110">
                                                 {index + 1}
                                             </div>
-                                            <span className="text-brand font-black text-sm tracking-tight uppercase italic">{topic}</span>
+                                            <span className="text-primary font-black text-sm tracking-tight uppercase italic">{topic}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -84,41 +85,41 @@ const TrainingDetail: React.FC = () => {
                     {/* Sidebar Sticky Info */}
                     <div className="lg:col-span-1">
                         <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 p-8 sticky top-32">
-                            <h3 className="text-lg font-black text-brand mb-8 border-b border-slate-50 pb-4 uppercase tracking-widest italic">Təlim Məlumatları</h3>
+                            <h3 className="text-lg font-black text-primary mb-8 border-b border-slate-50 pb-4 uppercase tracking-widest italic">{siteSettings.uiTrainingInfo || 'Təlim Məlumatları'}</h3>
 
                             <div className="space-y-6 mb-10">
                                 <div className="flex justify-between items-center border-b border-slate-50 pb-4">
                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                                        <Clock className="h-4 w-4 text-accent" /> Müddət
+                                        <Clock className="h-4 w-4 text-accent" /> {siteSettings.uiDuration || 'Müddət'}
                                     </span>
-                                    <span className="font-black text-brand text-xs uppercase italic">{training.duration}</span>
+                                    <span className="font-black text-primary text-xs uppercase italic">{training.duration}</span>
                                 </div>
                                 <div className="flex justify-between items-center border-b border-slate-50 pb-4">
                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                                        <Calendar className="h-4 w-4 text-accent" /> Başlayır
+                                        <Calendar className="h-4 w-4 text-accent" /> {siteSettings.uiStartDate || 'Başlayır'}
                                     </span>
-                                    <span className="font-black text-brand text-xs uppercase italic">{training.startDate}</span>
+                                    <span className="font-black text-primary text-xs uppercase italic">{training.startDate}</span>
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                                        <CheckCircle2 className="h-4 w-4 text-accent" /> Status
+                                        <CheckCircle2 className="h-4 w-4 text-accent" /> {siteSettings.uiStatus || 'Status'}
                                     </span>
                                     <span className="bg-accent/10 text-accent px-3 py-1 rounded text-[9px] font-black uppercase tracking-widest">
-                                        {training.status === 'upcoming' ? 'Qeydiyyat Aktivdir' : 'Davam Edir'}
+                                        {training.status === 'upcoming' ? (siteSettings.uiRegistrationActive || 'Qeydiyyat Aktivdir') : (siteSettings.uiOngoing || 'Davam Edir')}
                                     </span>
                                 </div>
                             </div>
 
                             <button
                                 onClick={() => setIsModalOpen(true)}
-                                className="w-full bg-accent text-white font-black py-5 rounded-xl transition-all shadow-xl shadow-accent/20 text-xs uppercase tracking-widest hover:bg-brand-medium flex items-center justify-center gap-3"
+                                className="w-full bg-accent text-white font-black py-5 rounded-xl transition-all shadow-xl shadow-accent/20 text-xs uppercase tracking-widest hover:bg-primary-medium flex items-center justify-center gap-3"
                             >
-                                {SETTINGS.uiApply}
+                                {siteSettings.uiApply || 'Müraciət Et'}
                             </button>
 
                             <div className="mt-8 p-6 bg-slate-50 rounded-xl">
                                 <p className="text-[10px] text-center text-slate-400 font-bold uppercase tracking-widest leading-relaxed italic">
-                                    Yerlər məhduddur. Müraciət etməklə təlimdə iştirakınızı təsdiqləyin.
+                                    {siteSettings.uiSeatsLimited || 'Yerlər məhduddur. Müraciət etməklə təlimdə iştirakınızı təsdiqləyin.'}
                                 </p>
                             </div>
                         </div>

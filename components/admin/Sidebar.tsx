@@ -19,6 +19,7 @@ const Sidebar: React.FC = () => {
         { path: '/admin/academy', icon: 'fas fa-graduation-cap', label: 'Akademiya' },
         { path: '/admin/blogs', icon: 'fas fa-newspaper', label: 'Bloq' },
         { path: '/admin/contact', icon: 'fas fa-address-book', label: 'Əlaqə' },
+        { path: '/admin/labels', icon: 'fas fa-font', label: 'Sayt Yazıları' },
         { label: 'SİSTEM', isHeader: true },
         { path: '/admin/users', icon: 'fas fa-users-cog', label: 'İstifadəçilər' },
     ];

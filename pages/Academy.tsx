@@ -6,7 +6,7 @@ import { useData } from '../context/DataContext';
 import ApplicationModal from '../components/ApplicationModal';
 
 const Academy: React.FC = () => {
-  const { trainings: TRAININGS, siteSettings: SETTINGS } = useData();
+  const { trainings, siteSettings } = useData();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTraining, setSelectedTraining] = useState('');
   const navigate = useNavigate();
@@ -39,28 +39,28 @@ const Academy: React.FC = () => {
                 <span className="w-8 h-[1px] bg-accent"></span>
                 Azfin Akademiya
               </div>
-              <h1 className="text-4xl md:text-5xl font-black text-brand tracking-tight leading-tight uppercase italic">
-                {SETTINGS.uiAcademyHeader1} <span className="text-accent">{SETTINGS.uiAcademyHeader2}</span>
+              <h1 className="text-4xl md:text-5xl font-black text-primary tracking-tight leading-tight uppercase italic">
+                {siteSettings.uiAcademyHeader1 || 'Peşəkar'} <span className="text-accent">{siteSettings.uiAcademyHeader2 || 'Təlimlər'}</span>
               </h1>
             </div>
             <p className="text-slate-500 font-bold text-xs max-w-xs border-l-2 border-accent pl-6 pb-2 uppercase tracking-widest leading-relaxed">
-              {SETTINGS.uiAcademySub}
+              {siteSettings.uiAcademySub || 'Maliyyə və vergi sahəsində karyeranızı beynəlxalq standartlarla inkişaf etdirin.'}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Courses Grid */}
+      {/* Courses Grid - Adjusted for 3 items per row */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {TRAININGS.map((training) => (
+            {trainings.map((training) => (
               <div
                 key={training.id}
                 onClick={() => handleCardClick(training.id)}
                 className="bg-white rounded-xl overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.05)] border border-slate-100 group flex flex-col transition-all duration-500 hover:shadow-[0_15px_40px_rgb(0,0,0,0.1)] cursor-pointer"
               >
-                {/* Card Image */}
+                {/* Card Image with Badge - Height reduced for smaller cards */}
                 <div className="relative h-48 overflow-hidden">
                   <img
                     src={training.image}
@@ -69,17 +69,18 @@ const Academy: React.FC = () => {
                   />
                   {training.status === 'upcoming' && (
                     <div className="absolute top-3 right-3 bg-[#FBBF24] text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
-                      Aktivdir
+                      {siteSettings.uiApply || 'Aktivdir'}
                     </div>
                   )}
                 </div>
 
-                {/* Card Body */}
+                {/* Card Body - Padding reduced for a more compact look */}
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-lg font-black text-brand mb-4 group-hover:text-accent transition-colors leading-tight uppercase italic">
+                  <h3 className="text-lg font-black text-primary mb-4 group-hover:text-accent transition-colors leading-tight uppercase italic">
                     {training.title}
                   </h3>
 
+                  {/* Info Pills - Smaller gaps and size */}
                   <div className="flex flex-wrap gap-2 mb-6">
                     <div className="flex items-center gap-1.5 bg-[#EFF6FF] text-[#3B82F6] px-3 py-1.5 rounded-lg">
                       <Calendar className="h-3.5 w-3.5" />
@@ -98,13 +99,13 @@ const Academy: React.FC = () => {
                   {/* Card Footer */}
                   <div className="flex items-center justify-between pt-5 border-t border-slate-50">
                     <div className="text-slate-400 font-bold text-[9px] uppercase tracking-widest">
-                      <span className="text-brand">{training.level}</span>
+                      <span className="text-primary">{training.level}</span>
                     </div>
                     <button
                       onClick={(e) => handleApplyClick(e, training.title)}
-                      className="bg-brand text-white px-5 py-2.5 rounded-lg font-black text-[9px] uppercase tracking-widest hover:bg-brand-medium transition-all shadow-md flex items-center gap-2"
+                      className="bg-primary text-white px-5 py-2.5 rounded-lg font-black text-[9px] uppercase tracking-widest hover:bg-primary-medium transition-all shadow-md flex items-center gap-2"
                     >
-                      {SETTINGS.uiApply} <ArrowRight className="h-3.5 w-3.5" />
+                      {siteSettings.uiApply || 'Müraciət'} <ArrowRight className="h-3.5 w-3.5" />
                     </button>
                   </div>
                 </div>

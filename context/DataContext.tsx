@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { SERVICES, STATISTICS, BLOG_POSTS, TRAININGS } from '../constants';
 import { ServiceItem, StatisticItem, BlogItem, TrainingItem, SiteSettings, SectorItem, ProcessStep, Application, AboutData } from '../types';
 import { getIcon } from '../utils/icons';
+import { useAuth } from './AuthContext';
 
 interface DataContextType {
     services: ServiceItem[];
@@ -152,6 +153,7 @@ const DEFAULT_ABOUT: AboutData = {
 };
 
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const { user } = useAuth();
     const [services, setServices] = useState<ServiceItem[]>([]);
     const [statistics, setStatistics] = useState<StatisticItem[]>([]);
     const [blogs, setBlogs] = useState<BlogItem[]>([]);
@@ -165,18 +167,39 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const fetchAllData = async () => {
         try {
+            const token = user?.token || (localStorage.getItem('azfin_active_user') ? JSON.parse(localStorage.getItem('azfin_active_user')!).token : null);
+
             const response = await fetch('/api/data');
             const serverData = await response.json();
 
             if (serverData.services) setServices(enrichServices(serverData.services));
             else {
-                const initialServices = SERVICES.map(s => ({ ...s, iconName: 'Briefcase' }));
-                setServices(initialServices);
+                const serviceIconNames: Record<string, string> = {
+                    '1': 'FileText',
+                    '2': 'Calculator',
+                    '3': 'SearchCheck',
+                    '4': 'Scale',
+                    '5': 'Users2'
+                };
+                const initialServices = SERVICES.map(s => ({
+                    ...s,
+                    iconName: serviceIconNames[s.id] || 'ShieldCheck'
+                }));
+                setServices(enrichServices(initialServices));
             }
 
             if (serverData.statistics) setStatistics(enrichStats(serverData.statistics));
             else {
-                const initialStats = STATISTICS.map(s => ({ ...s, iconName: 'Award' }));
+                const statIconNames: Record<string, string> = {
+                    '1': 'SearchCheck',
+                    '2': 'Users',
+                    '3': 'Award',
+                    '4': 'Building2'
+                };
+                const initialStats = STATISTICS.map(s => ({
+                    ...s,
+                    iconName: statIconNames[s.id] || 'Award'
+                }));
                 setStatistics(initialStats);
             }
 
@@ -219,7 +242,31 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
             if (serverData.aboutData) setAboutData(serverData.aboutData);
             else setAboutData(DEFAULT_ABOUT);
 
-            if (serverData.applications) setApplications(serverData.applications);
+            // Always fetch applications from dedicated API for consistency if logged in
+            if (token) {
+                console.log('Fetching applications with token...');
+                try {
+                    const reqRes = await fetch('/api/requests', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    if (reqRes.ok) {
+                        const reqData = await reqRes.json();
+                        console.log('Successfully fetched applications:', reqData.length);
+                        setApplications(reqData);
+                    } else {
+                        console.error('Failed to fetch applications:', reqRes.status);
+                        if (serverData.applications) setApplications(serverData.applications);
+                    }
+                } catch (e) {
+                    console.error('Error fetching applications separately:', e);
+                    if (serverData.applications) setApplications(serverData.applications);
+                }
+            } else {
+                console.log('No token found, skipping applications fetch');
+                if (serverData.applications) setApplications(serverData.applications);
+            }
 
             setIsLoaded(true);
         } catch (error) {
@@ -237,7 +284,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {
         fetchAllData();
-    }, []);
+    }, [user?.id]);
 
     const refreshData = async () => {
         await fetchAllData();
@@ -258,10 +305,16 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const syncWithServer = async (updatedData: any) => {
+        const storedActiveUser = localStorage.getItem('azfin_active_user');
+        const token = storedActiveUser ? JSON.parse(storedActiveUser).token : null;
+
         try {
             const response = await fetch('/api/data', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : ''
+                },
                 body: JSON.stringify(updatedData)
             });
             if (!response.ok) {
@@ -402,29 +455,68 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         syncWithServer({ ...getAllDataForSync(), statistics: updated.map(({ icon, ...rest }) => rest) });
     };
 
-    const addApplication = (type: Application['type'], data: any) => {
-        const newApp: Application = {
-            id: Date.now().toString(),
-            type,
-            data,
-            date: new Date().toLocaleDateString('az-AZ'),
-            status: 'new'
-        };
-        const updated = [newApp, ...applications];
-        setApplications(updated);
-        syncWithServer({ ...getAllDataForSync(), applications: updated });
+    const addApplication = async (type: Application['type'], data: any) => {
+        try {
+            const requestPayload = {
+                type,
+                name: data.name,
+                email: data.email,
+                phone: data.phone || data.phoneNumber,
+                subject: type === 'academy' ? `Təlim: ${data.trainingName || 'Seçilməyib'}` : (type === 'service' ? 'Xidmət Sorğusu' : 'Əlaqə Mesajı'),
+                message: data.message || data.note || (type === 'academy' ? `Təlim qeydiyyatı: ${data.trainingName}` : 'Xidmət müraciəti'),
+                ...data
+            };
+
+            const response = await fetch('/api/requests', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestPayload)
+            });
+
+            if (response.ok) {
+                const newApp = await response.json();
+                setApplications(prev => [newApp, ...prev]);
+            }
+        } catch (error) {
+            console.error('Error adding application:', error);
+        }
     };
 
-    const deleteApplication = (id: string) => {
-        const updated = applications.filter(a => a.id !== id);
-        setApplications(updated);
-        syncWithServer({ ...getAllDataForSync(), applications: updated });
+    const deleteApplication = async (id: string) => {
+        if (!window.confirm('Bu müraciəti silmək istədiyinizə əminsiniz?')) return;
+        const token = user?.token || (localStorage.getItem('azfin_active_user') ? JSON.parse(localStorage.getItem('azfin_active_user')!).token : null);
+        try {
+            const response = await fetch(`/api/requests/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': token ? `Bearer ${token}` : ''
+                }
+            });
+            if (response.ok) {
+                setApplications(prev => prev.filter(a => a.id !== id));
+            }
+        } catch (error) {
+            console.error('Error deleting application:', error);
+        }
     };
 
-    const updateApplicationStatus = (id: string, status: Application['status']) => {
-        const updated = applications.map(a => a.id === id ? { ...a, status } : a);
-        setApplications(updated);
-        syncWithServer({ ...getAllDataForSync(), applications: updated });
+    const updateApplicationStatus = async (id: string, status: Application['status']) => {
+        const token = user?.token || (localStorage.getItem('azfin_active_user') ? JSON.parse(localStorage.getItem('azfin_active_user')!).token : null);
+        try {
+            const response = await fetch(`/api/requests/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : ''
+                },
+                body: JSON.stringify({ status })
+            });
+            if (response.ok) {
+                setApplications(prev => prev.map(a => a.id === id ? { ...a, status } : a));
+            }
+        } catch (error) {
+            console.error('Error updating application status:', error);
+        }
     };
 
     const updateSiteSettings = (settings: SiteSettings) => {
@@ -436,8 +528,6 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setAboutData(data);
         syncWithServer({ ...getAllDataForSync(), aboutData: data });
     };
-
-    if (!isLoaded) return null;
 
     return (
         <DataContext.Provider value={{

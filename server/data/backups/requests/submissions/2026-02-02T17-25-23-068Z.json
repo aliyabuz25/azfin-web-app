@@ -1,0 +1,12 @@
+[
+  {
+    "id": "1770053123059",
+    "date": "2026-02-02T17:25:23.059Z",
+    "status": "pending",
+    "type": "contact",
+    "name": "Test User Contact",
+    "email": "contact@test.com",
+    "message": "Bu bir test əlaqə mesajıdır.",
+    "subject": "Əlaqə Mesajı"
+  }
+]

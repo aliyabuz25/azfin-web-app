@@ -7,6 +7,7 @@ export interface User {
     role: 'admin' | 'editor';
     password?: string;
     lastLogin?: string;
+    token?: string;
 }
 
 interface AuthContextType {
@@ -54,8 +55,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const fetchUsers = async () => {
+        const token = user?.token;
+        if (!token) {
+            const storedActiveUser = localStorage.getItem('azfin_active_user');
+            if (!storedActiveUser) return;
+        }
+
+        const activeToken = token || (user?.token) || (localStorage.getItem('azfin_active_user') ? JSON.parse(localStorage.getItem('azfin_active_user')!).token : null);
+
         try {
-            const res = await fetch(`${BASE_URL}/api/users`);
+            const res = await fetch(`${BASE_URL}/api/users`, {
+                headers: {
+                    'Authorization': activeToken ? `Bearer ${activeToken}` : ''
+                }
+            });
             if (res.ok) {
                 const data = await res.json();
                 setUsers(data);
@@ -77,8 +90,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
             if (res.ok) {
                 const data = await res.json();
-                setUser(data.user);
-                localStorage.setItem('azfin_active_user', JSON.stringify(data.user));
+                const userWithToken = { ...data.user, token: data.token };
+                setUser(userWithToken);
+                localStorage.setItem('azfin_active_user', JSON.stringify(userWithToken));
                 await fetchUsers();
                 return true;
             }
@@ -99,8 +113,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
             if (res.ok) {
                 const data = await res.json();
-                setUser(data.user);
-                localStorage.setItem('azfin_active_user', JSON.stringify(data.user));
+                // Since register might not return a token, we might need a separate login or fix register on server
+                const userWithToken = data.token ? { ...data.user, token: data.token } : data.user;
+                setUser(userWithToken);
+                localStorage.setItem('azfin_active_user', JSON.stringify(userWithToken));
                 setHasAdmin(true);
                 await fetchUsers();
                 return true;
@@ -118,14 +134,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const addUser = async (userData: Omit<User, 'id'>) => {
+        const token = user?.token;
+
         try {
             const res = await fetch(`${BASE_URL}/api/users`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : ''
+                },
                 body: JSON.stringify(userData)
             });
             if (res.ok) {
                 await fetchUsers();
+            } else {
+                const error = await res.json();
+                alert('Xəta: ' + (error.message || 'İstifadəçi əlavə edilə bilmədi'));
             }
         } catch (error) {
             console.error('Add user error:', error);
@@ -133,10 +157,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const updateUser = async (id: string, userData: Partial<User>) => {
+        const token = user?.token;
+
         try {
             const res = await fetch(`${BASE_URL}/api/users/${id}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : ''
+                },
                 body: JSON.stringify(userData)
             });
 
@@ -145,8 +174,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 // Check if we updated ourselves
                 if (user && user.id === id) {
                     const data = await res.json();
-                    setUser(data.user);
-                    localStorage.setItem('azfin_active_user', JSON.stringify(data.user));
+                    const updatedUserWithToken = { ...data.user, token: user.token };
+                    setUser(updatedUserWithToken);
+                    localStorage.setItem('azfin_active_user', JSON.stringify(updatedUserWithToken));
                 }
             }
         } catch (error) {
@@ -155,9 +185,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const deleteUser = async (id: string) => {
+        const token = user?.token;
+
         try {
             const res = await fetch(`${BASE_URL}/api/users/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'Authorization': token ? `Bearer ${token}` : ''
+                }
             });
             if (res.ok) {
                 await fetchUsers();

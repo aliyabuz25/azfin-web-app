@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1770053355191",
+    "date": "2026-02-02T17:29:15.191Z",
+    "status": "pending",
+    "type": "contact",
+    "name": "Ali Test",
+    "email": "ali@test.az",
+    "message": "Port 901 testi"
+  },
+  {
+    "id": "1770053123075",
+    "date": "2026-02-02T17:25:23.075Z",
+    "status": "pending",
+    "type": "service",
+    "name": "Test User Audit",
+    "email": "audit@test.com",
+    "phone": "+994 70 987 65 43",
+    "serviceName": "Vergi Auditi",
+    "activityType": "Ticarət",
+    "taxType": "ƏDV",
+    "customerStatus": "Hüquqi",
+    "subject": "Xidmət Sorğusu: Vergi Auditi"
+  },
+  {
+    "id": "1770053123067",
+    "date": "2026-02-02T17:25:23.067Z",
+    "status": "pending",
+    "type": "academy",
+    "name": "Test User Academy",
+    "email": "academy@test.com",
+    "phone": "+994 50 123 45 67",
+    "trainingName": "Maliyyə Hesabatlarının Hazırlanması",
+    "note": "Təlim haqqında əlavə məlumat istəyirəm.",
+    "subject": "Təlim: Maliyyə Hesabatlarının Hazırlanması"
+  },
+  {
+    "id": "1770053123059",
+    "date": "2026-02-02T17:25:23.059Z",
+    "status": "pending",
+    "type": "contact",
+    "name": "Test User Contact",
+    "email": "contact@test.com",
+    "message": "Bu bir test əlaqə mesajıdır.",
+    "subject": "Əlaqə Mesajı"
+  }
+]

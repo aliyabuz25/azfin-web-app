@@ -1,76 +1,20 @@
-# Azfin Consulting LLC - Professional Web Platform
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-A modern, fully manageable web platform for Azfin Consulting LLC. The project includes a premium public website (frontend) and an AdminLTE-based management panel (backend/admin).
+# Run and deploy your AI Studio app
 
-## Features
+This contains everything you need to run your app locally.
 
-- Dynamic content management for posts, services, blogs, and academy content
-- AdminLTE dashboard for administrators
-- Request management system
-- Full UI localization support
-- Responsive design for mobile, tablet, and desktop
-- Docker support for quick setup
+View your app in AI Studio: https://ai.studio/apps/drive/1ZFEq28bc6OVaw1J4u3vJjgwwYb84JtvL
 
-## Tech Stack
+## Run Locally
 
-- Frontend: React 19, Vite, Tailwind CSS, Lucide Icons
-- Backend / API: Node.js, Express
-- Data Storage: JSON-based persistent storage (no database required)
-- File Uploads: Multer
+**Prerequisites:**  Node.js
 
-## Docker (Local / Production)
 
-From the project root:
-
-```bash
-docker-compose up -d
-```
-
-After startup (via Traefik):
-- Website: `https://azfin.az` or `https://azfin.octotech.az`
-- API/Admin: `https://azfin.az/admin`
-
-Note: `data.json`, `requests.json`, and `uploads/` are mounted as volumes so data persists across container restarts.
-
-## Local (Manual)
-
-1) Install dependencies:
-```bash
-npm install
-```
-
-2) Run frontend and server together:
-```bash
-npm run dev:all
-```
-
-3) Open in browser:
-- Frontend: `http://localhost:901`
-- API Server: `http://localhost:5001`
-
-## Folder Structure
-
-- `/components`: Reusable UI components
-- `/pages`: Page components
-- `/pages/admin`: Admin pages and managers
-- `/server`: Node.js Express API
-- `/context`: React Context for data and auth
-- `/public`: Static files
-- `data.json`: Dynamic site data (JSON)
-
----
-
-## Production Deployment (Portainer + Traefik)
-
-For the Octotech server, deployment uses prebuilt images and Traefik labels (no host ports).
-See `DEPLOY.md` for the exact steps, paths, and verification commands.
-
-© 2024 Azfin Consulting. Developed by Ali Yabuz.
-
-## Update Flow (Summary)
-
-1) `git pull` on the server in `/datastore/azfin/app`
-2) Rebuild images
-3) Redeploy the Portainer stack
-
-See `CONTRIBUTING.md` for the full steps.
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

@@ -8,30 +8,11 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 901,
       host: '0.0.0.0',
-      allowedHosts: true,
       proxy: {
         '/api': {
-          target: 'http://azfin-backend:5001',
+          target: 'http://localhost:5000',
           changeOrigin: true,
-        },
-        '/uploads': {
-          target: 'http://azfin-backend:5001',
-          changeOrigin: true,
-        },
-      },
-    },
-    preview: {
-      port: 901,
-      host: '0.0.0.0',
-      allowedHosts: true,
-      proxy: {
-        '/api': {
-          target: 'http://azfin-backend:5001',
-          changeOrigin: true,
-        },
-        '/uploads': {
-          target: 'http://azfin-backend:5001',
-          changeOrigin: true,
+          secure: false,
         },
       },
     },

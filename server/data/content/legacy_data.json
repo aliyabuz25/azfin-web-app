@@ -1,0 +1,401 @@
+{
+  "services": [
+    {
+      "id": "1",
+      "title": "Vergi xidmətləri",
+      "description": "Vergi risklərinin minimuma endirilməsi və hesabatların dəqiq təqdimatı.",
+      "content": "Azfin mütəxəssisləri tərəfindən vergi qanunvericiliyinə tam uyğunluğun təmin edilməsi. Biz müştərilərimizə vergi yükünün optimallaşdırılması və dövlət orqanları ilə münasibətlərin peşəkar tənzimlənməsini təklif edirik.",
+      "benefits": [
+        "Vergi hesabatlarının hazırlanması",
+        "Vergi yoxlamalarına hazırlıq",
+        "Vergi uçotu üzrə konsultasiya",
+        "Vergi planlaması və optimallaşdırma"
+      ],
+      "iconName": "FileText"
+    },
+    {
+      "id": "2",
+      "title": "Maliyyə xidmətləri",
+      "description": "Biznesinizin maliyyə göstəricilərinin analizi və hesabatlılığın qurulması.",
+      "content": "Şirkətin maliyyə vəziyyətinin tam şəffaf şəkildə əks olunması üçün beynəlxalq standartlara uyğun uçot xidmətləri. Gündəlik əməliyyatlardan strateji maliyyə analizlərinə qədər tam dəstək.",
+      "benefits": [
+        "Maliyyə hesabatlarının tərtib edilməsi",
+        "Mənfəət və zərərin hazırlanması",
+        "Gündəlik əməliyyatların həyata keçirilməsi",
+        "Maliyyə fəaliyyətinin analitikası"
+      ],
+      "iconName": "Calculator"
+    },
+    {
+      "id": "3",
+      "title": "Audit xidmətləri",
+      "description": "Maliyyə hesabatlarının dürüstlüyünün və daxili nəzarətin təsdiqi.",
+      "content": "Beynəlxalq Audit Standartlarına (ISA) uyğun olaraq həyata keçirilən kənar və daxili audit yoxlamaları. Biz riskləri aşkarlayır və biznesin səmərəliliyini artırmaq üçün tövsiyələr veririk.",
+      "benefits": [
+        "Maliyyə hesabatlarının auditi",
+        "Daxili audit xidmətləri",
+        "Xüsusi məqsədli audit yoxlamaları",
+        "Risk menecmenti qiymətləndirilməsi"
+      ],
+      "iconName": "SearchCheck"
+    },
+    {
+      "id": "4",
+      "title": "Hüquq xidmətləri",
+      "description": "Biznes fəaliyyətinin hüquqi cəhətdən tam qorunması və dəstəklənməsi.",
+      "content": "Müqavilə münasibətlərindən korporativ məsələlərə qədər peşəkar hüquqi yardım. Biznesinizin qanunvericilik qarşısında hər hansı bir boşluq qalmaması üçün çalışırıq.",
+      "benefits": [
+        "Müqavilələrin hüquqi ekspertizası",
+        "Korporativ hüquq xidmətləri",
+        "Hüquqi rəylərin hazırlanması",
+        "Biznesin qeydiyyatı və ləğvi"
+      ],
+      "iconName": "Scale"
+    },
+    {
+      "id": "5",
+      "title": "Kadr uçotu",
+      "description": "Əmək qanunvericiliyinə uyğun sənədləşmə və kadr işinin təşkili.",
+      "content": "Kadr kargüzarlığının Azərbaycan Respublikasının Əmək Məcəlləsinə uyğun qurulması və idarə edilməsi. İşçi və işəgötürən arasındakı hüquqi münasibətlərin düzgün rəsmiləşdirilməsi.",
+      "benefits": [
+        "Kadr uçotunun təhlili",
+        "Kadr uçotunun aparılması",
+        "Əmək müqavilələrinin tərtibatı",
+        "Əmrlərin və digər normativ sənədlərin hazırlanması",
+        "Maddi məsuliyyət və xidmət müqavilələrinin hazırlanması"
+      ],
+      "iconName": "Users2"
+    }
+  ],
+  "statistics": [
+    {
+      "id": "1",
+      "label": "Uğurlu Audit",
+      "value": "850+",
+      "iconName": "SearchCheck"
+    },
+    {
+      "id": "2",
+      "label": "Korporativ Müştəri",
+      "value": "320+",
+      "iconName": "Users"
+    },
+    {
+      "id": "3",
+      "label": "İllik Təcrübə",
+      "value": "15+",
+      "iconName": "Award"
+    },
+    {
+      "id": "4",
+      "label": "Peşəkar Ekspert",
+      "value": "25+",
+      "iconName": "Building2"
+    }
+  ],
+  "blogs": [
+    {
+      "id": "1",
+      "title": "Yeni Vergi Məcəlləsinə Dəyişikliklər 2024",
+      "excerpt": "Biznes sahibləri və mühasiblər üçün 2024-cü ildə qüvvəyə minən əsas vergi dəyişikliklərinin icmalı.",
+      "content": "2024-cü il üçün Vergi Məcəlləsində bir sıra mühüm dəyişikliklər nəzərdə tutulub. Bu dəyişikliklər əsasən mikro və kiçik sahibkarlıq subyektlərinə yönəlib...",
+      "date": "10 Avqust 2024",
+      "author": "Azfin Ekspert",
+      "image": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=1000",
+      "category": "Vergi"
+    },
+    {
+      "id": "2",
+      "title": "Daxili Audit Niyə Vacibdir?",
+      "excerpt": "Şirkətin daxili nəzarət sistemlərinin effektivliyini artırmaq üçün auditin rolu.",
+      "content": "Daxili audit yalnız səhvlərin aşkar edilməsi deyil, həm də biznes proseslərinin təkmilləşdirilməsi üçün bir alətdir...",
+      "date": "05 Avqust 2024",
+      "author": "Azfin Ekspert",
+      "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000",
+      "category": "Audit"
+    },
+    {
+      "id": "3",
+      "title": "Mühasibat Uçotunda Rəqəmsallaşma",
+      "excerpt": "Bulud texnologiyalarının müasir mühasibatlığa gətirdiyi üstünlüklər və gələcək trendlər.",
+      "content": "Rəqəmsal transformasiya artıq mühasibatlıq sahəsinə də dərindən nüfuz etmişdir...",
+      "date": "01 Avqust 2024",
+      "author": "Azfin Ekspert",
+      "image": "https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&q=80&w=1000",
+      "category": "Maliyyə"
+    },
+    {
+      "title": "Deneme",
+      "excerpt": "asds",
+      "content": "asdasd",
+      "category": "test",
+      "author": "Azfin Ekspert",
+      "image": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000",
+      "quote": "asdas",
+      "date": "2026 M02 2",
+      "id": "1770051957024"
+    }
+  ],
+  "trainings": [
+    {
+      "id": "1",
+      "title": "Peşəkar Mühasib Təlimi",
+      "description": "Mühasibat uçotunun əsasları, Vergi Məcəlləsi, 1C 8.3 proqramı və Bəyannamələrin hazırlanması üzrə kompleks təlim.",
+      "fullContent": "İnsan Resursları və Kadr kargüzarlığı üzrə ixtisaslaşmaq istəyənlər üçün ideal proqramdır. Təlim çərçivəsində Əmək Məcəlləsinin tələbləri, işə qəbul və işdən azad etmə prosedurları, əmrlərin hazırlanması, iş vaxtının uçotu və ƏMAS altsistemi ilə işləmək qaydaları öyrənilir.",
+      "syllabus": [
+        "Azərbaycan Respublikasının Əmək Məcəlləsi",
+        "Əmək müqavilələrinin bağlanması və xitam verilməsi",
+        "Əmək kitabçalarının yazılması qaydaları",
+        "Məzuniyyət və ezamiyyətlərin rəsmiləşdirilməsi",
+        "ƏMAS (Əmək Münasibətləri Alt Sistemi) üzrə əməliyyatlar"
+      ],
+      "startDate": "15 Noyabr 2024",
+      "duration": "3 ay",
+      "level": "Başlanğıc və Orta",
+      "image": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000",
+      "status": "upcoming"
+    },
+    {
+      "id": "2",
+      "title": "Vergi Məcəlləsi və Tətbiqi",
+      "description": "Vergi qanunvericiliyindəki son dəyişikliklər, riskli əməliyyatlar və vergi planlaması üzrə praktiki seminar.",
+      "fullContent": "Vergi sahəsində dərin biliklər əldə etmək və praktiki tətbiq bacarıqlarını inkişaf etdirmək üçün nəzərdə tutulmuşdur. Təlim vergi qanunvericiliyinin bütün aspektlərini əhatə edir.",
+      "syllabus": [
+        "Gəlir və mənfəət vergisi üzrə hesablamalar",
+        "Əlavə Dəyər Vergisi (ƏDV) administrasiyası",
+        "Sadələşdirilmiş vergi rejimi",
+        "Vergi hesabatlarının (Bəyannamələrin) tərtibi",
+        "Vergi yoxlamaları və audit prosesləri"
+      ],
+      "startDate": "01 Dekabr 2024",
+      "duration": "1 ay",
+      "level": "Orta",
+      "image": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=1000",
+      "status": "upcoming"
+    },
+    {
+      "id": "3",
+      "title": "Daxili Audit Standartları",
+      "description": "Risklərin idarə edilməsi və daxili nəzarət sistemlərinin qurulması üzrə ixtisaslaşmış proqram.",
+      "fullContent": "Daxili audit peşəsinə yiyələnmək istəyənlər üçün beynəlxalq standartlar əsasında hazırlanmış təlimdir. Risklərin qiymətləndirilməsi və nəzarət mexanizmlərinin effektivliyinin təhlili öyrədilir.",
+      "syllabus": [
+        "Daxili Audit Beynəlxalq Standartları (IIA)",
+        "Risklərin idarə olunması (COSO Framework)",
+        "Audit proqramının hazırlanması",
+        "Hesabatlılıq və tövsiyələrin verilməsi",
+        "Fırıldaqçılıq hallarının qarşısının alınması"
+      ],
+      "startDate": "10 Dekabr 2024",
+      "duration": "2 ay",
+      "level": "Professional",
+      "image": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=1000",
+      "status": "upcoming"
+    },
+    {
+      "id": "4",
+      "title": "Maliyyə Hesabatlarının Analizi",
+      "description": "MHBS əsasında maliyyə hesabatlarının oxunması, təhlili və qərar qəbuletmə mexanizmləri.",
+      "fullContent": "Rəhbər şəxslər və maliyyəçilər üçün biznesin real vəziyyətini anlamaq üçün vacib alətlər təqdim edilir. Rəqəmlərin arxasındakı hekayəni oxumaq bacarığı aşılanır.",
+      "syllabus": [
+        "MHBS üzrə əsas maliyyə hesabatları",
+        "Maliyyə əmsallarının (ratios) analizi",
+        "Pul vəsaitlərinin hərəkəti (Cash Flow) təhlili",
+        "Rentabellik və likvidlik göstəriciləri",
+        "İnvestisiya layihələrinin qiymətləndirilməsi"
+      ],
+      "startDate": "15 Dekabr 2024",
+      "duration": "1.5 ay",
+      "level": "Orta və İrəli",
+      "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000",
+      "status": "upcoming"
+    }
+  ],
+  "sectors": [
+    {
+      "id": "1",
+      "iconName": "Plane",
+      "title": "LOGİSTİKA VƏ NƏQLİYYAT",
+      "description": "Beynəlxalq daşımalar və tədarük zənciri üzrə maliyyə auditi və strateji planlama."
+    },
+    {
+      "id": "2",
+      "iconName": "Utensils",
+      "title": "İAŞƏ",
+      "description": "Restoran şəbəkələri və qida xidmətləri sektoru üçün xərclərin optimallaşdırılması və vergi uçotu."
+    },
+    {
+      "id": "3",
+      "iconName": "GraduationCap",
+      "title": "TƏHSİL",
+      "description": "Özəl təhsil müəssisələri və təlim mərkəzləri üçün maliyyə idarəetməsi və audit xidmətləri."
+    },
+    {
+      "id": "4",
+      "iconName": "Factory",
+      "title": "İSTEHSALAT VƏ SƏNAYE",
+      "description": "Ağır sənaye müəssisələrinin istehsalat maliyyəsi və maya dəyəri analizi."
+    },
+    {
+      "id": "5",
+      "iconName": "Building",
+      "title": "DAŞINMAZ ƏMLAK",
+      "description": "Tikinti layihələrinin maliyyə nəzarəti, audit və investisiya məsləhətləri."
+    },
+    {
+      "id": "6",
+      "iconName": "Cpu",
+      "title": "TEXNOLOGİYA VƏ IT",
+      "description": "Yüksək texnologiya şirkətləri üçün vergi optimallaşdırılması və startap maliyyəsi."
+    }
+  ],
+  "processSteps": [
+    {
+      "id": "1",
+      "stepNumber": "01",
+      "iconName": "Search",
+      "title": "Diaqnostika",
+      "description": "Biznesin cari vəziyyətinin dərindən analizi."
+    },
+    {
+      "id": "2",
+      "stepNumber": "02",
+      "iconName": "Lightbulb",
+      "title": "Strategiya",
+      "description": "Mümkün risklərin və həll yollarının planlanması."
+    },
+    {
+      "id": "3",
+      "stepNumber": "03",
+      "iconName": "Rocket",
+      "title": "İcraat",
+      "description": "Müasir texnoloji alətlərlə auditin həyata keçirilməsi."
+    },
+    {
+      "id": "4",
+      "stepNumber": "04",
+      "iconName": "ShieldCheck",
+      "title": "Təsdiqləmə",
+      "description": "Yekun rəy və gələcək inkişaf tövsiyələri."
+    }
+  ],
+  "siteSettings": {
+    "phoneNumber": "+994 50 200 00 00",
+    "email": "office@azfin.az",
+    "address": "Bakı, Azərbaycan",
+    "workingHours": "B.e - Cümə: 09:00 - 18:00",
+    "heroTitle": "Biznesiniz üçün Professional Audit",
+    "heroSubtitle": "Azfin Consulting olaraq şirkətlərin maliyyə hesabatlılığında şəffaflığı təmin edir, vergi risklərini minimuma endirir və strateji inkişaf yollarını müəyyən edirik.",
+    "heroBadge": "Lisenziyalı Audit Xidmətləri",
+    "heroImage": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=1000",
+    "heroButtonText": "Xidmətlər",
+    "heroButtonLink": "/services",
+    "ctaTitle": "XİDMƏT MÜRACİƏTİ",
+    "ctaButtonText": "MÜRACİƏT ET",
+    "ctaButtonLink": "/contact",
+    "instagramUrl": "https://instagram.com/azfin",
+    "linkedinUrl": "https://linkedin.com/company/azfin",
+    "facebookUrl": "https://facebook.com/azfin",
+    "whatsappNumber": "994502000000",
+    "messengerUsername": "azfin",
+    "navbarButtonText": "Təklif Alın",
+    "navbarButtonLink": "/contact",
+    "footerDescription": "Azərbaycanın ən innovativ audit və konsalting mərkəzi. Biznesinizin maliyyə gələcəyini beynəlxalq güclə quraq.",
+    "footerText": "© 2024 Azfin Consulting. Bütün hüquqlar qorunur.",
+    "homeServicesTitle": "Əsas Xidmətlərimiz",
+    "homeServicesSubtitle": "Professional Həllər",
+    "homeSectorsTitle": "Konsalting Sahəsində Bir Çox Sektor Üzrə Peşəkarıq",
+    "homeProcessTitle": "İş Prosesimiz",
+    "homeProcessSubtitle": "Hər bir layihəyə elmi əsaslarla və beynəlxalq audit metodologiyası ilə yanaşırıq.",
+    "homeClientsTitle": "BİZƏ GÜVƏNƏN MÜŞTƏRİLƏRİMİZ",
+    "contactTitle": "Bizimlə Əlaqə",
+    "contactSubtitle": "Suallarınız var? Bizə yazın və peşəkar komandamız sizə ən qısa zamanda cavab versin.",
+    "uiAbout": "Haqqımızda",
+    "uiServices": "Xidmətlər",
+    "uiAcademy": "Akademiya",
+    "uiBlog": "Bloq və Xəbərlər",
+    "uiContact": "Əlaqə",
+    "uiAuditTV": "AuditTV",
+    "uiHome": "Ana Səhifə",
+    "uiNavigation": "Naviqasiya",
+    "uiReadMore": "Ətraflı",
+    "uiGetOffer": "XİDMƏT MÜRACİƏTİ",
+    "uiAllTrainings": "Bütün Təlimlər",
+    "uiCopyright": "Bütün hüquqlar qorunur",
+    "uiSocialMedia": "Sosial Media",
+    "uiOurExperience": "Təcrübəmiz",
+    "uiCompetentService": "Səriştəli Xidmət",
+    "uiSuccessAudit": "Uğurlu Audit",
+    "uiCorporateClient": "Korporativ Müştəri",
+    "uiYearsExperience": "İllik Təcrübə",
+    "uiProfessionalExpert": "Peşəkar Ekspert",
+    "uiOurMission": "Missiyamız",
+    "uiServiceAreas": "Xidmət Sahələrimiz",
+    "uiTeam": "Əməkdaşlar",
+    "uiTestimonials": "Müştəri rəyləri",
+    "uiJoinTeam": "Peşəkar komandamıza qoşulun",
+    "uiKaryeraText": "Karyeranızı Azfin ilə birlikdə inkişaf etdirin",
+    "uiViewVacancies": "Vakansiyalara Bax",
+    "uiTrustText": "Sizin güvəniniz, bizim uğurumuzdur",
+    "uiClientTrustSub": "Bizimlə əməkdaşlıq edən 300-dən çox korporativ müştəri sırasına siz də qoşulun.",
+    "uiServiceCatalogue": "Xidmət Kataloqumuz",
+    "uiServiceHeader1": "Biznesiniz üçün",
+    "uiServiceHeader2": "İxtisaslaşmış Həllər",
+    "uiServiceSub": "Azfin Consulting hər bir müəssisəyə fərdi yanaşaraq, maliyyə dayanıqlığını təmin edən dəqiq strategiyalar hazırlayır.",
+    "uiAcademyHeader1": "Bilik və",
+    "uiAcademyHeader2": "Karyera Mərkəzi",
+    "uiAcademySub": "Peşəkar inkişafınız üçün maliyyə və mühasibatlıq sahəsində ən son yenilikləri öyrənin.",
+    "uiBlogHeader1": "Bloq və",
+    "uiBlogHeader2": "Xəbərlər",
+    "uiBlogSub": "Maliyyə və vergi dünyasındakı mühüm yeniliklərdən anında xəbərdar olun.",
+    "uiFullName": "Ad Soyad",
+    "uiPhone": "Telefon",
+    "uiEmail": "Email",
+    "uiActivityType": "Fəaliyyət növü",
+    "uiTaxType": "Vergi növü",
+    "uiCustomerStatus": "Müştəri statusu",
+    "uiSubmit": "Sorğunu Göndər",
+    "uiApply": "Müraciət Et",
+    "uiSelect": "Seçin",
+    "uiThanks": "Təşəkkür edirik!",
+    "uiContactSoon": "Ən qısa zamanda sizinlə əlaqə saxlanılacaq.",
+    "uiClose": "Tamam",
+    "auditTvUrl": "https://audittv.az/"
+  },
+  "aboutData": {
+    "title": "Azfin Group MMC",
+    "description": "Azfin Group MMC 2017-ci ildə təsis edilmişdir. Məqsədimiz Sahibkarlara mühasibatlıqla bağlı məsələlərdə dəstək olmaq və onlara uyğun həll yolları təqdim etmədir.",
+    "content": "Hazırda kiçik, orta və iri sahibkarlıq subyektlərinə bütün növ maliyyə, mühasibatlıq, vergi və konsalting xidmətləri göstəririk. Bununla yanaşı müəssisə və fərdi sahibkarların qeydiyyatı, hüquq xidmətləri, audit xidmətləri, tender sənədlərinin hazırlanması, lisenziyaların alınması və konsalting xidmətləri də fəaliyyət sahəmizə daxildir.",
+    "mission": "Sahibkarların maliyyə və hüquqi məsələlərdə güvənli tərəfdaşı olmaq, onların inkişafı üçün doğru həlləri tətbiq etmək.",
+    "scope": "Mühasibatlıq, audit, vergi, tender sənədləşməsi və hüquqi dəstək üzrə geniş spektrli professional xidmətlər.",
+    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200",
+    "team": [
+      {
+        "id": "1",
+        "name": "Elvin Məmmədov",
+        "role": "Direktor / Ekspert Auditor",
+        "img": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400"
+      },
+      {
+        "id": "2",
+        "name": "Leyla Qasımova",
+        "role": "Baş Mühasib",
+        "img": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=400"
+      },
+      {
+        "id": "3",
+        "name": "Fuad Əliyev",
+        "role": "Vergi Departamentinin Rəhbəri",
+        "img": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400"
+      }
+    ],
+    "testimonials": [
+      {
+        "id": "1",
+        "name": "Arzu Vəliyev",
+        "company": "Global Logistics LLC",
+        "text": "Azfin Consulting ilə 3 ildir əməkdaşlıq edirik."
+      }
+    ]
+  },
+  "applications": []
+}

@@ -1,6 +1,6 @@
 
-import { NavItem, ServiceItem, StatisticItem, TrainingItem, BlogItem } from './types';
-import { Calculator, FileText, TrendingUp, Users, SearchCheck, Briefcase, Award, Building2, Scale, Users2, BarChartBig, Gavel, Search } from 'lucide-react';
+import { NavItem, ServiceItem, StatisticItem, ClientItem, TrainingItem, BlogItem } from './types';
+import { Calculator, FileText, TrendingUp, Users, SearchCheck, Briefcase, Award, Building2, Scale, Users2 } from 'lucide-react';
 
 export const STATISTICS: StatisticItem[] = [
   { id: '1', label: 'Uğurlu Audit', value: '850+', icon: SearchCheck },
@@ -74,7 +74,7 @@ export const SERVICES: ServiceItem[] = [
       'Əmrlərin və digər normativ sənədlərin hazırlanması',
       'Maddi məsuliyyət və xidmət müqavilələrinin hazırlanması'
     ],
-    icon: Users,
+    icon: Users2,
   }
 ];
 
@@ -102,7 +102,7 @@ export const TRAININGS: TrainingItem[] = [
     id: '1',
     title: 'Peşəkar Mühasib Təlimi',
     description: 'Mühasibat uçotunun əsasları, Vergi Məcəlləsi, 1C 8.3 proqramı və Bəyannamələrin hazırlanması üzrə kompleks təlim.',
-    fullContent: 'İnsan Resursları və Kadr kargüzarlığı üzrə ixtisaslaşmaq istəyənlər üçün ideal proqramdır. Təlim çərçivəsində Əmək Məcəlləsinin tələbləri, işə qəbul və işdən azad etmə prosedurları, əmrlərin hazırlanması, iş vaxtının uçotu və ƏMAS altsistemi ilə işləmək qaydaları öyrənin.',
+    fullContent: 'İnsan Resursları və Kadr kargüzarlığı üzrə ixtisaslaşmaq istəyənlər üçün ideal proqramdır. Təlim çərçivəsində Əmək Məcəlləsinin tələbləri, işə qəbul və işdən azad etmə prosedurları, əmrlərin hazırlanması, iş vaxtının uçotu və ƏMAS altsistemi ilə işləmək qaydaları öyrənilir.',
     syllabus: [
       'Azərbaycan Respublikasının Əmək Məcəlləsi',
       'Əmək müqavilələrinin bağlanması və xitam verilməsi',
@@ -111,7 +111,7 @@ export const TRAININGS: TrainingItem[] = [
       'ƏMAS (Əmək Münasibətləri Alt Sistemi) üzrə əməliyyatlar'
     ],
     startDate: '15 Noyabr 2024',
-    duration: '1 ay',
+    duration: '3 ay',
     level: 'Başlanğıc və Orta',
     image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000',
     status: 'upcoming'
@@ -150,6 +150,24 @@ export const TRAININGS: TrainingItem[] = [
     duration: '2 ay',
     level: 'Professional',
     image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=1000',
+    status: 'upcoming'
+  },
+  {
+    id: '4',
+    title: 'Maliyyə Hesabatlarının Analizi',
+    description: 'MHBS əsasında maliyyə hesabatlarının oxunması, təhlili və qərar qəbuletmə mexanizmləri.',
+    fullContent: 'Rəhbər şəxslər və maliyyəçilər üçün biznesin real vəziyyətini anlamaq üçün vacib alətlər təqdim edilir. Rəqəmlərin arxasındakı hekayəni oxumaq bacarığı aşılanır.',
+    syllabus: [
+      'MHBS üzrə əsas maliyyə hesabatları',
+      'Maliyyə əmsallarının (ratios) analizi',
+      'Pul vəsaitlərinin hərəkəti (Cash Flow) təhlili',
+      'Rentabellik və likvidlik göstəriciləri',
+      'İnvestisiya layihələrinin qiymətləndirilməsi'
+    ],
+    startDate: '15 Dekabr 2024',
+    duration: '1.5 ay',
+    level: 'Orta və İrəli',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000',
     status: 'upcoming'
   }
 ];

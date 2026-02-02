@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 
 const Footer: React.FC = () => {
-  const { siteSettings: SETTINGS, services: SERVICES, trainings: TRAININGS } = useData();
+  const { services, trainings, siteSettings } = useData();
 
   return (
     <footer className="bg-[#050b18] text-white pt-24 pb-12">
@@ -17,29 +17,29 @@ const Footer: React.FC = () => {
               <span className="font-black text-4xl tracking-tighter text-white">AZFIN</span>
             </Link>
             <p className="text-slate-400 leading-relaxed text-[15px] font-medium max-w-xs">
-              {SETTINGS.footerDescription}
+              {siteSettings.footerDescription || 'Azərbaycanın ən innovativ audit və konsalting mərkəzi. Biznesinizin maliyyə gələcəyini beynəlxalq güclə quraq.'}
             </p>
           </div>
 
           {/* Naviqasiya Column */}
           <div>
-            <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">{SETTINGS.uiNavigation}</h3>
+            <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">{siteSettings.uiNavigation || 'Naviqasiya'}</h3>
             <ul className="space-y-6">
-              <li><Link to="/" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiHome}</Link></li>
-              <li><Link to="/about" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiAbout}</Link></li>
-              <li><Link to="/services" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiServices}</Link></li>
-              <li><Link to="/academy" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiAcademy}</Link></li>
-              <li><Link to="/blog" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiBlog}</Link></li>
-              <li><Link to="/contact" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiContact}</Link></li>
-              <li><a href="https://audittv.az/" target="_blank" rel="noopener noreferrer" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiAuditTV}</a></li>
+              <li><Link to="/" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{siteSettings.uiHome || 'Ana Səhifə'}</Link></li>
+              <li><Link to="/about" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{siteSettings.uiAbout || 'Haqqımızda'}</Link></li>
+              <li><Link to="/services" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{siteSettings.uiServices || 'Xidmətlər'}</Link></li>
+              <li><Link to="/academy" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{siteSettings.uiAcademy || 'Akademiya'}</Link></li>
+              <li><Link to="/blog" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{siteSettings.uiBlog || 'Bloq və Xəbərlər'}</Link></li>
+              <li><Link to="/contact" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{siteSettings.uiContact || 'Əlaqə'}</Link></li>
+              <li><a href={siteSettings.auditTvUrl} target="_blank" rel="noopener noreferrer" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{siteSettings.uiAuditTV || 'AuditTV'}</a></li>
             </ul>
           </div>
 
           {/* Xidmətlər Column */}
           <div>
-            <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">{SETTINGS.uiServices}</h3>
+            <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">{siteSettings.uiServices || 'Xidmətlər'}</h3>
             <ul className="space-y-6">
-              {SERVICES.slice(0, 5).map((service) => (
+              {services.slice(0, 5).map((service) => (
                 <li key={service.id}>
                   <Link
                     to={`/services/${service.id}`}
@@ -54,9 +54,9 @@ const Footer: React.FC = () => {
 
           {/* Akademiya Column */}
           <div>
-            <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">{SETTINGS.uiAcademy}</h3>
+            <h3 className="text-[#3b82f6] text-[13px] font-black uppercase tracking-[0.2em] mb-10">{siteSettings.uiAcademy || 'Akademiya'}</h3>
             <ul className="space-y-6">
-              {TRAININGS.slice(0, 5).map((training) => (
+              {trainings.slice(0, 2).map((training) => (
                 <li key={training.id}>
                   <Link
                     to={`/academy/${training.id}`}
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
                   </Link>
                 </li>
               ))}
-              <li><Link to="/academy" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{SETTINGS.uiAllTrainings}</Link></li>
+              <li><Link to="/academy" className="text-slate-100 hover:text-white transition-colors text-[15px] font-medium">{siteSettings.uiAllTrainings || 'Bütün Təlimlər'}</Link></li>
             </ul>
           </div>
 
@@ -75,13 +75,13 @@ const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-slate-500 text-[13px] font-medium">
-            {SETTINGS.footerText}
+            {siteSettings.footerText || `© ${new Date().getFullYear()} Azfin Group. Bütün hüquqlar qorunur.`}
           </p>
 
           <div className="flex items-center gap-8">
-            <a href={SETTINGS.linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">Linkedin</a>
-            <a href={SETTINGS.instagramUrl} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">Instagram</a>
-            <a href={SETTINGS.facebookUrl} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">Facebook</a>
+            <a href={siteSettings.linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">Linkedin</a>
+            <a href={siteSettings.instagramUrl} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">Instagram</a>
+            <a href={siteSettings.facebookUrl} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">Facebook</a>
           </div>
         </div>
       </div>
