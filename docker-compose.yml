@@ -1,38 +1,39 @@
 services:
   azfin-backend:
-    build:
-      context: .
-      dockerfile: Dockerfile.backend
+    image: azfin-backend:latest
+    container_name: azfin-backend
     restart: unless-stopped
     environment:
       PORT: "5000"
       JWT_SECRET: "azfin-secure-secret-key-2024"
+      PUBLIC_BASE_URL: ""
     volumes:
-      - ./server/data:/app/server/data
-      - ./uploads:/app/uploads
+      - /datastore/azfin/server/data:/app/server/data
+      - /datastore/azfin/uploads:/app/uploads
     networks:
       - edge
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=edge"
-      - "traefik.http.routers.azfin-api.rule=(Host(`azfin.octotech.az`) || Host(`azfin.az`)) && (PathPrefix(`/api`) || PathPrefix(`/uploads`))"
-      - "traefik.http.routers.azfin-api.entrypoints=web"
-      - "traefik.http.routers.azfin-api.priority=100"
-      - "traefik.http.services.azfin-api.loadbalancer.server.port=5000"
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=edge'
+      - 'traefik.http.routers.azfin-api.rule=(Host(`azfin.octotech.az`) || Host(`azfin.az`)) && (PathPrefix(`/api`) || PathPrefix(`/uploads`))'
+      - 'traefik.http.routers.azfin-api.entrypoints=web'
+      - 'traefik.http.routers.azfin-api.priority=100'
+      - 'traefik.http.services.azfin-api.loadbalancer.server.port=5000'
 
   azfin-frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
+    image: azfin-frontend:latest
+    container_name: azfin-frontend
     restart: unless-stopped
+    volumes:
+      - /datastore/azfin/nginx-logs:/var/log/nginx
     networks:
       - edge
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=edge"
-      - "traefik.http.routers.azfin.rule=Host(`azfin.octotech.az`) || Host(`azfin.az`)"
-      - "traefik.http.routers.azfin.entrypoints=web"
-      - "traefik.http.services.azfin.loadbalancer.server.port=80"
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=edge'
+      - 'traefik.http.routers.azfin.rule=Host(`azfin.octotech.az`) || Host(`azfin.az`)'
+      - 'traefik.http.routers.azfin.entrypoints=web'
+      - 'traefik.http.services.azfin.loadbalancer.server.port=80'
 
 networks:
   edge:
